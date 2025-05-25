@@ -139,6 +139,10 @@
 
     --chart-5: 340 75% 55%;
   }
+  .theme {
+    --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+    --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  }
 }
 
 @layer base {
@@ -150,6 +154,32 @@
     font-family: 'Sahel', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    background-image: linear-gradient(30deg, #ff00c3, #540995, #050b2b);
+    background-image: linear-gradient(30deg, #ff5bd9, #a53efe, #6a80ff);
+  }
+
+  .dark body {
+    background-image: linear-gradient(30deg, #8d006c, #540995, #050b2b);
+  }
+}
+
+@theme inline {
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
   }
 }

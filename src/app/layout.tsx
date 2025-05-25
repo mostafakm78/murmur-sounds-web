@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-
 import './globals.css';
 import { ThemeProvider } from '@/components/Shared/ThemeProvider';
+import { ScrollProgress } from '@/components/magicui/scroll-progress';
 
 export const metadata: Metadata = {
   title: 'صدای آرام',
@@ -32,12 +32,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
-    <html lang="en" dir="rtl" suppressHydrationWarning>
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ScrollProgress className='h-1 bg-foreground'/>
           {children}
         </ThemeProvider>
       </body>
