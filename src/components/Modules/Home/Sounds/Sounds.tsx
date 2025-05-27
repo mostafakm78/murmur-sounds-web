@@ -1,4 +1,4 @@
-import { SliderSounds } from '../Shadcn';
+import { SliderSounds } from '../../../Shared/Shadcn';
 import { MagicCard } from '@/components/magicui/magic-card';
 import { FaFire } from 'react-icons/fa6';
 import { LuWind } from 'react-icons/lu';

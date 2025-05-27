@@ -29,7 +29,7 @@ export default function HeroSection(): JSX.Element | null {
           <h1 className="text-background dark:text-foreground md:text-6xl text-4xl mb-16">صدای آرام</h1>
           {/* box animation */}
           <BoxReveal duration={1} boxColor="#ffffff60">
-            <div className="text-background/80 dark:text-foreground/80 md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
+            <div className="font-medium text-background/95 dark:text-foreground/80 md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
           </BoxReveal>
         </div>
 

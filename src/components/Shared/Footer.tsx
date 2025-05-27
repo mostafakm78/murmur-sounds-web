@@ -24,10 +24,10 @@ export default function Footer(): JSX.Element {
             <Link href="" className={usefulLinks}>
               بلاگ
             </Link>
-            <Link href="" className={usefulLinks}>
+            <Link href="/about-us" className={usefulLinks}>
               درباره ما
             </Link>
-            <Link href="" className={usefulLinks}>
+            <Link href="/contact-us" className={usefulLinks}>
               تماس با ما
             </Link>
           </div>

@@ -1,5 +1,5 @@
-import Footer from '@/components/Modules/Home/Footer';
-import Header from '@/components/Modules/Home/Header';
+import Footer from '@/components/Shared/Footer';
+import Header from '@/components/Shared/Header';
 import HeroSection from '@/components/Modules/Home/HeroSection/HeroSection';
 import Options from '@/components/Modules/Home/OptionTabs/Options';
 import Sounds from '@/components/Modules/Home/Sounds/Sounds';
