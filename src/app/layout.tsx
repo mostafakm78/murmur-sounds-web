@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/Shared/ThemeProvider';
 import { ScrollProgress } from '@/components/magicui/scroll-progress';
+import ScrollToTop from '@/components/Shared/ScrollToTop';
 
 export const metadata: Metadata = {
   title: 'صدای آرام',
@@ -36,8 +37,9 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ScrollProgress className='h-1 bg-foreground'/>
+          <ScrollProgress className="h-[1.5px] bg-foreground" />
           {children}
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>

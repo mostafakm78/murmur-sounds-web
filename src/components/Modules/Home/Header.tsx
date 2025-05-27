@@ -1,5 +1,5 @@
 import { SliderHeader, SwitchMute } from './Shadcn';
-import { DarkMode } from './DarkMode';
+import { DarkMode } from '../../Shared/DarkMode';
 import Link from 'next/link';
 
 const linkClassName = "relative text-foreground after:content-[''] after:w-0 after:absolute after:h-1 after:bg-foreground after:-top-[18px] after:right-0 after:duration-300 md:hover:after:w-full duration-300 hover:opacity-80 focus:opacity-80 cursor-pointer";
@@ -7,7 +7,7 @@ const linkClassName = "relative text-foreground after:content-[''] after:w-0 aft
 export default function Header() {
   return (
     <header className="h-20 z-[5] mt-3 flex justify-center p-2">
-      <div className="bg-background md:w-10/12 w-full flex dark:shadow-sm dark:shadow-foreground items-center justify-between md:px-10 px-4 rounded h-full py-2">
+      <div className="bg-[#F2F4F8] dark:bg-[#6C63FF] md:w-10/12 w-full flex shadow-sm dark:shadow-sm dark:shadow-foreground items-center justify-between md:px-10 px-4 rounded h-full py-2">
         <div className="flex items-center">
           <SwitchMute />
           <SliderHeader className="md:w-32 w-20 ml-3" />

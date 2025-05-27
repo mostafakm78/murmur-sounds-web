@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Slidertwo } from '@/components/ui/slidertwo';
 
 type SliderProps = React.ComponentProps<typeof Slider>;
 
@@ -10,7 +11,7 @@ export function SliderHeader({ className, ...props }: SliderProps) {
 }
 
 export function SliderSounds({ className, ...props }: SliderProps) {
-  return <Slider defaultValue={[30]} max={100} step={1} className={cn('w-[60%]', className)} {...props} />;
+  return <Slidertwo defaultValue={[30]} max={100} step={1} className={cn('w-[60%]', className)} {...props} />;
 }
 
 export function SwitchMute() {

@@ -1,0 +1,28 @@
+.button,
+.buttonVisible {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 2rem;
+  left: 1rem;
+  border-radius: 100%;
+  background: white;
+  border: 0;
+  color: black;
+  cursor: pointer;
+  font-size: 2rem;
+  outline: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
+  opacity: 0;
+  transition-duration: 200ms;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000;
+}
+
+.buttonVisible {
+  opacity: 1 !important;
+}

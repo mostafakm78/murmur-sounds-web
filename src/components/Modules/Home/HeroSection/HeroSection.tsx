@@ -24,7 +24,7 @@ export default function HeroSection() {
       <section className="bg-black/20 md:py-10 z-[1] gap-8 md:px-20 p-8 flex md:flex-row flex-col items-center justify-center h-[500px] mt-14">
         <div className="md:w-1/2 flex flex-col items-start justify-center">
           <h1 className="text-background dark:text-foreground md:text-6xl text-4xl mb-16">صدای آرام</h1>
-          <BoxReveal duration={1} boxColor="#ffffff60">
+          <BoxReveal  duration={1} boxColor="#ffffff60">
             <div className="text-background/80 dark:text-foreground/80 md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
           </BoxReveal>
         </div>
