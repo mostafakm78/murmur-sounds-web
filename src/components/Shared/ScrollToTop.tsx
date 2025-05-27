@@ -1,11 +1,14 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { MdKeyboardArrowUp } from 'react-icons/md';
 import styles from './ScrollToTop.module.css';
 
-const ScrollToTop = () => {
+// scroll to top button component
+const ScrollToTop = (): JSX.Element => {
+  // state to track visibility of the button
   const [isVisible, setIsVisible] = useState(false);
 
+  // Effect to handle scroll event and toggle button visibility
   useEffect(() => {
     const toggleVisibility = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -27,10 +30,7 @@ const ScrollToTop = () => {
   };
 
   return (
-    <button
-      className={isVisible ? styles.buttonVisible : styles.button}
-      onClick={scrollToTop}
-    >
+    <button className={isVisible ? styles.buttonVisible : styles.button} onClick={scrollToTop}>
       <MdKeyboardArrowUp />
     </button>
   );

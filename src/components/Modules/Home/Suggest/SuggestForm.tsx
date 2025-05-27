@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+// This code defines a form for submitting a voice suggestion with validation using Zod and React Hook Form.
 const FormSchema = z.object({
   username: z.string().min(5, {
     message: 'نام شما باید حداقل 5 کارکتر باشد.',
@@ -19,6 +20,7 @@ const FormSchema = z.object({
 });
 
 export function SuggestForm() {
+  // Initialize the form with Zod validation schema
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -27,6 +29,7 @@ export function SuggestForm() {
     },
   });
 
+  // Handle form submission
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
       title: 'You submitted the following values:',

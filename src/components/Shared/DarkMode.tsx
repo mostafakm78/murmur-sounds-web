@@ -3,11 +3,12 @@
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 
-export function DarkMode() {
+// dark and light mode toggle
+export function DarkMode(): JSX.Element | null {
   const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);

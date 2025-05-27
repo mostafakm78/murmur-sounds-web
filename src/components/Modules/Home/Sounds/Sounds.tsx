@@ -8,8 +8,16 @@ import { MdOutlineWaves } from 'react-icons/md';
 import { PiBird } from 'react-icons/pi';
 import { GiGrass, GiBubblingBowl } from 'react-icons/gi';
 import { AiOutlineThunderbolt } from 'react-icons/ai';
+import React, { JSX } from 'react';
 
-const sounds = [
+type soundsProps = {
+  id: number;
+  name: string;
+  icon: React.ElementType | string; // Icon component type
+};
+
+// sounds data
+const sounds: soundsProps[] = [
   {
     id: 1,
     name: 'باد',
@@ -62,13 +70,15 @@ const sounds = [
   },
 ];
 
-export default function Sounds() {
+export default function Sounds(): JSX.Element {
   return (
     <main className="mx-auto container">
       <div className="grid md:grid-cols-5 grid-cols-2 gap-8 mt-16 px-10">
+        {/* Map through sounds and create a card for each sound */}
         {sounds.map((sound) => {
           const Icon = sound.icon;
           return (
+            // cursor animation for background
             <MagicCard key={sound.id} gradientColor="#6F38C5" gradientSize={700} className="w-full h-full ">
               <div className="flex flex-col items-center p-6 rounded-md shadow shadow-foreground/30 justify-center">
                 <div className="flex flex-col items-center mb-8 md:text-2xl text-xl justify-center gap-1 text-background/90 font-medium dark:text-foreground/90">

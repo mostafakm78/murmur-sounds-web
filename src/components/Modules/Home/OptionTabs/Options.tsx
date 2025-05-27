@@ -8,16 +8,18 @@ import Playlist from './Playlist';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+// set type for tabs
 type Tab = 'Timer' | 'Share' | 'Mix';
 
+// tabs list
 const tabs: Tab[] = ['Timer', 'Share', 'Mix'];
 
 export default function Options(): JSX.Element {
   const [selectTab, setSelectTab] = useState<Tab>('Timer');
 
   const currentIndex = tabs.indexOf(selectTab);
-  const prevTab = () => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
-  const nextTab = () => setSelectTab(tabs[(currentIndex + 1) % tabs.length]);
+  const prevTab = () : void => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
+  const nextTab = () : void => setSelectTab(tabs[(currentIndex + 1) % tabs.length]);
 
   const renderTabContent = (tab: Tab) => {
     switch (tab) {

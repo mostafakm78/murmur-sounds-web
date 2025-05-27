@@ -3,12 +3,15 @@
 import { BoxReveal } from '@/components/magicui/box-reveal';
 import { MusicWaves } from './MusicWaves';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 
-export default function HeroSection() {
+export default function HeroSection(): JSX.Element | null {
+    //get theme
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+    //state for mounted
+  const [mounted, setMounted] = useState<boolean>(false);
 
+    //set mounted to true after component mounts
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -17,18 +20,20 @@ export default function HeroSection() {
     return null;
   }
 
-  const fillColor = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
+  const fillColor : string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   return (
     <div className="mx-auto container">
       <section className="bg-black/20 md:py-10 z-[1] gap-8 md:px-20 p-8 flex md:flex-row flex-col items-center justify-center h-[500px] mt-14">
         <div className="md:w-1/2 flex flex-col items-start justify-center">
           <h1 className="text-background dark:text-foreground md:text-6xl text-4xl mb-16">صدای آرام</h1>
-          <BoxReveal  duration={1} boxColor="#ffffff60">
+          {/* box animation */}
+          <BoxReveal duration={1} boxColor="#ffffff60">
             <div className="text-background/80 dark:text-foreground/80 md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
           </BoxReveal>
         </div>
 
+        {/* svg animate and svg background */}
         <div className="md:w-1/2 w-full relative flex items-center justify-center md:aspect-square aspect-[2/1]">
           <svg className="absolute md:w-full md:h-full w-[250px] h-[250px] md:p-10 p-4 transition-all duration-500" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path
