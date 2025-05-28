@@ -1,7 +1,8 @@
-import { SliderHeader, SwitchMute } from './Shadcn';
+import { SwitchMute } from './SwitchMute';
 import { DarkMode } from './DarkMode';
 import Link from 'next/link';
 import { JSX } from 'react';
+import { SliderHeader } from './SliderHeader';
 
 // style for link on header
 const linkClassName = "relative text-foreground after:content-[''] after:w-0 after:absolute after:h-1 after:bg-foreground after:-top-[18px] after:right-0 after:duration-300 md:hover:after:w-full duration-300 hover:opacity-80 focus:opacity-80 cursor-pointer";

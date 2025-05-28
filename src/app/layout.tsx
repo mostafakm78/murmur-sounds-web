@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/Shared/ThemeProvider';
 import { ScrollProgress } from '@/components/magicui/scroll-progress';
 import ScrollToTop from '@/components/Shared/ScrollToTop';
 import { Toaster } from '@/components/ui/toaster';
+import ReduxProvider from '@/components/Shared/ReduxProvider';
 
 export const metadata: Metadata = {
   title: 'صدای آرام',
@@ -37,12 +38,14 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ScrollProgress className="h-[1.5px] bg-foreground" />
-          {children}
-          <Toaster />
-          <ScrollToTop />
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <ScrollProgress className="h-[1.5px] bg-foreground" />
+            {children}
+            <Toaster />
+            <ScrollToTop />
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

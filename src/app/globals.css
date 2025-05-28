@@ -165,8 +165,8 @@
 }
 
 .dark body {
-  --sb-track-color: #f2f4f8;
-  --sb-thumb-color: hsl(268 87.1% 22.4%);
+  --sb-track-color: hsl(268 87.1% 22.4%);
+  --sb-thumb-color: #f2f4f8;
   --sb-size: 10px;
 }
 

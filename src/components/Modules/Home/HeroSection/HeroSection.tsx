@@ -6,12 +6,12 @@ import { useTheme } from 'next-themes';
 import { JSX, useEffect, useState } from 'react';
 
 export default function HeroSection(): JSX.Element | null {
-    //get theme
+  //get theme
   const { resolvedTheme } = useTheme();
-    //state for mounted
+  //state for mounted
   const [mounted, setMounted] = useState<boolean>(false);
 
-    //set mounted to true after component mounts
+  //set mounted to true after component mounts
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -20,7 +20,7 @@ export default function HeroSection(): JSX.Element | null {
     return null;
   }
 
-  const fillColor : string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
+  const fillColor: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   return (
     <div className="mx-auto container">
