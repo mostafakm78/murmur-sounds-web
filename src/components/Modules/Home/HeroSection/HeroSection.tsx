@@ -20,11 +20,11 @@ export default function HeroSection(): JSX.Element | null {
     return null;
   }
 
-  const fillColor: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
+  const fillColor: string = resolvedTheme === 'dark' ? '#AB46D2' : '#F2F4F8';
 
   return (
     <div className="mx-auto container">
-      <section className="bg-black/20 md:py-10 z-[1] gap-8 md:px-20 p-8 flex md:flex-row flex-col items-center justify-center h-[500px] mt-14">
+      <section className="bg-white/20 dark:bg-black/20 md:py-10 z-[1] gap-8 md:px-20 p-8 flex md:flex-row flex-col items-center justify-center h-[500px] mt-14">
         <div className="md:w-1/2 flex flex-col items-start justify-center">
           <h1 className="text-background dark:text-foreground md:text-6xl text-4xl mb-16">صدای آرام</h1>
           {/* box animation */}

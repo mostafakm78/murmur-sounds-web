@@ -36,7 +36,7 @@ export default function Options(): JSX.Element {
 
   return (
     <section className="mx-auto container">
-      <div className="mt-16 bg-black/20 p-6 gap-10 flex flex-col items-center px-10 relative">
+      <div className="mt-16 p-6 gap-10 flex flex-col items-center px-10 relative">
         {/* Tab Buttons */}
         <div className="md:w-1/2 w-full flex items-center justify-around">
           {tabs.map((tab) => (
@@ -50,18 +50,18 @@ export default function Options(): JSX.Element {
         <div className="w-full flex-1 flex items-center justify-center relative overflow-hidden">
           {/* Left Arrow */}
           <button onClick={prevTab} className="hidden md:block absolute left-0 z-10 p-2 hover:opacity-75 transition-opacity">
-            <ChevronLeft className="w-8 h-8 text-background dark:text-foreground" />
+            <ChevronLeft className="w-12 h-12 text-background dark:text-foreground" />
           </button>
 
           <AnimatePresence mode="wait">
-            <motion.div key={selectTab} initial={{ opacity: 0, x: 200 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -200 }} transition={{ duration: 0.4 }} className="w-full h-full flex items-center justify-center">
+            <motion.div key={selectTab} initial={{ opacity: 0, x: 500 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -500 }} transition={{ duration: 0.5 }} className="w-full h-full flex min-h-[400px] items-center justify-center">
               {renderTabContent(selectTab)}
             </motion.div>
           </AnimatePresence>
 
           {/* Right Arrow */}
           <button onClick={nextTab} className="hidden md:block absolute right-0 z-10 p-2 hover:opacity-75 transition-opacity">
-            <ChevronRight className="w-8 h-8 text-background dark:text-foreground" />
+            <ChevronRight className="w-12 h-12 text-background dark:text-foreground" />
           </button>
         </div>
       </div>

@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { pauseSound, playSound } from '@/app/store/soundSlice';
 import { SliderSounds } from './SliderSounds';
+import { SwitchMute } from '@/components/Shared/SwitchMute';
+import { SliderHeader } from '@/components/Shared/SliderHeader';
 
 type soundsProps = {
   id: number;
@@ -44,6 +46,16 @@ export default function Sounds(): JSX.Element {
 
   const audioRefs = useRef<{ [key: number]: HTMLAudioElement | null }>({});
 
+  useEffect(() => {
+    Object.entries(audioRefs.current).forEach(([idStr, audio]) => {
+      const id = parseInt(idStr);
+      if (audio) {
+        const volume = volumes[id] ?? 30;
+        audio.volume = (volume / 100) * (globalVolume / 100);
+      }
+    });
+  }, [volumes, globalVolume]);
+
   const togglePlay = (id: number) => {
     const audio = audioRefs.current[id];
     if (!audio) return;
@@ -57,23 +69,13 @@ export default function Sounds(): JSX.Element {
     }
   };
 
-  useEffect(() => {
-    Object.entries(audioRefs.current).forEach(([idStr, audio]) => {
-      const id = parseInt(idStr);
-      if (audio) {
-        const volume = volumes[id] ?? 30;
-        audio.volume = (volume / 100) * (globalVolume / 100);
-      }
-    });
-  }, [volumes, globalVolume]);
-
   return (
     <main className="mx-auto container">
-      <div className="grid md:grid-cols-5 grid-cols-2 gap-8 mt-16 px-10">
+      <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-8 mt-16 px-10">
         {soundsData.map((sound) => {
           const Icon = sound.icon;
           return (
-            <MagicCard key={sound.id} gradientColor="#6F38C5" gradientSize={700} className={`w-full h-full rounded-md border border-foreground/10 dark:border-foreground/20 ${playing[sound.id] ? 'scale-105 outline-4 outline outline-foreground/50 dark:outline-foreground/50' : ''} duration-500`}>
+            <MagicCard key={sound.id} gradientColor={'#f9ceeeb0'} gradientSize={700} className={`w-full h-full rounded-md border-2 border-background/20 dark:border-foreground/20 ${playing[sound.id] ? 'scale-105 outline-4 outline outline-foreground/50 dark:outline-foreground/50' : ''} duration-500`}>
               <div className={`flex flex-col items-center p-6 shadow-foreground/30 justify-center`}>
                 <div className={`flex flex-col items-center mb-8 md:text-2xl text-xl justify-center gap-1 ${playing[sound.id] ? 'scale-110' : ''} font-medium duration-500 text-background/90 dark:text-foreground/90`}>
                   <Icon className="w-20 h-20 md:w-[100px] sm:h-[100px]" />
@@ -96,12 +98,8 @@ export default function Sounds(): JSX.Element {
                   ))}
                 </audio>
 
-                <div className="flex w-full px-3 justify-between py-1 bg-black/10 rounded-md items-center">
-                  {!playing[sound.id] ? (
-                    <FaPlay onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Play" />
-                  ) : (
-                    <FaPause onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Pause" />
-                  )}
+                <div className="flex w-full px-3 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
+                  {!playing[sound.id] ? <FaPlay onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Play" /> : <FaPause onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Pause" />}
 
                   <SliderSounds soundId={sound.id} audio={audioRefs.current[sound.id]} />
                 </div>
@@ -109,6 +107,15 @@ export default function Sounds(): JSX.Element {
             </MagicCard>
           );
         })}
+      </div>
+      <div className="mt-16 flex w-full justify-center items-center">
+        <div className="lg:w-1/2 w-full flex items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
+          <SwitchMute />
+          <span className="font-medium text-sm flex gap-2 items-center">
+            صدای کل
+            <SliderHeader className="md:w-52 w-32 ml-3" />
+          </span>
+        </div>
       </div>
     </main>
   );

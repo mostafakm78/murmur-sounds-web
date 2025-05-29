@@ -6,7 +6,7 @@ import { JSX } from 'react';
 export const MusicWaves = (): JSX.Element => {
   const { resolvedTheme } = useTheme();
 
-  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
+  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#AB46D2';
 
   return (
     <svg width="100%" height="100%" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Music waves animation">

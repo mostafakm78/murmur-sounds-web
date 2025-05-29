@@ -11,7 +11,7 @@ const usefulLinks = 'font-medium hover:opacity-85 duration-300 relative after:ab
 export default function Footer(): JSX.Element {
   return (
     <>
-      <footer className="bg-[#F2F4F8] dark:bg-[#6C63FF] relative h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56 after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')] after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full">
+      <footer className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56 after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')] after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full">
         {/* short description  */}
         <div className="flex flex-col gap-1 px-10">
           <h3 className="text-2xl">صدای آرام</h3>

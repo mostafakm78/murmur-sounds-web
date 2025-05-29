@@ -38,7 +38,7 @@ const soundsSlice = createSlice({
   },
 });
 
-export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume } = soundsSlice.actions;
+export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume  } = soundsSlice.actions;
 
 export const playSound = (id: number) => setPlaying({ id, playing: true });
 export const pauseSound = (id: number) => setPlaying({ id, playing: false });

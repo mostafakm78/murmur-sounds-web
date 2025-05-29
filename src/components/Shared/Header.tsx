@@ -9,9 +9,9 @@ const linkClassName = "relative text-foreground after:content-[''] after:w-0 aft
 
 export default function Header(): JSX.Element {
   return (
-    <header className="h-20 z-[5] mt-3 flex justify-center p-2">
+    <header className="h-20 z-[5] mt-3 flex  justify-center p-2">
       {/* Header container with background and shadow */}
-      <div className="bg-[#F2F4F8] dark:bg-[#6C63FF] md:w-10/12 w-full flex shadow-sm dark:shadow-sm dark:shadow-foreground items-center justify-between md:px-10 px-4 rounded h-full py-2">
+      <div className="bg-[#F2F4F8] dark:bg-[#AB46D2] md:w-10/12 w-full flex shadow-sm dark:shadow-sm dark:shadow-foreground items-center justify-between md:px-10 px-4 rounded h-full py-2">
         {/* general mute and general sounds volume and darkmode  */}
         <div className="flex items-center">
           <SwitchMute />

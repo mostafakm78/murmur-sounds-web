@@ -5,6 +5,7 @@ import { ScrollProgress } from '@/components/magicui/scroll-progress';
 import ScrollToTop from '@/components/Shared/ScrollToTop';
 import { Toaster } from '@/components/ui/toaster';
 import ReduxProvider from '@/components/Shared/ReduxProvider';
+import Overlay from '@/components/Shared/Overlay';
 
 export const metadata: Metadata = {
   title: 'صدای آرام',
@@ -41,6 +42,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <ScrollProgress className="h-[1.5px] bg-foreground" />
+            <Overlay />
             {children}
             <Toaster />
             <ScrollToTop />
