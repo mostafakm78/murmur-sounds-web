@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/Shared/ThemeProvider';
 import { ScrollProgress } from '@/components/magicui/scroll-progress';
-import ScrollToTop from '@/components/Shared/ScrollToTop';
 import { Toaster } from '@/components/ui/toaster';
 import ReduxProvider from '@/components/Shared/ReduxProvider';
 import Overlay from '@/components/Shared/Overlay';
@@ -45,7 +44,6 @@ export default function RootLayout({
             <Overlay />
             {children}
             <Toaster />
-            <ScrollToTop />
           </ThemeProvider>
         </ReduxProvider>
       </body>

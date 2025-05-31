@@ -6,26 +6,18 @@ import { SliderProps } from '@radix-ui/react-slider';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVolume } from '@/app/store/soundSlice';
 import { RootState } from '@/app/store';
-import { useEffect } from 'react';
 
 type Props = {
   soundId: number;
-  audio: HTMLAudioElement | null;
 } & SliderProps;
 
-export function SliderSounds({ audio, soundId, className, ...props }: Props) {
+export function SliderSounds({ soundId, className, ...props }: Props) {
   const dispatch = useDispatch();
   const volume = useSelector((state: RootState) => state.sound.volumes[soundId] ?? 30);
-
-  useEffect(() => {
-    if (audio) {
-      audio.volume = volume / 100;
-    }
-  }, [volume, audio]);
 
   const handleChange = (value: number[]) => {
     dispatch(setVolume({ id: soundId, volume: value[0] }));
   };
 
-  return <Slidertwo value={[volume]} onValueChange={handleChange} max={100} step={1} className={cn('w-[60%]', className)} {...props} />;
+  return <Slidertwo value={[volume]} onValueChange={handleChange} max={100} step={1} className={cn('w-[70%]', className)} {...props} />;
 }

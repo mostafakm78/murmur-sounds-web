@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { JSX } from 'react';
 import { FaGithub, FaInstagram, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
+import ScrollToTop from './ScrollToTop';
 
 // CSS classes for styling the footer icons
 const iconLinkCss = 'hover:opacity-85 hover:duration-300 hover:scale-105';
@@ -47,6 +48,7 @@ export default function Footer(): JSX.Element {
             <Link href="" className={iconLinkCss}>
               <FaGithub />
             </Link>
+            <ScrollToTop />
           </div>
         </div>
         {/* copyright */}

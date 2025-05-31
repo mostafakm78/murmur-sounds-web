@@ -1,122 +1,75 @@
 'use client';
 
 import { MagicCard } from '@/components/magicui/magic-card';
-import { FaPlay, FaPause } from 'react-icons/fa';
 import React, { JSX, useEffect, useRef } from 'react';
-import { LuWind } from 'react-icons/lu';
-import { FaCloudRain, FaFire } from 'react-icons/fa';
-import { IoIosPeople } from 'react-icons/io';
-import { MdOutlineWaves } from 'react-icons/md';
-import { PiBird } from 'react-icons/pi';
-import { GiGrass, GiBubblingBowl } from 'react-icons/gi';
-import { FaTv } from 'react-icons/fa';
-import { AiOutlineThunderbolt } from 'react-icons/ai';
+import { FaPlay, FaPause } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import { pauseSound, playSound } from '@/app/store/soundSlice';
+import { pauseSound, playSound, setDockVisible } from '@/app/store/soundSlice';
 import { SliderSounds } from './SliderSounds';
-import { SwitchMute } from '@/components/Shared/SwitchMute';
-import { SliderHeader } from '@/components/Shared/SliderHeader';
-
-type soundsProps = {
-  id: number;
-  name: string;
-  icon: React.ElementType | string;
-  audio: string[];
-};
-
-const soundsData: soundsProps[] = [
-  { id: 1, name: 'باد', icon: LuWind, audio: ['/api/sound?file=main-wind.ogg', '/api/sound?file=main-wind.mp4'] },
-  { id: 2, name: 'باران', icon: FaCloudRain, audio: ['/api/sound?file=main-rain.ogg', '/api/sound?file=main-rain.mp4'] },
-  { id: 3, name: 'آتش', icon: FaFire, audio: ['/api/sound?file=main-fire.ogg', '/api/sound?file=main-fire.mp4'] },
-  { id: 4, name: 'شلوغی', icon: IoIosPeople, audio: ['/api/sound?file=main-people.ogg', '/api/sound?file=main-people.mp4'] },
-  { id: 5, name: 'موج دریا', icon: MdOutlineWaves, audio: ['/api/sound?file=main-waves.ogg', '/api/sound?file=main-waves.mp4'] },
-  { id: 6, name: 'پرنده', icon: PiBird, audio: ['/api/sound?file=main-birds.ogg', '/api/sound?file=main-birds.mp4'] },
-  { id: 7, name: 'جیرجیرک', icon: GiGrass, audio: ['/api/sound?file=main-crickets.ogg', '/api/sound?file=main-crickets.mp4'] },
-  { id: 8, name: 'برفرک', icon: FaTv, audio: ['/api/sound?file=main-whitenoise.ogg', '/api/sound?file=main-whitenoise.mp4'] },
-  { id: 9, name: 'کاسه آواز', icon: GiBubblingBowl, audio: ['/api/sound?file=main-sbowl.ogg', '/api/sound?file=main-sbowl.mp4'] },
-  { id: 10, name: 'رعد و برق', icon: AiOutlineThunderbolt, audio: ['/api/sound?file=main-thunder.ogg', '/api/sound?file=main-thunder.mp4'] },
-];
+import { AnimatePresence } from 'framer-motion';
+import { soundsData } from '@/lib/Sounds';
+import Dock from './Dock';
 
 export default function Sounds(): JSX.Element {
   const dispatch = useDispatch();
-  const volumes = useSelector((state: RootState) => state.sound.volumes);
   const playing = useSelector((state: RootState) => state.sound.playing);
-  const globalVolume = useSelector((state: RootState) => state.sound.globalVolume);
+  const dockVisible = useSelector((state: RootState) => state.sound.dockVisible);
 
-  const audioRefs = useRef<{ [key: number]: HTMLAudioElement | null }>({});
+  const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    Object.entries(audioRefs.current).forEach(([idStr, audio]) => {
-      const id = parseInt(idStr);
-      if (audio) {
-        const volume = volumes[id] ?? 30;
-        audio.volume = (volume / 100) * (globalVolume / 100);
-      }
-    });
-  }, [volumes, globalVolume]);
+    const element = dockRef.current;
+    if (!element) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        dispatch(setDockVisible(entry.isIntersecting));
+      },
+      { threshold: isMobile ? 0.1 : 0.5 }
+    );
+
+    observer.observe(element);
+    return () => observer.unobserve(element);
+  }, [dockRef, dispatch]);
 
   const togglePlay = (id: number) => {
-    const audio = audioRefs.current[id];
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      dispatch(playSound(id));
-    } else {
-      audio.pause();
+    if (playing[id]) {
       dispatch(pauseSound(id));
+    } else {
+      dispatch(playSound(id));
     }
   };
 
   return (
     <main className="mx-auto container">
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-8 mt-16 px-10">
+      <div className="flex flex-col justify-center items-center my-16 gap-8">
+        <h2 className="text-4xl text-background dark:text-foreground">صداهای در دسترس</h2>
+      </div>
+      <div ref={dockRef} className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-8 mt-16 px-10">
         {soundsData.map((sound) => {
           const Icon = sound.icon;
           return (
             <MagicCard key={sound.id} gradientColor={'#f9ceeeb0'} gradientSize={700} className={`w-full h-full rounded-md border-2 border-background/20 dark:border-foreground/20 ${playing[sound.id] ? 'scale-105 outline-4 outline outline-foreground/50 dark:outline-foreground/50' : ''} duration-500`}>
-              <div className={`flex flex-col items-center p-6 shadow-foreground/30 justify-center`}>
+              <div className="flex flex-col items-center p-6 shadow-foreground/30 justify-center">
                 <div className={`flex flex-col items-center mb-8 md:text-2xl text-xl justify-center gap-1 ${playing[sound.id] ? 'scale-110' : ''} font-medium duration-500 text-background/90 dark:text-foreground/90`}>
                   <Icon className="w-20 h-20 md:w-[100px] sm:h-[100px]" />
                   {sound.name}
                 </div>
 
-                <audio
-                  ref={(el) => {
-                    if (el) {
-                      el.setAttribute('controlsList', 'nodownload');
-                      audioRefs.current[sound.id] = el;
-                    }
-                  }}
-                  loop
-                  controls={false}
-                  style={{ display: 'none' }}
-                >
-                  {sound.audio.map((src, idx) => (
-                    <source key={idx} src={src} />
-                  ))}
-                </audio>
 
-                <div className="flex w-full px-3 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
-                  {!playing[sound.id] ? <FaPlay onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Play" /> : <FaPause onClick={() => togglePlay(sound.id)} className="w-5 h-5 cursor-pointer" color="#F2F4F8" title="Pause" />}
+                <div className="flex w-full px-2 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
+                  {!playing[sound.id] ? <FaPlay onClick={() => togglePlay(sound.id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Play" /> : <FaPause onClick={() => togglePlay(sound.id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Pause" />}
 
-                  <SliderSounds soundId={sound.id} audio={audioRefs.current[sound.id]} />
+                  <SliderSounds soundId={sound.id} />
                 </div>
               </div>
             </MagicCard>
           );
         })}
       </div>
-      <div className="mt-16 flex w-full justify-center items-center">
-        <div className="lg:w-1/2 w-full flex items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
-          <SwitchMute />
-          <span className="font-medium text-sm flex gap-2 items-center">
-            صدای کل
-            <SliderHeader className="md:w-52 w-32 ml-3" />
-          </span>
-        </div>
-      </div>
+      <AnimatePresence>{dockVisible && <Dock />}</AnimatePresence>
     </main>
   );
 }

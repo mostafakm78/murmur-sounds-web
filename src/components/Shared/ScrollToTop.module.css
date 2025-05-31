@@ -1,13 +1,10 @@
 .button,
 .buttonVisible {
-  width: 40px;
-  height: 40px;
-  position: fixed;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  bottom: 2rem;
-  left: 1rem;
   border-radius: 100%;
   background: white;
   border: 0;

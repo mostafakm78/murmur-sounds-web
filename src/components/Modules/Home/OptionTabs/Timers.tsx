@@ -60,12 +60,6 @@ export default function Timers(): JSX.Element | null {
       <Separator className="my-4 dark:bg-foreground/20" />
       {/* set hour and min for timer  */}
       {renderTabContent(selectTab)}
-      <Separator className="my-4 dark:bg-foreground/20" />
-      {/* cancel and submit button for timer  */}
-      <div className="flex items-center justify-between w-3/4">
-        <button className="dark:bg-red-700 dark:text-foreground bg-red-500 text-background md:py-2 py-1 px-4 rounded-sm cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">انصراف</button>
-        <button className="dark:bg-emerald-700 dark:text-foreground bg-emerald-500 text-background md:py-2 py-1 px-4 rounded-sm cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">شروع</button>
-      </div>
     </div>
   );
 }
