@@ -1,25 +1,56 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import Timers from './Timers';
 import ShareSounds from './ShareSounds';
 import Playlist from './Playlist';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
-// set type for tabs
+// Tabs
 type Tab = 'Timer' | 'Share' | 'Mix';
-
-// tabs list
 const tabs: Tab[] = ['Timer', 'Share', 'Mix'];
+
+// Helper function
+function formatRemainingTime(ms: number) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
 
 export default function Options(): JSX.Element {
   const [selectTab, setSelectTab] = useState<Tab>('Timer');
 
+  const startAt = useSelector((state: RootState) => state.sound.startAt);
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
+
+  // Countdown logic
+  useEffect(() => {
+    if (!startAt?.timestamp) return setRemainingTime(null);
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = startAt.timestamp - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        setRemainingTime(0);
+      } else {
+        setRemainingTime(diff);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startAt?.timestamp]);
+
+  // Tab Navigation
   const currentIndex = tabs.indexOf(selectTab);
-  const prevTab = () : void => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
-  const nextTab = () : void => setSelectTab(tabs[(currentIndex + 1) % tabs.length]);
+  const prevTab = () => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
+  const nextTab = () => setSelectTab(tabs[(currentIndex + 1) % tabs.length]);
 
   const renderTabContent = (tab: Tab) => {
     switch (tab) {
@@ -34,16 +65,22 @@ export default function Options(): JSX.Element {
     }
   };
 
+
   return (
     <section className="mx-auto container">
       <div className="mt-16 p-6 gap-10 flex flex-col items-center px-10 relative">
         {/* Tab Buttons */}
         <div className="md:w-1/2 w-full flex items-center justify-around">
-          {tabs.map((tab) => (
-            <Button key={tab} onClick={() => setSelectTab(tab)} variant="outline" className={`md:text-xl md:py-5 ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''}`}>
-              {tab === 'Timer' ? 'زمانبندی' : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
-            </Button>
-          ))}
+          {tabs.map((tab) => {
+            const isTimer = tab === 'Timer';
+            const isCountdownActive = isTimer && remainingTime && remainingTime > 0;
+
+            return (
+              <Button key={tab} onClick={() => setSelectTab(tab)} variant="outline" className={`md:text-xl md:py-5 ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''} ${isCountdownActive ? 'animate-bounce bg-emerald-700 text-background dark:text-foreground dark:bg-emerald-700' : ''}`}>
+                {isTimer ? (isCountdownActive ? formatRemainingTime(remainingTime) : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
+              </Button>
+            );
+          })}
         </div>
 
         {/* Tab Content with Arrows */}

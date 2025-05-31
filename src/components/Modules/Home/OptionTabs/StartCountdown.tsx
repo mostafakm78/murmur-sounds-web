@@ -14,9 +14,14 @@ function formatRemainingTime(ms: number) {
 export default function StartCountdown() {
   const startAt = useSelector((state: RootState) => state.sound.startAt);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (!startAt?.timestamp) return setRemainingTime(null);
+    if (!startAt?.timestamp) {
+      setRemainingTime(null);
+      setVisible(true);
+      return;
+    }
 
     const interval = setInterval(() => {
       const now = Date.now();
@@ -33,13 +38,14 @@ export default function StartCountdown() {
     return () => clearInterval(interval);
   }, [startAt?.timestamp]);
 
-  if (remainingTime === null) return null;
+  useEffect(() => {
+    if (remainingTime === 0) {
+      const timeout = setTimeout(() => setVisible(false), 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [remainingTime]);
 
-  return (
-    <div className="text-center font-medium text-sm text-foreground">
-      {remainingTime > 0
-        ? `زمان باقی‌مانده: ${formatRemainingTime(remainingTime)}`
-        : 'پخش صداها آغاز شد'}
-    </div>
-  );
+  if (remainingTime === null || !visible) return null;
+
+  return <div className="text-center hidden lg:block font-medium text-sm text-foreground">{remainingTime > 0 ? `زمان باقی‌مانده: ${formatRemainingTime(remainingTime)}` : 'پخش صداها آغاز شد'}</div>;
 }

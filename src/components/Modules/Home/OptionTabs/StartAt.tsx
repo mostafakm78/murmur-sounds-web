@@ -39,6 +39,9 @@ export default function StartAt() {
     setHour(0);
     setMin(0);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    dispatch(setStartAt(null));
+
     toast({
       description: 'تایمر لغو شد.',
     });

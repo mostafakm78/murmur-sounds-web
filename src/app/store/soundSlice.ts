@@ -48,7 +48,11 @@ const soundsSlice = createSlice({
     setDockVisible: (state, action: PayloadAction<boolean>) => {
       state.dockVisible = action.payload;
     },
-    setStartAt: (state, action: PayloadAction<{ hour: number; min: number }>) => {
+    setStartAt: (state, action: PayloadAction<{ hour: number; min: number } | null>) => {
+      if (action.payload === null) {
+        state.startAt = null;
+        return;
+      }
       const now = Date.now();
       const delay = (action.payload.hour * 60 + action.payload.min) * 60 * 1000;
       const timestamp = now + delay;
@@ -88,7 +92,7 @@ const soundsSlice = createSlice({
   },
 });
 
-export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying , setGlobalStateByPlaying } = soundsSlice.actions;
+export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying, setGlobalStateByPlaying } = soundsSlice.actions;
 
 export const playSound = (id: number) => setPlaying({ id, playing: true });
 export const pauseSound = (id: number) => setPlaying({ id, playing: false });
