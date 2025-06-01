@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { setGlobalPause, setGlobalPlaying } from '@/app/store/soundSlice';
 import { toast } from '@/hooks/use-toast';
+import EndCountdown from '../OptionTabs/EndCountdown';
 
 export default function Dock() {
   const dispatch = useDispatch();
@@ -37,12 +38,13 @@ export default function Dock() {
         <div className="pointer-events-auto lg:w-1/2 w-[90%] outline outline-2 outline-offset-1 shadow-xl flex items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
           <SwitchMute />
           <StartCountdown />
+          <EndCountdown />
           <span className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
             حالت تصادفی
             <FaShuffle className="h-5 w-5" />
           </span>
           <button onClick={handleTogglePlay} className="text-base">
-            {globalPalying  ? <FaPause /> : <FaPlay />}
+            {globalPalying ? <FaPause /> : <FaPlay />}
           </button>
           <span className="font-medium text-sm flex gap-2 items-center">
             صدای کل

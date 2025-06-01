@@ -5,12 +5,12 @@ import Options from '@/components/Modules/Home/OptionTabs/Options';
 import Sounds from '@/components/Modules/Home/Sounds/Sounds';
 import Suggest from '@/components/Modules/Home/Suggest/Suggest';
 import Background from '@/components/Shared/Background';
-import SoundsManager from '@/components/Shared/SoundManager';
+import SoundsManager from '@/lib/SoundManager';
 
 export default function Home() {
   return (
     <>
-    <SoundsManager />
+      <SoundsManager />
       <Background />
       <Header />
       <HeroSection />

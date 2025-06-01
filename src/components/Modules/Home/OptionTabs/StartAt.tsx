@@ -1,16 +1,16 @@
 'use client';
 
-import { playSound, setStartAt } from '@/app/store/soundSlice';
+import { playSound, resetHasStarted, setHasStarted, setStartAt, setVolume } from '@/app/store/soundSlice';
 import { toast } from '@/hooks/use-toast';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import { soundsData } from '@/lib/Sounds';
 
 export default function StartAt() {
   const dispatch = useDispatch();
   const startAt = useSelector((state: RootState) => state.sound.startAt);
+  const hasStarted = useSelector((state: RootState) => state.sound.hasStarted);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [hour, setHour] = useState<number>(0);
@@ -26,10 +26,6 @@ export default function StartAt() {
 
     dispatch(setStartAt({ hour, min }));
 
-    const audio = new Audio(soundsData[0].audio[0]);
-    audio.volume = 0;
-    audio.play().catch(() => {});
-
     toast({
       description: `صداها در ${hour} ساعت و ${min} دقیقه دیگر پخش خواهند شد.`,
     });
@@ -41,6 +37,7 @@ export default function StartAt() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     dispatch(setStartAt(null));
+    dispatch(resetHasStarted());
 
     toast({
       description: 'تایمر لغو شد.',
@@ -48,47 +45,49 @@ export default function StartAt() {
   };
 
   useEffect(() => {
-    if (!startAt || !startAt.timestamp) return;
+    if (!startAt || !startAt.timestamp || hasStarted) return;
 
     const now = Date.now();
     const remaining = startAt.timestamp - now;
 
+    const playFromStorageOrRandom = () => {
+      const saved = localStorage.getItem('activeSounds');
+      const savedVolumes = localStorage.getItem('soundVolumes');
+
+      if (saved) {
+        const ids: number[] = JSON.parse(saved);
+        const volumes: { [key: number]: number } = savedVolumes ? JSON.parse(savedVolumes) : {};
+        ids.forEach((id) => {
+          dispatch(playSound(id));
+          if (volumes[id] !== undefined) {
+            dispatch(setVolume({ id, volume: volumes[id] }));
+          }
+        });
+
+        toast({ description: 'پخش صداهای انتخاب‌شده آغاز شد.' });
+      } else {
+        toast({ description: 'هیچ صدایی انتخاب نشده است. لطفاً حداقل یک صدا را انتخاب کنید.' });
+      }
+    };
+
     if (remaining <= 0) {
-      const RANDOM_SOUND_COUNT = Math.floor(Math.random() * 5) + 1;
-      const shuffled = [...soundsData].sort(() => Math.random() - 0.5);
-      const randomSounds = shuffled.slice(0, RANDOM_SOUND_COUNT);
-
-      randomSounds.forEach((sound) => {
-        dispatch(playSound(sound.id));
-      });
-
-      toast({
-        description: 'پخش صداها آغاز شد.',
-      });
-
+      dispatch(setHasStarted());
+      playFromStorageOrRandom();
       return;
     }
 
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
     timeoutRef.current = setTimeout(() => {
-      const RANDOM_SOUND_COUNT = Math.floor(Math.random() * 5) + 1;
-      const shuffled = [...soundsData].sort(() => Math.random() - 0.5);
-      const randomSounds = shuffled.slice(0, RANDOM_SOUND_COUNT);
-
-      randomSounds.forEach((sound) => {
-        dispatch(playSound(sound.id));
-      });
-
-      toast({
-        description: 'پخش صداها آغاز شد.',
-      });
+      playFromStorageOrRandom();
     }, remaining);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [startAt, dispatch]);
+  }, [startAt, dispatch , hasStarted]);
 
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">

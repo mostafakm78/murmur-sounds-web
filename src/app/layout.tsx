@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/components/Shared/ThemeProvider';
+import { ThemeProvider } from '@/lib/ThemeProvider';
 import { ScrollProgress } from '@/components/magicui/scroll-progress';
 import { Toaster } from '@/components/ui/toaster';
-import ReduxProvider from '@/components/Shared/ReduxProvider';
+import ReduxProvider from '@/lib/ReduxProvider';
 import Overlay from '@/components/Shared/Overlay';
 
 export const metadata: Metadata = {

@@ -5,18 +5,22 @@ import React, { JSX, useEffect, useRef } from 'react';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import { pauseSound, playSound, setDockVisible } from '@/app/store/soundSlice';
+import { pauseSound, playSound, setDockVisible, setGlobalPause, setGlobalPlaying } from '@/app/store/soundSlice';
 import { SliderSounds } from './SliderSounds';
 import { AnimatePresence } from 'framer-motion';
 import { soundsData } from '@/lib/Sounds';
 import Dock from './Dock';
+import { toast } from '@/hooks/use-toast';
 
 export default function Sounds(): JSX.Element {
   const dispatch = useDispatch();
   const playing = useSelector((state: RootState) => state.sound.playing);
   const dockVisible = useSelector((state: RootState) => state.sound.dockVisible);
+  const globalPalying = useSelector((state: RootState) => state.sound.globalPlaying);
 
   const dockRef = useRef<HTMLDivElement>(null);
+
+  const isPlayingEmpty = Object.keys(playing).length === 0;
 
   useEffect(() => {
     const element = dockRef.current;
@@ -42,10 +46,26 @@ export default function Sounds(): JSX.Element {
     }
   };
 
+  const handleTogglePlay = () => {
+    if (isPlayingEmpty) {
+      toast({
+        description: 'لطفاً حداقل یک صدا را انتخاب کنید.',
+      });
+    }
+    if (globalPalying) {
+      dispatch(setGlobalPause());
+    } else {
+      dispatch(setGlobalPlaying());
+    }
+  };
+
   return (
     <main className="mx-auto container">
       <div className="flex flex-col justify-center items-center my-16 gap-8">
         <h2 className="text-4xl text-background dark:text-foreground">صداهای در دسترس</h2>
+        <button onClick={handleTogglePlay} className="text-7xl">
+          {globalPalying ? <FaPause /> : <FaPlay />}
+        </button>
       </div>
       <div ref={dockRef} className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-8 mt-16 px-10">
         {soundsData.map((sound) => {
@@ -57,7 +77,6 @@ export default function Sounds(): JSX.Element {
                   <Icon className="w-20 h-20 md:w-[100px] sm:h-[100px]" />
                   {sound.name}
                 </div>
-
 
                 <div className="flex w-full px-2 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
                   {!playing[sound.id] ? <FaPlay onClick={() => togglePlay(sound.id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Play" /> : <FaPause onClick={() => togglePlay(sound.id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Pause" />}

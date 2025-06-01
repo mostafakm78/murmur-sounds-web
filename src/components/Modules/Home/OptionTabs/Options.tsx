@@ -10,11 +10,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
-// Tabs
 type Tab = 'Timer' | 'Share' | 'Mix';
 const tabs: Tab[] = ['Timer', 'Share', 'Mix'];
 
-// Helper function
 function formatRemainingTime(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
   const minutes = Math.floor(totalSeconds / 60);
@@ -26,11 +24,14 @@ export default function Options(): JSX.Element {
   const [selectTab, setSelectTab] = useState<Tab>('Timer');
 
   const startAt = useSelector((state: RootState) => state.sound.startAt);
-  const [remainingTime, setRemainingTime] = useState<number | null>(null);
+  const endAt = useSelector((state: RootState) => state.sound.endAt);
 
-  // Countdown logic
+  const [remainingStartTime, setRemainingStartTime] = useState<number | null>(null);
+  const [remainingEndTime, setRemainingEndTime] = useState<number | null>(null);
+
+  // Start Countdown
   useEffect(() => {
-    if (!startAt?.timestamp) return setRemainingTime(null);
+    if (!startAt?.timestamp) return setRemainingStartTime(null);
 
     const interval = setInterval(() => {
       const now = Date.now();
@@ -38,14 +39,33 @@ export default function Options(): JSX.Element {
 
       if (diff <= 0) {
         clearInterval(interval);
-        setRemainingTime(0);
+        setRemainingStartTime(0);
       } else {
-        setRemainingTime(diff);
+        setRemainingStartTime(diff);
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, [startAt?.timestamp]);
+
+  // End Countdown
+  useEffect(() => {
+    if (!endAt?.timestamp) return setRemainingEndTime(null);
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = endAt.timestamp - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        setRemainingEndTime(0);
+      } else {
+        setRemainingEndTime(diff);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [endAt?.timestamp]);
 
   // Tab Navigation
   const currentIndex = tabs.indexOf(selectTab);
@@ -65,7 +85,6 @@ export default function Options(): JSX.Element {
     }
   };
 
-
   return (
     <section className="mx-auto container">
       <div className="mt-16 p-6 gap-10 flex flex-col items-center px-10 relative">
@@ -73,11 +92,20 @@ export default function Options(): JSX.Element {
         <div className="md:w-1/2 w-full flex items-center justify-around">
           {tabs.map((tab) => {
             const isTimer = tab === 'Timer';
-            const isCountdownActive = isTimer && remainingTime && remainingTime > 0;
+            const showStart = isTimer && remainingStartTime && remainingStartTime > 0;
+            const showEnd = isTimer && !showStart && remainingEndTime && remainingEndTime > 0;
 
             return (
-              <Button key={tab} onClick={() => setSelectTab(tab)} variant="outline" className={`md:text-xl md:py-5 ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''} ${isCountdownActive ? 'animate-bounce bg-emerald-700 text-background dark:text-foreground dark:bg-emerald-700' : ''}`}>
-                {isTimer ? (isCountdownActive ? formatRemainingTime(remainingTime) : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
+              <Button
+                key={tab}
+                onClick={() => setSelectTab(tab)}
+                variant="outline"
+                className={`md:text-xl md:py-5
+                  ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''}
+                  ${showStart || showEnd ? 'animate-bounce bg-emerald-700 dark:bg-emerald-700 text-background dark:text-foreground' : ''}
+                `}
+              >
+                {isTimer ? (showStart ? formatRemainingTime(remainingStartTime) : showEnd ? ` ${formatRemainingTime(remainingEndTime)}` : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
               </Button>
             );
           })}
@@ -85,7 +113,6 @@ export default function Options(): JSX.Element {
 
         {/* Tab Content with Arrows */}
         <div className="w-full flex-1 flex items-center justify-center relative overflow-hidden">
-          {/* Left Arrow */}
           <button onClick={prevTab} className="hidden md:block absolute left-0 z-10 p-2 hover:opacity-75 transition-opacity">
             <ChevronLeft className="w-12 h-12 text-background dark:text-foreground" />
           </button>
@@ -96,7 +123,6 @@ export default function Options(): JSX.Element {
             </motion.div>
           </AnimatePresence>
 
-          {/* Right Arrow */}
           <button onClick={nextTab} className="hidden md:block absolute right-0 z-10 p-2 hover:opacity-75 transition-opacity">
             <ChevronRight className="w-12 h-12 text-background dark:text-foreground" />
           </button>

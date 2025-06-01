@@ -13,11 +13,12 @@ type Props = {
 
 export function SliderSounds({ soundId, className, ...props }: Props) {
   const dispatch = useDispatch();
-  const volume = useSelector((state: RootState) => state.sound.volumes[soundId] ?? 30);
+  const volume = useSelector((state: RootState) => state.sound.volumes[soundId] ?? 0);
 
   const handleChange = (value: number[]) => {
     dispatch(setVolume({ id: soundId, volume: value[0] }));
   };
+
 
   return <Slidertwo value={[volume]} onValueChange={handleChange} max={100} step={1} className={cn('w-[70%]', className)} {...props} />;
 }
