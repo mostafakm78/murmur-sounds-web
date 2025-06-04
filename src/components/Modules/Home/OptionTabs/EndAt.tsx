@@ -12,17 +12,22 @@ export default function EndAt() {
   const endTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const endAt = useSelector((state: RootState) => state.sound.endAt);
   const hasStarted = useSelector((state: RootState) => state.sound.hasStarted);
+  const playing = useSelector((state: RootState) => state.sound.playing);
+  const volumes = useSelector((state: RootState) => state.sound.volumes);
 
   const [hour, setHour] = useState<number>(0);
   const [min, setMin] = useState<number>(0);
 
-  const playFromStorageOrRandom = () => {
+  const isValidSound = Object.entries(playing).some(([id]) => volumes[+id] > 0);
+
+  const PlayMusic = () => {
     const saved = localStorage.getItem('activeSounds');
     const savedVolumes = localStorage.getItem('soundVolumes');
 
     if (saved) {
       const ids: number[] = JSON.parse(saved);
       const volumes: { [key: number]: number } = savedVolumes ? JSON.parse(savedVolumes) : {};
+
       ids.forEach((id) => {
         dispatch(playSound(id));
         if (volumes[id]) {
@@ -75,12 +80,22 @@ export default function EndAt() {
       return;
     }
 
-    dispatch(setEndAt({ hour, min })); // فقط ساعت و دقیقه ارسال میشه
+    if (!isValidSound) {
+      toast({
+        description: 'لطفاً حداقل یک حجم صدا را انتخاب کنید.',
+      });
+      return;
+    }
 
-    playFromStorageOrRandom();
+    dispatch(setEndAt({ hour, min }));
+
+    PlayMusic();
+
+    const titleHour = hour ? `${hour} ساعت و ` : '';
+    const titleMin = min ? `${min} دقیقه` : '';
 
     toast({
-      description: `صداها در ${hour} ساعت و ${min} دقیقه دیگر متوقف خواهند شد.`,
+      description: `صداها در ${titleHour} ${titleMin} دقیقه دیگر متوقف خواهند شد.`,
     });
   };
 
@@ -91,6 +106,7 @@ export default function EndAt() {
 
     dispatch(resetHasStarted());
     dispatch(setEndAt(null));
+    dispatch(setGlobalPause());
 
     toast({
       description: 'تایمر پایان لغو شد.',

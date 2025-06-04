@@ -25,9 +25,11 @@ export default function Options(): JSX.Element {
 
   const startAt = useSelector((state: RootState) => state.sound.startAt);
   const endAt = useSelector((state: RootState) => state.sound.endAt);
+  const fade = useSelector((state: RootState) => state.sound.fade);
 
   const [remainingStartTime, setRemainingStartTime] = useState<number | null>(null);
   const [remainingEndTime, setRemainingEndTime] = useState<number | null>(null);
+  const [remainingFadeTime, setRemainingFadeTime] = useState<number | null>(null);
 
   // Start Countdown
   useEffect(() => {
@@ -67,6 +69,24 @@ export default function Options(): JSX.Element {
     return () => clearInterval(interval);
   }, [endAt?.timestamp]);
 
+  useEffect(() => {
+    if (!fade?.timestamp) return setRemainingFadeTime(null);
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = fade.timestamp - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        setRemainingFadeTime(0);
+      } else {
+        setRemainingFadeTime(diff);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [fade?.timestamp]);
+
   // Tab Navigation
   const currentIndex = tabs.indexOf(selectTab);
   const prevTab = () => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
@@ -94,6 +114,7 @@ export default function Options(): JSX.Element {
             const isTimer = tab === 'Timer';
             const showStart = isTimer && remainingStartTime && remainingStartTime > 0;
             const showEnd = isTimer && !showStart && remainingEndTime && remainingEndTime > 0;
+            const showFade = isTimer && !showStart && !showEnd && remainingFadeTime && remainingFadeTime > 0;
 
             return (
               <Button
@@ -101,11 +122,11 @@ export default function Options(): JSX.Element {
                 onClick={() => setSelectTab(tab)}
                 variant="outline"
                 className={`md:text-xl md:py-5
-                  ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''}
-                  ${showStart || showEnd ? 'animate-bounce bg-emerald-700 dark:bg-emerald-700 text-background dark:text-foreground' : ''}
-                `}
+        ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''}
+        ${showStart || showEnd || showFade ? 'animate-bounce bg-emerald-700 dark:bg-emerald-700 text-background dark:text-foreground' : ''}
+      `}
               >
-                {isTimer ? (showStart ? formatRemainingTime(remainingStartTime) : showEnd ? ` ${formatRemainingTime(remainingEndTime)}` : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
+                {isTimer ? (showStart ? formatRemainingTime(remainingStartTime) : showEnd ? formatRemainingTime(remainingEndTime) : showFade ? formatRemainingTime(remainingFadeTime) : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
               </Button>
             );
           })}

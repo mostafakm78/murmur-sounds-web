@@ -11,6 +11,7 @@ import { RootState } from '@/app/store';
 import { setGlobalPause, setGlobalPlaying } from '@/app/store/soundSlice';
 import { toast } from '@/hooks/use-toast';
 import EndCountdown from '../OptionTabs/EndCountdown';
+import FadeCountdown from '../OptionTabs/FadeCountdown';
 
 export default function Dock() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ export default function Dock() {
           <SwitchMute />
           <StartCountdown />
           <EndCountdown />
+          <FadeCountdown />
           <span className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
             حالت تصادفی
             <FaShuffle className="h-5 w-5" />

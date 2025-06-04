@@ -12,9 +12,13 @@ export default function StartAt() {
   const startAt = useSelector((state: RootState) => state.sound.startAt);
   const hasStarted = useSelector((state: RootState) => state.sound.hasStarted);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const playing = useSelector((state: RootState) => state.sound.playing);
+  const volumes = useSelector((state: RootState) => state.sound.volumes);
 
   const [hour, setHour] = useState<number>(0);
   const [min, setMin] = useState<number>(0);
+
+  const isValidSound = Object.entries(playing).some(([id]) => volumes[+id] > 0);
 
   const handleSave = () => {
     if (hour === 0 && min === 0) {
@@ -24,10 +28,20 @@ export default function StartAt() {
       return;
     }
 
+    if (!isValidSound) {
+      toast({
+        description: 'لطفاً حداقل یک حجم صدا را انتخاب کنید.',
+      });
+      return;
+    }
+
     dispatch(setStartAt({ hour, min }));
 
+    const titleHour = hour ? `${hour} ساعت و ` : '';
+    const titleMin = min ? `${min} دقیقه` : '';
+
     toast({
-      description: `صداها در ${hour} ساعت و ${min} دقیقه دیگر پخش خواهند شد.`,
+      description: `صداها در ${titleHour} ${titleMin} دقیقه دیگر پخش خواهند شد.`,
     });
   };
 
@@ -50,7 +64,7 @@ export default function StartAt() {
     const now = Date.now();
     const remaining = startAt.timestamp - now;
 
-    const playFromStorageOrRandom = () => {
+    const PlayMusic = () => {
       const saved = localStorage.getItem('activeSounds');
       const savedVolumes = localStorage.getItem('soundVolumes');
 
@@ -72,7 +86,7 @@ export default function StartAt() {
 
     if (remaining <= 0) {
       dispatch(setHasStarted());
-      playFromStorageOrRandom();
+      PlayMusic();
       return;
     }
 
@@ -81,13 +95,13 @@ export default function StartAt() {
     }
 
     timeoutRef.current = setTimeout(() => {
-      playFromStorageOrRandom();
+      PlayMusic();
     }, remaining);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [startAt, dispatch , hasStarted]);
+  }, [startAt, dispatch, hasStarted]);
 
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">

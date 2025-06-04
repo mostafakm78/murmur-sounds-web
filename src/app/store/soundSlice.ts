@@ -10,8 +10,10 @@ interface SoundState {
   dockVisible: boolean;
   startAt?: { hour: number; min: number; timestamp: number } | null;
   endAt?: { hour: number; min: number; timestamp: number } | null;
+  fade?: { hour: number; min: number; timestamp: number; from: string; to: string } | null;
   hasStarted: boolean;
   activeSounds: number[];
+  playlist?: { id: number; name: string; sounds: number[]; volumes: { [id: number]: number } }[];
 }
 
 const initialState: SoundState = {
@@ -24,6 +26,7 @@ const initialState: SoundState = {
   dockVisible: false,
   startAt: null,
   endAt: null,
+  fade: null,
   hasStarted: false,
   activeSounds: [],
 };
@@ -105,6 +108,27 @@ const soundsSlice = createSlice({
       };
       state.hasStarted = false;
     },
+    setFade: (state, action: PayloadAction<{ hour: number; min: number; from: string; to: string } | null>) => {
+      if (action.payload === null) {
+        state.fade = null;
+        state.hasStarted = false;
+        return;
+      }
+
+      const { hour, min, from, to } = action.payload;
+      const now = Date.now();
+      const delay = (hour * 60 + min) * 60 * 1000;
+      const timestamp = now + delay;
+
+      state.fade = {
+        hour,
+        min,
+        timestamp,
+        from,
+        to,
+      };
+      state.hasStarted = false;
+    },
     setHasStarted: (state) => {
       state.hasStarted = true;
     },
@@ -138,7 +162,7 @@ const soundsSlice = createSlice({
   },
 });
 
-export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying, setGlobalStateByPlaying, setHasStarted, resetHasStarted } = soundsSlice.actions;
+export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying, setGlobalStateByPlaying, setHasStarted, resetHasStarted, setFade } = soundsSlice.actions;
 
 export const playSound = (id: number) => setPlaying({ id, playing: true });
 export const pauseSound = (id: number) => setPlaying({ id, playing: false });

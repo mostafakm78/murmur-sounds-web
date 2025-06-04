@@ -25,7 +25,7 @@ export default function SoundsManager() {
     if (volumesSaved) {
       const parsedVolumes = JSON.parse(volumesSaved);
       Object.entries(parsedVolumes).forEach(([idStr, vol]) => {
-        dispatch(setVolume({ id: Number(idStr), volume: vol }));
+        dispatch(setVolume({ id: Number(idStr), volume: Number(vol) }));
       });
     }
     if (saved) {

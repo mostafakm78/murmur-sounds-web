@@ -15,12 +15,13 @@ import { toast } from '@/hooks/use-toast';
 export default function Sounds(): JSX.Element {
   const dispatch = useDispatch();
   const playing = useSelector((state: RootState) => state.sound.playing);
+  const volumes = useSelector((state: RootState) => state.sound.volumes);
   const dockVisible = useSelector((state: RootState) => state.sound.dockVisible);
   const globalPalying = useSelector((state: RootState) => state.sound.globalPlaying);
 
   const dockRef = useRef<HTMLDivElement>(null);
 
-  const isPlayingEmpty = Object.keys(playing).length === 0;
+  const isValidSound = Object.entries(playing).some(([id]) => volumes[+id] > 0);
 
   useEffect(() => {
     const element = dockRef.current;
@@ -47,10 +48,11 @@ export default function Sounds(): JSX.Element {
   };
 
   const handleTogglePlay = () => {
-    if (isPlayingEmpty) {
+    if (!isValidSound) {
       toast({
         description: 'لطفاً حداقل یک صدا را انتخاب کنید.',
       });
+      return;
     }
     if (globalPalying) {
       dispatch(setGlobalPause());
