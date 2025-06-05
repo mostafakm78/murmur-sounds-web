@@ -6,30 +6,30 @@ import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
 import useSavedMixes, { SavedMix } from '@/hooks/useSavedMixes';
 import { Share, Trash } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { JSX, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { defaultMixes } from '@/lib/defaultMixes';
+import { useFillColor } from '@/hooks/use-fill-color';
 
 export default function Playlist(): JSX.Element | null {
   const dispatch = useDispatch();
 
   const { mixes, addMix, deleteMix } = useSavedMixes();
   const [mixName, setMixName] = useState<string>('');
-
-  // گرفتن تم فعلی از context مربوط به theme
-  const { resolvedTheme } = useTheme();
-
+  const fillColor = useFillColor({
+    light: '#6C63FF',
+    dark: '#F2F4F8',
+  });
+  const fillColorTwo = useFillColor({
+    light: '#F2F4F8',
+    dark: '#6C63FF',
+  });
   // وضعیت mount شدن کامپوننت برای جلوگیری از خطای SSR
   const [mounted, setMounted] = useState<boolean>(false);
   useEffect(() => {
     setMounted(true);
   }, []);
   if (!mounted) return null;
-
-  // تعیین رنگ‌های انیمیشن براساس تم
-  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
-  const fillColorTwo: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   // ذخیره‌سازی میکس جدید
   const handleSave = () => {

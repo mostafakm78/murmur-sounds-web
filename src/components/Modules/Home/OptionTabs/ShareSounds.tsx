@@ -5,12 +5,18 @@ import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FaInstagram, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
-import { useTheme } from 'next-themes';
 import { JSX, useEffect, useState } from 'react';
+import { useFillColor } from '@/hooks/use-fill-color';
 
 export default function ShareSounds(): JSX.Element | null {
-  // get theme
-  const { resolvedTheme } = useTheme();
+const fillColor = useFillColor({
+    light: '#6C63FF',
+    dark: '#F2F4F8',
+  });
+  const fillColorTwo = useFillColor({
+    light: '#F2F4F8',
+    dark: '#6C63FF',
+  });
   // state to check if component is mounted
   const [mounted, setMounted] = useState<boolean>(false);
 
@@ -20,9 +26,6 @@ export default function ShareSounds(): JSX.Element | null {
   }, []);
 
   if (!mounted) return null;
-
-  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
-  const fillColorTwo: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   return (
     <div className="lg:w-2/4 md:w-3/4 relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-4 h-[400px] flex-col justify-around items-center">

@@ -6,6 +6,7 @@ import { SliderProps } from '@radix-ui/react-slider';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVolume } from '@/app/store/soundSlice';
 import { RootState } from '@/app/store';
+import { useCallback } from 'react';
 
 // تعریف نوع پراپ‌ها برای این اسلایدر
 type Props = {
@@ -19,9 +20,12 @@ export function SliderSounds({ soundId, className, ...props }: Props) {
   const volume = useSelector((state: RootState) => state.sound.volumes[soundId] ?? 0);
 
   // هندل تغییر ولوم در اسلایدر
-  const handleChange = (value: number[]) => {
-    dispatch(setVolume({ id: soundId, volume: value[0] }));
-  };
+  const handleChange = useCallback(
+    (value: number[]) => {
+      dispatch(setVolume({ id: soundId, volume: value[0] }));
+    },
+    [dispatch, soundId]
+  );
 
   return (
     <Slidertwo

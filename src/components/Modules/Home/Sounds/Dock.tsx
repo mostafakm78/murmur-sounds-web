@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { setGlobalPause, setGlobalPlaying } from '@/app/store/soundSlice';
 import { toast } from '@/hooks/use-toast';
+import { useCallback, useMemo } from 'react';
 
 export default function Dock() {
   const dispatch = useDispatch();
@@ -20,10 +21,10 @@ export default function Dock() {
   const playing = useSelector((state: RootState) => state.sound.playing);
 
   // بررسی اینکه آیا هیچ صدایی در حال پخش نیست
-  const isPlayingEmpty = Object.keys(playing).length === 0;
+  const isPlayingEmpty = useMemo(() => Object.keys(playing).length === 0, [playing]);
 
   // کنترل عملکرد دکمه پخش / توقف کلی
-  const handleTogglePlay = () => {
+  const handleTogglePlay = useCallback(() => {
     if (isPlayingEmpty) {
       toast({
         description: 'لطفاً حداقل یک صدا را انتخاب کنید.',
@@ -35,7 +36,7 @@ export default function Dock() {
     } else {
       dispatch(setGlobalPlaying()); // پخش کلی
     }
-  };
+  }, [dispatch, globalPalying, isPlayingEmpty]);
 
   return (
     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.4, ease: 'easeInOut' }} className="fixed lg:bottom-8 bottom-10 left-0 w-full z-[78] pointer-events-none">

@@ -7,7 +7,7 @@ import ShareSounds from './ShareSounds';
 import Playlist from './Playlist';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
 // نوع تب‌ها
@@ -22,75 +22,50 @@ function formatRemainingTime(ms: number) {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+function useCountdown(timestamp?: number | null) {
+  const [remaining, setRemaining] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!timestamp || isNaN(timestamp)) {
+      setRemaining(null);
+      return;
+    }
+
+    const updateRemaining = () => {
+      const diff = timestamp - Date.now();
+      if (diff <= 0) {
+        setRemaining(0);
+        return true; // پایان شمارش
+      } else {
+        setRemaining(diff);
+        return false;
+      }
+    };
+
+    if (updateRemaining()) return; // اگر تمام شده همینجا خروجی
+
+    const interval = setInterval(() => {
+      if (updateRemaining()) clearInterval(interval);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timestamp]);
+
+  return remaining;
+}
+
 export default function Options(): JSX.Element {
   const [selectTab, setSelectTab] = useState<Tab>('Timer');
 
   // مقادیر زمان‌بندی‌شده از Redux
-  const startAt = useSelector((state: RootState) => state.sound.startAt);
-  const endAt = useSelector((state: RootState) => state.sound.endAt);
-  const fade = useSelector((state: RootState) => state.sound.fade);
+  const startAt = useSelector((state: RootState) => state.sound.startAt, shallowEqual);
+  const endAt = useSelector((state: RootState) => state.sound.endAt, shallowEqual);
+  const fade = useSelector((state: RootState) => state.sound.fade, shallowEqual);
 
-  // زمان باقی‌مانده برای هر حالت
-  const [remainingStartTime, setRemainingStartTime] = useState<number | null>(null);
-  const [remainingEndTime, setRemainingEndTime] = useState<number | null>(null);
-  const [remainingFadeTime, setRemainingFadeTime] = useState<number | null>(null);
-
-  // شمارش معکوس برای شروع پخش صداها
-  useEffect(() => {
-    if (!startAt?.timestamp) return setRemainingStartTime(null);
-
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const diff = startAt.timestamp - now;
-
-      if (diff <= 0) {
-        clearInterval(interval);
-        setRemainingStartTime(0);
-      } else {
-        setRemainingStartTime(diff);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [startAt?.timestamp]);
-
-  // شمارش معکوس برای پایان پخش صداها
-  useEffect(() => {
-    if (!endAt?.timestamp) return setRemainingEndTime(null);
-
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const diff = endAt.timestamp - now;
-
-      if (diff <= 0) {
-        clearInterval(interval);
-        setRemainingEndTime(0);
-      } else {
-        setRemainingEndTime(diff);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [endAt?.timestamp]);
-
-  // شمارش معکوس برای پایان فید صدا
-  useEffect(() => {
-    if (!fade?.timestamp) return setRemainingFadeTime(null);
-
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const diff = fade.timestamp - now;
-
-      if (diff <= 0) {
-        clearInterval(interval);
-        setRemainingFadeTime(0);
-      } else {
-        setRemainingFadeTime(diff);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [fade?.timestamp]);
+  // استفاده از هوک شمارش معکوس
+  const remainingStartTime = useCountdown(startAt?.timestamp ?? null);
+  const remainingEndTime = useCountdown(endAt?.timestamp ?? null);
+  const remainingFadeTime = useCountdown(fade?.timestamp ?? null);
 
   // کنترل حرکت بین تب‌ها
   const currentIndex = tabs.indexOf(selectTab);
@@ -118,6 +93,8 @@ export default function Options(): JSX.Element {
         <div className="md:w-1/2 w-full flex items-center justify-around">
           {tabs.map((tab) => {
             const isTimer = tab === 'Timer';
+
+            // اولویت نمایش زمان‌بندی در تب Timer
             const showStart = isTimer && remainingStartTime && remainingStartTime > 0;
             const showEnd = isTimer && !showStart && remainingEndTime && remainingEndTime > 0;
             const showFade = isTimer && !showStart && !showEnd && remainingFadeTime && remainingFadeTime > 0;

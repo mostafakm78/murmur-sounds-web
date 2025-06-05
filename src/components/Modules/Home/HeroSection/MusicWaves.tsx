@@ -1,14 +1,11 @@
-'use client';
-
-import { useTheme } from 'next-themes';
 import { JSX } from 'react';
+import { useFillColor } from '@/hooks/use-fill-color';
 
-export const MusicWaves = (): JSX.Element => {
-  // دریافت تم فعلی (dark یا light)
-  const { resolvedTheme } = useTheme();
-
-  // تعیین رنگ پر کردن مستطیل‌ها بر اساس تم
-  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#AB46D2';
+const MusicWaves = (): JSX.Element => {
+  const fillColor = useFillColor({
+    light: '#AB46D2', // رنگ پر شدن در تم روشن
+    dark: '#F2F4F8', // رنگ پر شدن در تم تاریک
+  }); // دریافت رنگ پر شدن بر اساس تم فعلی
 
   return (
     // SVG با توضیحات دسترسی (aria-label) برای انیمیشن موج موسیقی
@@ -44,3 +41,5 @@ export const MusicWaves = (): JSX.Element => {
     </svg>
   );
 };
+
+export default MusicWaves;

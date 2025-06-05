@@ -2,12 +2,12 @@
 
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { Separator } from '@/components/ui/separator';
-import { useTheme } from 'next-themes';
 import { Fragment, JSX, useEffect, useState } from 'react';
 
 import Fade from './Fade';
 import StartAt from './StartAt';
 import EndAt from './EndAt';
+import { useFillColor } from '@/hooks/use-fill-color';
 
 // تعریف نوع تب‌ها
 type Tab = 'StartAt' | 'EndAt' | 'Fade';
@@ -17,8 +17,9 @@ const tabs: Tab[] = ['StartAt', 'EndAt', 'Fade'];
 
 export default function Timers(): JSX.Element | null {
   const [selectTab, setSelectTab] = useState<Tab>('StartAt'); // تب انتخاب‌شده
-  const { resolvedTheme } = useTheme(); // تم فعلی (روشن یا تاریک)
   const [mounted, setMounted] = useState(false); // بررسی اینکه کامپوننت روی کلاینت مونت شده
+  const fillColor = useFillColor({ light: '#6C63FF', dark: '#F2F4F8' });
+  const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
 
   // پس از مونت شدن، مقدار mounted را true می‌کنیم
   useEffect(() => {
@@ -41,10 +42,6 @@ export default function Timers(): JSX.Element | null {
         return null;
     }
   };
-
-  // تنظیم رنگ‌های انیمیشن براساس تم
-  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
-  const fillColorTwo: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   return (
     <div className="lg:w-2/4 md:w-3/4 relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-4 h-[400px] flex-col justify-around items-center">

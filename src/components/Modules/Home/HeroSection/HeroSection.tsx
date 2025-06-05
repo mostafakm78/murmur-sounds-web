@@ -1,16 +1,17 @@
 'use client';
 
 import { BoxReveal } from '@/components/magicui/box-reveal';
-import { MusicWaves } from './MusicWaves';
-import { useTheme } from 'next-themes';
+import MusicWaves from './MusicWaves';
+import { useFillColor } from '@/hooks/use-fill-color';
 import { JSX, useEffect, useState } from 'react';
 
 export default function HeroSection(): JSX.Element | null {
-  // گرفتن تم فعلی (dark یا light)
-  const { resolvedTheme } = useTheme();
-
   // وضعیت Mounted شدن کامپوننت برای اجتناب از رندر در سمت سرور
   const [mounted, setMounted] = useState<boolean>(false);
+  const fillColor = useFillColor({
+    light: '#F2F4F8',
+    dark: '#AB46D2',
+  }); // دریافت رنگ پر شدن بر اساس تم فعلی
 
   // پس از mount شدن کامپوننت، mounted را true می‌کنیم تا رندر انجام شود
   useEffect(() => {
@@ -21,9 +22,6 @@ export default function HeroSection(): JSX.Element | null {
   if (!mounted) {
     return null;
   }
-
-  // رنگ fill مسیر SVG بر اساس تم انتخاب شده
-  const fillColor: string = resolvedTheme === 'dark' ? '#AB46D2' : '#F2F4F8';
 
   return (
     <div className="mx-auto container">

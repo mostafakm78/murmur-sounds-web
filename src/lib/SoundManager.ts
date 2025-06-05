@@ -67,6 +67,7 @@ export default function SoundsManager() {
           const audioSrc = soundsData.find((s) => s.id === id)?.audio[0];
           if (audioSrc) {
             const audio = new Audio(audioSrc);
+            audio.preload = 'none';
             audio.loop = true;
             audio.volume = ((volumes[id] ?? 0) / 100) * (globalVolume / 100);
             audio.play().catch(() => {

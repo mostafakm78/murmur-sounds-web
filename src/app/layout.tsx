@@ -44,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ReduxProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+
             {/* نوار بارگذاری در بالا */}
             <ScrollProgress className="h-[1.5px] bg-foreground" />
 

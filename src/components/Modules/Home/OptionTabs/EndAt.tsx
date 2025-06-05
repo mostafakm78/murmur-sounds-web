@@ -4,8 +4,8 @@ import { RootState } from '@/app/store';
 import { playSound, resetHasStarted, setEndAt, setGlobalPause, setHasStarted, setVolume } from '@/app/store/soundSlice';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 export default function EndAt() {
   const dispatch = useDispatch();
@@ -14,20 +14,27 @@ export default function EndAt() {
   const endTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // خواندن وضعیت‌ها از ریداکس
-  const endAt = useSelector((state: RootState) => state.sound.endAt);
-  const hasStarted = useSelector((state: RootState) => state.sound.hasStarted);
-  const playing = useSelector((state: RootState) => state.sound.playing);
-  const volumes = useSelector((state: RootState) => state.sound.volumes);
+  const { endAt, hasStarted, playing, volumes } = useSelector(
+    (state: RootState) => ({
+      endAt: state.sound.endAt,
+      hasStarted: state.sound.hasStarted,
+      playing: state.sound.playing,
+      volumes: state.sound.volumes,
+    }),
+    shallowEqual
+  );
 
   // وضعیت داخلی ساعت و دقیقه برای ورودی‌های کاربر
   const [hour, setHour] = useState<number>(0);
   const [min, setMin] = useState<number>(0);
 
   // بررسی معتبر بودن حداقل یک صدای فعال با حجم بیشتر از صفر
-  const isValidSound = Object.entries(playing).some(([id]) => volumes[+id] > 0);
+  const isValidSound = useMemo(() => {
+    return Object.entries(playing).some(([id]) => volumes[+id] > 0);
+  }, [playing, volumes]);
 
   // تابع شروع پخش صداها از localStorage و تنظیم حجم‌ها
-  const PlayMusic = () => {
+  const PlayMusic = useCallback(() => {
     const saved = localStorage.getItem('activeSounds');
     const savedVolumes = localStorage.getItem('soundVolumes');
 
@@ -50,7 +57,7 @@ export default function EndAt() {
         description: 'هیچ صدایی انتخاب نشده است. لطفاً حداقل یک صدا را انتخاب کنید.',
       });
     }
-  };
+  }, [dispatch]);
 
   // مدیریت تایمر پایان پخش صداها
   useEffect(() => {
@@ -87,7 +94,7 @@ export default function EndAt() {
   }, [endAt, dispatch, hasStarted]);
 
   // ذخیره و شروع تایمر پایان
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (hour === 0 && min === 0) {
       toast({
         description: 'لطفاً ساعت یا دقیقه را وارد کنید.',
@@ -112,10 +119,10 @@ export default function EndAt() {
     toast({
       description: `صداها در ${titleHour} ${titleMin} دقیقه دیگر متوقف خواهند شد.`,
     });
-  };
+  }, [hour, min, isValidSound, dispatch, PlayMusic]);
 
   // لغو تایمر پایان و توقف پخش
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setHour(0);
     setMin(0);
     if (endTimeoutRef.current) clearTimeout(endTimeoutRef.current);
@@ -127,17 +134,17 @@ export default function EndAt() {
     toast({
       description: 'تایمر پایان لغو شد.',
     });
-  };
+  }, [dispatch]);
 
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">
       {/* ورودی ساعت و دقیقه */}
       <div className="w-full xl:w-2/3 flex justify-around items-center">
-        <input type="number" value={hour} onChange={(e) => setHour(Number(e.target.value))} id="hour" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
+        <input type="number" value={hour} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHour(Number(e.target.value))} id="hour" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
         <label htmlFor="hour" className="md:text-lg font-medium">
           ساعت و
         </label>
-        <input type="number" value={min} onChange={(e) => setMin(Number(e.target.value))} id="min" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
+        <input type="number" value={min} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMin(Number(e.target.value))} id="min" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
         <label htmlFor="min" className="md:text-lg font-medium">
           دقیقه
         </label>

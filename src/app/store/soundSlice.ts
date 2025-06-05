@@ -128,7 +128,7 @@ const soundsSlice = createSlice({
     },
 
     // تنظیم حالت فید از یک وضعیت به وضعیت دیگر در زمان مشخص‌شده
-    setFade: (state, action: PayloadAction<{ hour: number; min: number; from: string; to: string } | null>) => {
+    setFade(state, action: PayloadAction<{ hour: number; min: number; from: string; to: string } | null>) {
       if (action.payload === null) {
         state.fade = null;
         state.hasStarted = false;
