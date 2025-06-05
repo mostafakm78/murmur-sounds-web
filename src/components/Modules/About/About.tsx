@@ -3,13 +3,19 @@ import { JSX } from 'react';
 
 export default function About(): JSX.Element {
   return (
-    // about me and description section
+    // بخش معرفی و توضیح درباره‌ی خودم و پروژه صدای آرام
     <section className="mx-auto container">
       <div className="bg-black/20 p-6 gap-10 flex flex-col items-center px-10 relative">
+        {/* بخش عنوان و تصویر شخصی */}
         <div className="flex flex-col items-center gap-6 lg:gap-0 lg:items-start lg:flex-row justify-between w-full md:w-2/3 lg:w-1/2">
+          {/* عنوان معرفی */}
           <h4 className="text-xl text-background dark:text-foreground">من &quot;صدای آرام&quot; رو برای خودم ساختم.</h4>
+
+          {/* تصویر شخصی سازنده */}
           <Image className="rounded-full ring-4 ring-background dark:ring-foreground" src="/images/personal.jpeg" alt="personal image of creator" width={150} height={150} />
         </div>
+
+        {/* متن توضیحی درباره‌ی هدف و فلسفه پروژه */}
         <p className="text-justify lg:text-lg text-background dark:text-foreground font-medium w-full md:w-2/3 lg:w-1/2 leading-loose">
           من دوست دارم توی فضاهای عمومی مثل کتابخونه‌ها و کافه‌ها کار کنم، اما اونجاها ممکنه پر سر و صدا و حواس‌پرت‌کننده باشن.
           <br />

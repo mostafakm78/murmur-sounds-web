@@ -6,43 +6,95 @@ import { useTheme } from 'next-themes';
 import { JSX, useEffect, useState } from 'react';
 
 export default function HeroSection(): JSX.Element | null {
-  //get theme
+  // گرفتن تم فعلی (dark یا light)
   const { resolvedTheme } = useTheme();
-  //state for mounted
+
+  // وضعیت Mounted شدن کامپوننت برای اجتناب از رندر در سمت سرور
   const [mounted, setMounted] = useState<boolean>(false);
 
-  //set mounted to true after component mounts
+  // پس از mount شدن کامپوننت، mounted را true می‌کنیم تا رندر انجام شود
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // اگر هنوز mounted نشده، رندر نکن (برای جلوگیری از mismatch تم در SSR)
   if (!mounted) {
     return null;
   }
 
+  // رنگ fill مسیر SVG بر اساس تم انتخاب شده
   const fillColor: string = resolvedTheme === 'dark' ? '#AB46D2' : '#F2F4F8';
 
   return (
     <div className="mx-auto container">
-      <section className="bg-white/20 dark:bg-black/20 lg:py-10 z-[1] gap-8 lg:px-20 p-8 flex lg:flex-row flex-col items-center justify-center h-[500px] mt-14">
+      <section
+        className="
+          bg-white/20 dark:bg-black/20
+          lg:py-10
+          z-[1]
+          gap-8
+          lg:px-20
+          p-8
+          flex
+          lg:flex-row flex-col
+          items-center justify-center
+          h-[500px]
+          mt-14
+        "
+      >
+        {/* بخش متن و تیتر */}
         <div className="md:w-1/2 flex flex-col items-start justify-center">
           <h1 className="text-background dark:text-foreground md:text-7xl text-4xl mb-16">صدای آرام</h1>
-          {/* box animation */}
+
+          {/* انیمیشن باکس برای متن */}
           <BoxReveal duration={1} boxColor="#ffffff60">
             <div className="font-medium text-background/95 dark:text-foreground/80 lg:text-lg md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
           </BoxReveal>
         </div>
 
-        {/* svg animate and svg background */}
-        <div className="lg:w-1/2 w-full relative flex items-center justify-center lg:aspect-square md:aspect-[4/1] aspect-[2/1]">
-          <svg className="absolute lg:w-full lg:h-full md:w-[300px] md:h-[300px] w-[250px] h-[250px] lg:p-10 p-4 transition-all duration-500" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        {/* بخش SVG و انیمیشن موج موسیقی */}
+        <div
+          className="
+            lg:w-1/2
+            w-full
+            relative
+            flex items-center justify-center
+            lg:aspect-square
+            md:aspect-[4/1]
+            aspect-[2/1]
+          "
+        >
+          {/* SVG شکل پس‌زمینه متحرک */}
+          <svg
+            className="
+              absolute
+              lg:w-full lg:h-full
+              md:w-[300px] md:h-[300px]
+              w-[250px] h-[250px]
+              lg:p-10 p-4
+              transition-all duration-500
+            "
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fill={fillColor}
               d="M53.6,-63.6C65.6,-53.8,68.7,-33.2,71.3,-13.4C73.9,6.5,75.8,25.7,68.6,40.9C61.4,56.2,45,67.5,28.4,70C11.8,72.5,-5,66.2,-19.4,58.6C-33.8,51.1,-45.7,42.2,-57.7,29.4C-69.7,16.7,-81.7,0.1,-79.5,-14.3C-77.3,-28.7,-61,-40.9,-45.3,-50.1C-29.7,-59.2,-14.9,-65.3,3,-68.8C20.8,-72.4,41.6,-73.4,53.6,-63.6Z"
               transform="translate(100 100)"
             />
           </svg>
-          <div className="absolute flex items-center justify-center w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+
+          {/* مرکز موج موسیقی */}
+          <div
+            className="
+              absolute
+              flex items-center justify-center
+              w-[100px] h-[100px]
+              lg:w-[200px] lg:h-[200px]
+              top-1/2 left-1/2
+              -translate-x-1/2 -translate-y-1/2
+            "
+          >
             <MusicWaves />
           </div>
         </div>

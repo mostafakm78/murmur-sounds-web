@@ -10,9 +10,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
+// نوع تب‌ها
 type Tab = 'Timer' | 'Share' | 'Mix';
 const tabs: Tab[] = ['Timer', 'Share', 'Mix'];
 
+// تبدیل میلی‌ثانیه به فرمت mm:ss
 function formatRemainingTime(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
   const minutes = Math.floor(totalSeconds / 60);
@@ -23,15 +25,17 @@ function formatRemainingTime(ms: number) {
 export default function Options(): JSX.Element {
   const [selectTab, setSelectTab] = useState<Tab>('Timer');
 
+  // مقادیر زمان‌بندی‌شده از Redux
   const startAt = useSelector((state: RootState) => state.sound.startAt);
   const endAt = useSelector((state: RootState) => state.sound.endAt);
   const fade = useSelector((state: RootState) => state.sound.fade);
 
+  // زمان باقی‌مانده برای هر حالت
   const [remainingStartTime, setRemainingStartTime] = useState<number | null>(null);
   const [remainingEndTime, setRemainingEndTime] = useState<number | null>(null);
   const [remainingFadeTime, setRemainingFadeTime] = useState<number | null>(null);
 
-  // Start Countdown
+  // شمارش معکوس برای شروع پخش صداها
   useEffect(() => {
     if (!startAt?.timestamp) return setRemainingStartTime(null);
 
@@ -50,7 +54,7 @@ export default function Options(): JSX.Element {
     return () => clearInterval(interval);
   }, [startAt?.timestamp]);
 
-  // End Countdown
+  // شمارش معکوس برای پایان پخش صداها
   useEffect(() => {
     if (!endAt?.timestamp) return setRemainingEndTime(null);
 
@@ -69,6 +73,7 @@ export default function Options(): JSX.Element {
     return () => clearInterval(interval);
   }, [endAt?.timestamp]);
 
+  // شمارش معکوس برای پایان فید صدا
   useEffect(() => {
     if (!fade?.timestamp) return setRemainingFadeTime(null);
 
@@ -87,11 +92,12 @@ export default function Options(): JSX.Element {
     return () => clearInterval(interval);
   }, [fade?.timestamp]);
 
-  // Tab Navigation
+  // کنترل حرکت بین تب‌ها
   const currentIndex = tabs.indexOf(selectTab);
   const prevTab = () => setSelectTab(tabs[(currentIndex - 1 + tabs.length) % tabs.length]);
   const nextTab = () => setSelectTab(tabs[(currentIndex + 1) % tabs.length]);
 
+  // محتوای مربوط به هر تب
   const renderTabContent = (tab: Tab) => {
     switch (tab) {
       case 'Timer':
@@ -108,7 +114,7 @@ export default function Options(): JSX.Element {
   return (
     <section className="mx-auto container">
       <div className="mt-16 p-6 gap-10 flex flex-col items-center px-10 relative">
-        {/* Tab Buttons */}
+        {/* دکمه‌های تب */}
         <div className="md:w-1/2 w-full flex items-center justify-around">
           {tabs.map((tab) => {
             const isTimer = tab === 'Timer';
@@ -123,8 +129,7 @@ export default function Options(): JSX.Element {
                 variant="outline"
                 className={`md:text-xl md:py-5
         ${selectTab === tab ? 'bg-background/70 text-foreground dark:bg-foreground/70 dark:text-background' : ''}
-        ${showStart || showEnd || showFade ? 'animate-bounce bg-emerald-700 dark:bg-emerald-700 text-background dark:text-foreground' : ''}
-      `}
+        ${showStart || showEnd || showFade ? 'animate-bounce bg-emerald-700 dark:bg-emerald-700 text-background dark:text-foreground' : ''}`}
               >
                 {isTimer ? (showStart ? formatRemainingTime(remainingStartTime) : showEnd ? formatRemainingTime(remainingEndTime) : showFade ? formatRemainingTime(remainingFadeTime) : 'زمانبندی') : tab === 'Share' ? 'اشتراک‌گذاری' : 'ترکیب'}
               </Button>
@@ -132,7 +137,7 @@ export default function Options(): JSX.Element {
           })}
         </div>
 
-        {/* Tab Content with Arrows */}
+        {/* محتوای تب با انیمیشن و دکمه‌های چپ و راست */}
         <div className="w-full flex-1 flex items-center justify-center relative overflow-hidden">
           <button onClick={prevTab} className="hidden md:block absolute left-0 z-10 p-2 hover:opacity-75 transition-opacity">
             <ChevronLeft className="w-12 h-12 text-background dark:text-foreground" />

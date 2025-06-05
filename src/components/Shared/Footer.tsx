@@ -3,26 +3,32 @@ import { JSX } from 'react';
 import { FaGithub, FaInstagram, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
 import ScrollToTop from './ScrollToTop';
 
-// CSS classes for styling the footer icons
+// استایل‌های آیکون‌های شبکه‌های اجتماعی
 const iconLinkCss = 'hover:opacity-85 hover:duration-300 hover:scale-105';
 
-// CSS classes for styling the footer useful links
+// استایل‌های لینک‌های مفید با افکت خط زیر
 const usefulLinks = 'font-medium hover:opacity-85 duration-300 relative after:absolute after:w-0 after:h-[1px] after:bottom-0 after:right-0 after:bg-foreground after:duration-300 hover:after:w-full';
 
 export default function Footer(): JSX.Element {
   return (
     <>
-      <footer className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56 after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')] after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full">
-        {/* short description  */}
-        <div className="flex flex-col gap-1 px-10">
+      <footer
+        className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56
+        after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')]
+        after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full"
+      >
+        {/* عنوان و توضیح کوتاه درباره سایت */}
+        <div className="flex flex-col gap-3 px-10 text-center">
           <h3 className="text-2xl">صدای آرام</h3>
-          <p className="font-medium">تجربه گوش دادن به صدای لذت بخش طبق سلیقه شخصی و ایجاد لحظات آرامش بخش برای استراحت در طی مشغله های روزانه.</p>
+          <p className="font-medium">تجربه گوش دادن به صدای لذت‌بخش طبق سلیقه شخصی و ایجاد لحظات آرامش‌بخش برای استراحت در طی مشغله‌های روزانه.</p>
         </div>
+
+        {/* بخش لینک‌ها و شبکه‌های اجتماعی */}
         <div className="flex lg:flex-row flex-col items-center lg:gap-10 gap-4">
-          {/* useful Links  */}
-          <div className="flex gap-4">
-            <h4 className="text-base">لینک های مفید :</h4>
-            <Link href="" className={usefulLinks}>
+          {/* لینک‌های مفید */}
+          <div className="flex gap-4 items-center">
+            <h4 className="text-base">لینک‌های مفید:</h4>
+            <Link href="/blog" className={usefulLinks}>
               بلاگ
             </Link>
             <Link href="/about-us" className={usefulLinks}>
@@ -32,30 +38,34 @@ export default function Footer(): JSX.Element {
               تماس با ما
             </Link>
           </div>
+
+          {/* آیکون شبکه‌های اجتماعی */}
           <div className="flex gap-4 text-3xl">
-            <Link href="" className={iconLinkCss}>
+            <Link href="https://t.me/yourusername" className={iconLinkCss}>
               <FaTelegram />
             </Link>
-            <Link href="" className={iconLinkCss}>
+            <Link href="https://instagram.com/yourusername" className={iconLinkCss}>
               <FaInstagram />
             </Link>
-            <Link href="" className={iconLinkCss}>
+            <Link href="https://wa.me/yourphonenumber" className={iconLinkCss}>
               <FaWhatsapp />
             </Link>
-            <Link href="" className={iconLinkCss}>
+            <Link href="https://linkedin.com/in/yourusername" className={iconLinkCss}>
               <FaLinkedin />
             </Link>
-            <Link href="" className={iconLinkCss}>
+            <Link href="https://github.com/yourusername" className={iconLinkCss}>
               <FaGithub />
             </Link>
+            {/* دکمه اسکرول به بالا */}
             <ScrollToTop />
           </div>
         </div>
-        {/* copyright */}
+
+        {/* کپی‌رایت و سازنده */}
         <div dir="ltr" className="flex items-center lg:mb-2 mb-6 flex-col justify-center text-center">
           <p className="text-sm">
             © {new Date().getFullYear()}{' '}
-            <Link href="" className={usefulLinks}>
+            <Link href="https://mostafakamari.dev" className={usefulLinks}>
               Mostafa Kamari
             </Link>
             . All rights reserved.

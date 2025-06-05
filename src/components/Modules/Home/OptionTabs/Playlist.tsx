@@ -17,24 +17,25 @@ export default function Playlist(): JSX.Element | null {
   const { mixes, addMix, deleteMix } = useSavedMixes();
   const [mixName, setMixName] = useState<string>('');
 
-  // get theme
+  // گرفتن تم فعلی از context مربوط به theme
   const { resolvedTheme } = useTheme();
-  // state to check if component is mounted
-  const [mounted, setMounted] = useState<boolean>(false);
 
-  // useEffect to set mounted state to true after component mounts
+  // وضعیت mount شدن کامپوننت برای جلوگیری از خطای SSR
+  const [mounted, setMounted] = useState<boolean>(false);
   useEffect(() => {
     setMounted(true);
   }, []);
-
   if (!mounted) return null;
 
+  // تعیین رنگ‌های انیمیشن براساس تم
   const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
   const fillColorTwo: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
+  // ذخیره‌سازی میکس جدید
   const handleSave = () => {
     const saved = localStorage.getItem('activeSounds');
     const volumes = localStorage.getItem('soundVolumes');
+
     if (!mixName.trim()) return;
 
     const parsedSaved: number[] = saved ? JSON.parse(saved) : [];
@@ -55,12 +56,12 @@ export default function Playlist(): JSX.Element | null {
       createdAt: Date.now(),
       sounds,
     };
+
     addMix(newMix);
     setMixName('');
   };
 
-  console.log(mixes);
-
+  // پخش یک میکس ذخیره‌شده
   const playMix = (mix: SavedMix) => {
     if (!mix.sounds || typeof mix.sounds !== 'object') {
       toast({ description: 'ترکیب صدا نامعتبر است.' });
@@ -80,11 +81,12 @@ export default function Playlist(): JSX.Element | null {
 
   return (
     <div className="lg:w-2/4 md:w-3/4 h-[400px] relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-6 flex-col justify-around items-center">
-      {/* animation for border  */}
+      {/* انیمیشن افکت نوری دور کامپوننت */}
       <BorderBeam size={200} colorFrom={fillColor} colorTo={fillColorTwo} />
+
+      {/* فرم ذخیره میکس جدید */}
       <div className="flex items-center justify-around w-full">
         <div className="w-full gap-4 flex items-center justify-center bg-background rounded-sm">
-          {/* save new mix  */}
           <input type="text" value={mixName} onChange={(e) => setMixName(e.target.value)} placeholder="اسم ترکیب جدید" className="w-3/4 outline-none focus:outline-none bg-transparent border border-foreground rounded-sm py-2 px-2 mr-2 placeholder:text-sm placeholder:font-light" />
           <button
             onClick={handleSave}
@@ -94,9 +96,12 @@ export default function Playlist(): JSX.Element | null {
           </button>
         </div>
       </div>
+
       <Separator className="my-4 dark:bg-foreground/20" />
-      {/* all saved mixes  */}
+
+      {/* لیست میکس‌های ذخیره‌شده */}
       <div className="w-full flex gap-3 px-3 flex-col overflow-y-auto justify-around items-center">
+        {/* میکس‌های پیش‌فرض */}
         {defaultMixes.map((mix, index) => (
           <div key={`default-${index}`} className="w-full md:gap-4 gap-2 flex items-center justify-between bg-background rounded-sm">
             <button
@@ -119,7 +124,7 @@ export default function Playlist(): JSX.Element | null {
             >
               <Share />
             </button>
-            {/* دکمه حذف برای پیش‌فرض نمایش داده نمی‌شود */}
+            {/* دکمه حذف برای میکس‌های پیش‌فرض نمایش داده نمی‌شود */}
           </div>
         ))}
 
@@ -152,10 +157,12 @@ export default function Playlist(): JSX.Element | null {
           </div>
         ))}
       </div>
+
       <Separator className="my-4 dark:bg-foreground/20" />
+
+      {/* دکمه ترکیب تصادفی (فعلاً بدون عملکرد) */}
       <div className="flex items-center justify-center w-3/4">
-        {/* random mix button  */}
-        <button className="dark:bg-emerald-700 dark:text-foreground bg-emerald-500 text-background md:py-2 py-1 px-4 rounded-sm  cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">ترکیب تصادفی</button>
+        <button className="dark:bg-emerald-700 dark:text-foreground bg-emerald-500 text-background md:py-2 py-1 px-4 rounded-sm cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">ترکیب تصادفی</button>
       </div>
     </div>
   );

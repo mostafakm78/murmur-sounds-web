@@ -8,25 +8,25 @@ import { FaInstagram, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
 import { useTheme } from 'next-themes';
 import { JSX, useEffect, useState } from 'react';
 
-export default function ShareSounds() : JSX.Element | null {
-    // get theme
+export default function ShareSounds(): JSX.Element | null {
+  // get theme
   const { resolvedTheme } = useTheme();
-    // state to check if component is mounted
+  // state to check if component is mounted
   const [mounted, setMounted] = useState<boolean>(false);
 
-    // useEffect to set mounted state to true after component mounts
+  // useEffect to set mounted state to true after component mounts
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
 
-  const fillColor : string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
-  const fillColorTwo : string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
+  const fillColor: string = resolvedTheme === 'dark' ? '#F2F4F8' : '#6C63FF';
+  const fillColorTwo: string = resolvedTheme === 'dark' ? '#6C63FF' : '#F2F4F8';
 
   return (
     <div className="lg:w-2/4 md:w-3/4 relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-4 h-[400px] flex-col justify-around items-center">
-        {/* border animation  */}
+      {/* border animation  */}
       <BorderBeam size={200} colorFrom={fillColor} colorTo={fillColorTwo} />
       <div className="flex items-center justify-around w-full">
         {/* generate link for your mix  */}
@@ -37,7 +37,7 @@ export default function ShareSounds() : JSX.Element | null {
       <Separator className="my-4 dark:bg-foreground/20" />
       <div className="w-full flex xl:flex-row flex-col gap-3 px-3 justify-around items-end">
         <div className="flex w-full items-end justify-around">
-            {/* select your mix  */}
+          {/* select your mix  */}
           <div className="flex flex-col gap-1">
             <span className="text-sm font-light">میکس را انتخاب کنید :</span>
             <Select dir="rtl">
@@ -67,7 +67,7 @@ export default function ShareSounds() : JSX.Element | null {
       <Separator className="my-4 dark:bg-foreground/20" />
       {/* share on social media  */}
       <div className="flex items-center justify-between w-3/4">
-        <h4 className='font-medium'>اشتراک گذاری در :</h4>
+        <h4 className="font-medium">اشتراک گذاری در :</h4>
         <FaInstagram className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300" />
         <FaTelegram className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300" />
         <FaWhatsapp className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300" />
