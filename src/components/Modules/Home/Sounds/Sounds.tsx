@@ -68,6 +68,10 @@ export default function Sounds(): JSX.Element {
     }
   }, [dispatch, globalPlaying, isValidSound]);
 
+  useEffect(() => {
+    dispatch(setGlobalPause());
+  }, [dispatch]);
+
   return (
     <main className="mx-auto container">
       {/* هدر و دکمه پخش کلی */}

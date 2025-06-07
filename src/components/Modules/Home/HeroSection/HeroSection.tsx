@@ -3,25 +3,10 @@
 import { BoxReveal } from '@/components/magicui/box-reveal';
 import MusicWaves from './MusicWaves';
 import { useFillColor } from '@/hooks/use-fill-color';
-import { JSX, useEffect, useState } from 'react';
+import { JSX } from 'react';
 
 export default function HeroSection(): JSX.Element | null {
-  // وضعیت Mounted شدن کامپوننت برای اجتناب از رندر در سمت سرور
-  const [mounted, setMounted] = useState<boolean>(false);
-  const fillColor = useFillColor({
-    light: '#F2F4F8',
-    dark: '#AB46D2',
-  }); // دریافت رنگ پر شدن بر اساس تم فعلی
-
-  // پس از mount شدن کامپوننت، mounted را true می‌کنیم تا رندر انجام شود
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // اگر هنوز mounted نشده، رندر نکن (برای جلوگیری از mismatch تم در SSR)
-  if (!mounted) {
-    return null;
-  }
+  const fillColor = useFillColor({ light: '#F2F4F8', dark: '#AB46D2' }); // دریافت رنگ پر شدن بر اساس تم فعلی
 
   return (
     <div className="mx-auto container">

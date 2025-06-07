@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button';
 import { JSX, useEffect, useState } from 'react';
-import Timers from './Timers';
-import ShareSounds from './ShareSounds';
-import Playlist from './Playlist';
+import Timers from './Timer/Timers';
+import ShareSounds from './share/ShareSounds';
+import Playlist from './playlist/Playlist';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { shallowEqual, useSelector } from 'react-redux';

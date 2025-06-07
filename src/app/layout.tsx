@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 import { ThemeProvider } from '@/lib/ThemeProvider';
-import { ScrollProgress } from '@/components/magicui/scroll-progress';
 import { Toaster } from '@/components/ui/toaster';
 import ReduxProvider from '@/lib/ReduxProvider';
 import Overlay from '@/components/Shared/Overlay';
+import Pattern from '@/components/Shared/Pattern';
+import { ClientOnly } from '@/components/Shared/ClientOnly';
+import ProgressBar from '@/components/Shared/Progressbar';
+
 
 /**
  * اطلاعات متا برای موتورهای جستجو و اشتراک‌گذاری
@@ -44,15 +47,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ReduxProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-
-            {/* نوار بارگذاری در بالا */}
-            <ScrollProgress className="h-[1.5px] bg-foreground" />
-
+            <ProgressBar />
             {/* لایه محو روی محتوا */}
             <Overlay />
 
+            <Pattern />
             {/* محتوای اصلی صفحات */}
-            {children}
+            <ClientOnly>{children}</ClientOnly>
 
             {/* نمایش نوتیفیکیشن‌ها */}
             <Toaster />

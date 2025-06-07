@@ -2,7 +2,7 @@
 
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { Separator } from '@/components/ui/separator';
-import { Fragment, JSX, useEffect, useState } from 'react';
+import { Fragment, JSX, useState } from 'react';
 
 import Fade from './Fade';
 import StartAt from './StartAt';
@@ -17,17 +17,8 @@ const tabs: Tab[] = ['StartAt', 'EndAt', 'Fade'];
 
 export default function Timers(): JSX.Element | null {
   const [selectTab, setSelectTab] = useState<Tab>('StartAt'); // تب انتخاب‌شده
-  const [mounted, setMounted] = useState(false); // بررسی اینکه کامپوننت روی کلاینت مونت شده
   const fillColor = useFillColor({ light: '#6C63FF', dark: '#F2F4F8' });
   const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
-
-  // پس از مونت شدن، مقدار mounted را true می‌کنیم
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // جلوگیری از رندر سمت سرور برای استفاده از تم
-  if (!mounted) return null;
 
   // تابعی برای رندر محتوای تب‌ها
   const renderTabContent = (tab: Tab) => {

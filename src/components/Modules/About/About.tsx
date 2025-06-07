@@ -5,7 +5,7 @@ export default function About(): JSX.Element {
   return (
     // بخش معرفی و توضیح درباره‌ی خودم و پروژه صدای آرام
     <section className="mx-auto container">
-      <div className="bg-black/20 p-6 gap-10 flex flex-col items-center px-10 relative">
+      <div className="dark:bg-black/20 bg-white/20 p-6 gap-10 flex flex-col items-center px-10 relative">
         {/* بخش عنوان و تصویر شخصی */}
         <div className="flex flex-col items-center gap-6 lg:gap-0 lg:items-start lg:flex-row justify-between w-full md:w-2/3 lg:w-1/2">
           {/* عنوان معرفی */}

@@ -73,10 +73,7 @@ export default function FadeTimer() {
     let startVolumes: MixVolumes = {};
     let endVolumes: MixVolumes = {};
 
-    if (startSel === 'silent' && endSel === 'silent') {
-      toast({ description: 'لطفاً حداقل یکی از حالت‌ها را به غیر از بی‌صدا انتخاب کنید.' });
-      return;
-    } else if (startSel === endSel) {
+    if (startSel === endSel) {
       toast({ description: 'حالت شروع و پایان نمی‌تواند یکسان باشد.' });
       return;
     }
