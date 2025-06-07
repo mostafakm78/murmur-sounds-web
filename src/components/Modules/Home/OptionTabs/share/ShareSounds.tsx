@@ -60,8 +60,6 @@ export default function ShareSounds(): JSX.Element | null {
     setTimeout(() => setButtonText(false), 5000);
   };
 
-  if (typeof window === 'undefined') return null;
-
   const fullShareLink = window.location.origin + shareLink;
 
   return (
