@@ -1,18 +1,25 @@
 'use client';
 
 import { BoxReveal } from '@/components/magicui/box-reveal';
+import { BlurFade } from '@/components/magicui/blur-fade';
+import { Particles } from '@/components/magicui/particles';
 import MusicWaves from './MusicWaves';
 import { useFillColor } from '@/hooks/use-fill-color';
 import { JSX } from 'react';
+import { motion } from 'framer-motion';
 
 export default function HeroSection(): JSX.Element | null {
-  const fillColor = useFillColor({ light: '#F2F4F8', dark: '#AB46D2' }); // دریافت رنگ پر شدن بر اساس تم فعلی
+  const fillColor = useFillColor({ light: '#F2F4F8', dark: '#AB46D2' });
+  const fillColor2 = useFillColor({ light: '#4B164C', dark: '#FFCFEF' });
 
   return (
     <div className="mx-auto container">
       <section
         className="
+        relative
+        overflow-hidden
           bg-white/20 dark:bg-black/20
+          backdrop-blur-md
           lg:py-10
           z-[1]
           gap-8
@@ -23,20 +30,38 @@ export default function HeroSection(): JSX.Element | null {
           items-center justify-center
           h-[500px]
           mt-14
+          rounded-sm
         "
       >
+        <Particles className="absolute inset-0 z-0" staticity={20} quantity={300} ease={30} color={fillColor2} refresh />
         {/* بخش متن و تیتر */}
         <div className="md:w-1/2 flex flex-col items-start justify-center">
-          <h1 className="text-background dark:text-foreground md:text-7xl text-4xl mb-16">صدای آرام</h1>
+          <BlurFade delay={0.35} inView>
+            <h1 className="text-foreground dark:text-foreground md:text-7xl text-4xl mb-16">صدای آرام</h1>
+          </BlurFade>
 
           {/* انیمیشن باکس برای متن */}
-          <BoxReveal duration={1} boxColor="#ffffff60">
-            <div className="font-medium text-background/95 dark:text-foreground/80 lg:text-lg md:text-base text-sm">صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.</div>
+          <BoxReveal duration={1} boxColor="#ffffff40">
+            <div className="font-medium text-foreground/95 dark:text-foreground/80 lg:text-lg md:text-base text-justify leading-6 text-sm">
+              صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.
+            </div>
           </BoxReveal>
         </div>
 
         {/* بخش SVG و انیمیشن موج موسیقی */}
-        <div
+        <motion.div
+          initial={{ scale: 1.05, x: 0, opacity: 0 }}
+          animate={{
+            x: [0, -20, 20, -10, 10, 0],
+            scale: [1.05, 1, 1.02, 1, 1.01, 1],
+            opacity: [0, 1, 1, 1, 1, 1],
+          }}
+          transition={{
+            duration: 2,
+            ease: 'easeOut',
+            delay: 0.7,
+            times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+          }}
           className="
             lg:w-1/2
             w-full
@@ -80,7 +105,7 @@ export default function HeroSection(): JSX.Element | null {
           >
             <MusicWaves />
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

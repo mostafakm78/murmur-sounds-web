@@ -5,21 +5,18 @@ import { BorderBeam } from '@/components/magicui/border-beam';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
 import useSavedMixes, { SavedMix } from '@/hooks/useSavedMixes';
-import { Share, Trash } from 'lucide-react';
+import { FaCheck, FaTrash } from 'react-icons/fa6';
+import { IoCloseSharp } from 'react-icons/io5';
 import { JSX, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { defaultMixes } from '@/lib/defaultMixes';
-import { useFillColor } from '@/hooks/use-fill-color';
 
 export default function Playlist(): JSX.Element | null {
   const dispatch = useDispatch();
 
   const { mixes, addMix, deleteMix } = useSavedMixes();
   const [mixName, setMixName] = useState<string>('');
-  const fillColor = useFillColor({ light: '#6C63FF', dark: '#F2F4F8' });
-  const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
-  // وضعیت mount شدن کامپوننت برای جلوگیری از خطای SSR
-  if (typeof window === 'undefined') return null;
+  const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
 
   // ذخیره‌سازی میکس جدید
   const handleSave = () => {
@@ -53,7 +50,7 @@ export default function Playlist(): JSX.Element | null {
 
   // پخش یک میکس ذخیره‌شده
   const playMix = (mix: SavedMix) => {
-    if (!mix.sounds || typeof mix.sounds !== 'object') {
+    if (!mix.sounds || typeof mix.sounds !== 'object' || Object.keys(mix.sounds).length === 0) {
       toast({ description: 'ترکیب صدا نامعتبر است.' });
       return;
     }
@@ -72,7 +69,16 @@ export default function Playlist(): JSX.Element | null {
   return (
     <div className="lg:w-2/4 md:w-3/4 h-[400px] relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-6 flex-col justify-around items-center">
       {/* انیمیشن افکت نوری دور کامپوننت */}
-      <BorderBeam size={200} colorFrom={fillColor} colorTo={fillColorTwo} />
+      <BorderBeam
+        size={200}
+        initialOffset={20}
+        className="dark:from-white dark:via-blue-500 dark:to-transparent from-black via-purple-700 to-transparent"
+        transition={{
+          type: 'tween',
+          duration: 0.5,
+          ease: 'easeInOut',
+        }}
+      />
 
       {/* فرم ذخیره میکس جدید */}
       <div className="flex items-center justify-around w-full">
@@ -100,20 +106,6 @@ export default function Playlist(): JSX.Element | null {
             >
               {mix.name}
             </button>
-            <button
-              title="اشتراک‌گذاری"
-              className="relative font-medium hover:opacity-85 duration-300 py-2 md:px-3 px-1 border border-foreground rounded-sm"
-              onClick={() => {
-                const shareData = {
-                  title: 'میکس صدا',
-                  text: `میکس: ${mix.name}`,
-                  url: window.location.href,
-                };
-                navigator.share?.(shareData).catch(console.error);
-              }}
-            >
-              <Share />
-            </button>
             {/* دکمه حذف برای میکس‌های پیش‌فرض نمایش داده نمی‌شود */}
           </div>
         ))}
@@ -127,22 +119,37 @@ export default function Playlist(): JSX.Element | null {
             >
               {mix.name}
             </button>
+
             <button
-              title="اشتراک‌گذاری"
-              className="relative font-medium hover:opacity-85 duration-300 py-2 md:px-3 px-1 border border-foreground rounded-sm"
+              title="حذف"
+              className={`font-medium w-1/5 duration-300 hover:opacity-85 h-full py-2 md:px-3 px-1 border border-foreground flex
+        ${confirmIndex === index ? 'justify-between items-center' : 'items-center justify-center'} rounded-sm`}
               onClick={() => {
-                const shareData = {
-                  title: 'میکس صدا',
-                  text: `میکس: ${mix.name}`,
-                  url: window.location.href,
-                };
-                navigator.share?.(shareData).catch(console.error);
+                if (confirmIndex === index) return; // اگر تایید فعال است، کلیک روی همین دکمه کاری نکند (برای جلوگیری از رفتار ناخواسته)
+                setConfirmIndex(index);
               }}
             >
-              <Share />
-            </button>
-            <button title="حذف" onClick={() => deleteMix(index)} className="relative font-medium hover:opacity-85 duration-300 py-2 md:px-3 px-1 border border-foreground rounded-sm">
-              <Trash />
+              {confirmIndex === index ? (
+                <>
+                  <FaCheck
+                    className="hover:text-green-500 w-6 h-6 cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteMix(index);
+                      setConfirmIndex(null);
+                    }}
+                  />
+                  <IoCloseSharp
+                    className="hover:text-red-500 w-6 h-6 cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setConfirmIndex(null);
+                    }}
+                  />
+                </>
+              ) : (
+                <FaTrash />
+              )}
             </button>
           </div>
         ))}

@@ -30,7 +30,7 @@ export default function Header(): JSX.Element {
           <Link href="/about-us" className={linkClassName}>
             درباره ما
           </Link>
-          <Link href="/blog" className={linkClassName}>
+          <Link href="/blogs" className={linkClassName}>
             بلاگ
           </Link>
           <Link href="/" className={linkClassName}>

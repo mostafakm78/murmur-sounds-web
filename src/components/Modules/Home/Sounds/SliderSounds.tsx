@@ -33,7 +33,7 @@ export function SliderSounds({ soundId, className, ...props }: Props) {
       onValueChange={handleChange} // اجرای اکشن هنگام تغییر
       max={100} // حداکثر ولوم
       step={1} // گام هر بار حرکت اسلایدر
-      className={cn('w-[70%]', className)} // ترکیب کلاس پیش‌فرض با کلاس دریافتی
+      className={cn('w-[100%]', className)} // ترکیب کلاس پیش‌فرض با کلاس دریافتی
       {...props} // سایر پراپ‌ها
     />
   );

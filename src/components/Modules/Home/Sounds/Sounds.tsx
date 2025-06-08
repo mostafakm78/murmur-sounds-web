@@ -76,8 +76,8 @@ export default function Sounds(): JSX.Element {
     <main className="mx-auto container">
       {/* هدر و دکمه پخش کلی */}
       <div className="flex flex-col justify-center items-center my-16 gap-8">
-        <h2 className="text-4xl text-background dark:text-foreground">صداهای در دسترس</h2>
-        <button onClick={handleTogglePlay} className="text-7xl text-background dark:text-foreground">
+        <h2 className="text-4xl text-foreground dark:text-foreground">صداهای در دسترس</h2>
+        <button onClick={handleTogglePlay} className="text-7xl text-foreground dark:text-foreground">
           {globalPlaying ? <FaPause /> : <FaPlay />}
         </button>
       </div>
@@ -92,7 +92,7 @@ export default function Sounds(): JSX.Element {
               key={id}
               gradientColor={'#f9ceeeb0'}
               gradientSize={700}
-              className={`w-full h-full rounded-md border-2 border-background/20 dark:border-foreground/20
+              className={`w-full h-full rounded-md backdrop-blur-md border-2 border-background/20 dark:border-foreground/20
               ${isPlaying ? 'scale-105 outline-4 outline outline-foreground/50' : ''}
               duration-500`}
             >
@@ -108,7 +108,7 @@ export default function Sounds(): JSX.Element {
                 </div>
 
                 {/* دکمه Play/Pause و اسلایدر */}
-                <div className="flex w-full px-2 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
+                <div className="flex w-full px-2 gap-6 justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
                   {isPlaying ? <FaPause onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Pause" /> : <FaPlay onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Play" />}
                   <SliderSounds soundId={id} />
                 </div>

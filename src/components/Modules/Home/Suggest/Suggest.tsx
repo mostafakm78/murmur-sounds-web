@@ -6,7 +6,7 @@ export default function Suggest(): JSX.Element {
   return (
     <section className="mx-auto container">
       {/* بخش ارسال پیشنهاد صدا جدید */}
-      <div className="mt-16 p-6 gap-4 bg-white/20 dark:bg-black/20 flex flex-col items-center px-10">
+      <div className="mt-16 p-6 gap-4 bg-white/20 dark:bg-black/20 backdrop-blur-md flex flex-col rounded-sm items-center px-10">
         {/* عنوان بخش */}
         <h3 className="md:text-3xl text-2xl text-foreground">دوست داری چه صدایی اضافه بشه ؟</h3>
 

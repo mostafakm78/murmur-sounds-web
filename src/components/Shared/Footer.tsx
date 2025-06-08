@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { JSX } from 'react';
-import { FaGithub, FaInstagram, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
+import { FaGithub, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
 import ScrollToTop from './ScrollToTop';
 
 // استایل‌های آیکون‌های شبکه‌های اجتماعی
@@ -28,7 +28,7 @@ export default function Footer(): JSX.Element {
           {/* لینک‌های مفید */}
           <div className="flex gap-4 items-center">
             <h4 className="text-base">لینک‌های مفید:</h4>
-            <Link href="/blog" className={usefulLinks}>
+            <Link href="/blogs" className={usefulLinks}>
               بلاگ
             </Link>
             <Link href="/about-us" className={usefulLinks}>
@@ -41,19 +41,16 @@ export default function Footer(): JSX.Element {
 
           {/* آیکون شبکه‌های اجتماعی */}
           <div className="flex gap-4 text-3xl">
-            <Link href="https://t.me/yourusername" className={iconLinkCss}>
+            <Link href="https://t.me/Mostafakamari78" target="_blank" className={iconLinkCss}>
               <FaTelegram />
             </Link>
-            <Link href="https://instagram.com/yourusername" className={iconLinkCss}>
-              <FaInstagram />
-            </Link>
-            <Link href="https://wa.me/yourphonenumber" className={iconLinkCss}>
+            <Link href="https://wa.me/+989169799533" target="_blank" className={iconLinkCss}>
               <FaWhatsapp />
             </Link>
-            <Link href="https://linkedin.com/in/yourusername" className={iconLinkCss}>
+            <Link href="https://linkedin.com/in/mostafakamari" target="_blank" className={iconLinkCss}>
               <FaLinkedin />
             </Link>
-            <Link href="https://github.com/yourusername" className={iconLinkCss}>
+            <Link href="https://github.com/mostafakm78" target="_blank" className={iconLinkCss}>
               <FaGithub />
             </Link>
             {/* دکمه اسکرول به بالا */}
@@ -65,7 +62,7 @@ export default function Footer(): JSX.Element {
         <div dir="ltr" className="flex items-center lg:mb-2 mb-6 flex-col justify-center text-center">
           <p className="text-sm">
             © {new Date().getFullYear()}{' '}
-            <Link href="https://mostafakamari.dev" className={usefulLinks}>
+            <Link href="https://portfolio-immostafakamari.vercel.app" target="_blank" className={usefulLinks}>
               Mostafa Kamari
             </Link>
             . All rights reserved.
