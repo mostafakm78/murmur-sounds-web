@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
@@ -30,15 +30,21 @@ export default function FadeTimer() {
   const [startSel, setStartSel] = useState<string>('current');
   const [endSel, setEndSel] = useState<string>('silent');
 
-  // اجرای فید ولوم‌ها به صورت تدریجی
+  const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // اجرای فید ولوم‌ها به صورت تدریجی با قابلیت لغو
   const fadeVolumesOverTime = useCallback(
     (startVolumes: MixVolumes, endVolumes: MixVolumes, durationMs: number) => {
+      if (fadeTimerRef.current) {
+        clearInterval(fadeTimerRef.current);
+      }
+
       const startTime = Date.now();
       const interval = 100;
 
       const allIds = Array.from(new Set([...Object.keys(startVolumes), ...Object.keys(endVolumes)]));
 
-      const timer = setInterval(() => {
+      fadeTimerRef.current = setInterval(() => {
         const now = Date.now();
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / durationMs, 1);
@@ -52,12 +58,12 @@ export default function FadeTimer() {
         });
 
         if (progress === 1) {
-          clearInterval(timer);
+          clearInterval(fadeTimerRef.current!);
+          fadeTimerRef.current = null;
           dispatch(setHasStarted());
           toast({
             description: 'زمان پایان رسیده است. پخش صداها متوقف شد.',
           });
-          return;
         }
       }, interval);
     },
@@ -70,13 +76,13 @@ export default function FadeTimer() {
       return;
     }
 
-    let startVolumes: MixVolumes = {};
-    let endVolumes: MixVolumes = {};
-
     if (startSel === endSel) {
       toast({ description: 'حالت شروع و پایان نمی‌تواند یکسان باشد.' });
       return;
     }
+
+    let startVolumes: MixVolumes = {};
+    let endVolumes: MixVolumes = {};
 
     if (startSel === 'current') {
       const saved = localStorage.getItem('soundVolumes');
@@ -122,6 +128,11 @@ export default function FadeTimer() {
   const onCancel = useCallback(() => {
     setHour(0);
     setMin(0);
+
+    if (fadeTimerRef.current) {
+      clearInterval(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
 
     dispatch(resetHasStarted());
     dispatch(setFade(null));
@@ -172,10 +183,10 @@ export default function FadeTimer() {
       </div>
 
       <div className="flex items-center justify-around w-full">
-        <input type="number" value={hour} min={0} onChange={(e) => setHour(Math.max(0, +e.target.value))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
+        <input type="number" value={hour} min={0} max={23} onChange={(e) => setHour(Math.min(23, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
         <label className="mx-1">ساعت</label>
 
-        <input type="number" value={min} min={0} onChange={(e) => setMin(Math.max(0, +e.target.value))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
+        <input type="number" value={min} min={0} max={59} onChange={(e) => setMin(Math.min(59, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
         <label className="mx-1">دقیقه</label>
       </div>
 

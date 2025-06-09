@@ -25,8 +25,25 @@ export default function Playlist(): JSX.Element | null {
 
     if (!mixName.trim()) return;
 
-    const parsedSaved: number[] = saved ? JSON.parse(saved) : [];
-    const parsedVolumes: { [key: number]: number } = volumes ? JSON.parse(volumes) : {};
+    if (mixes.some((mix) => mix.name.toLowerCase() === mixName.trim().toLowerCase())) {
+      toast({ description: 'این نام ترکیب قبلاً استفاده شده است.' });
+      return;
+    }
+
+    let parsedSaved: number[] = [];
+    let parsedVolumes: { [key: number]: number } = {};
+
+    try {
+      parsedSaved = saved ? JSON.parse(saved) : [];
+    } catch {
+      parsedSaved = [];
+    }
+
+    try {
+      parsedVolumes = volumes ? JSON.parse(volumes) : {};
+    } catch {
+      parsedVolumes = {};
+    }
 
     if (parsedSaved.length === 0 || Object.keys(parsedVolumes).length === 0) {
       toast({ description: 'لطفاً حداقل یک صدارو انتخاب کنید.' });
@@ -76,6 +93,8 @@ export default function Playlist(): JSX.Element | null {
         <div className="w-full gap-4 flex items-center justify-center bg-background rounded-sm">
           <input type="text" value={mixName} onChange={(e) => setMixName(e.target.value)} placeholder="اسم ترکیب جدید" className="w-3/4 outline-none focus:outline-none bg-transparent border border-foreground rounded-sm py-2 px-2 mr-2 placeholder:text-sm placeholder:font-light" />
           <button
+            title="ذخیره"
+            aria-label={`ذخیره ترکیب`}
             onClick={handleSave}
             className="relative w-1/4 font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
           >
@@ -92,6 +111,8 @@ export default function Playlist(): JSX.Element | null {
         {defaultMixes.map((mix, index) => (
           <div key={`default-${index}`} className="w-full md:gap-4 gap-2 flex items-center justify-between bg-background rounded-sm">
             <button
+              title="اجرا"
+              aria-label="اجرای ترکیب"
               onClick={() => playMix(mix)}
               className="relative w-3/4 font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
             >
@@ -105,6 +126,8 @@ export default function Playlist(): JSX.Element | null {
         {mixes.map((mix, index) => (
           <div key={`custom-${index}`} className="w-full md:gap-4 gap-2 flex items-center justify-between bg-background rounded-sm">
             <button
+              title="اجرا"
+              aria-label="اجرای ترکیب"
               onClick={() => playMix(mix)}
               className="relative w-3/4 font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
             >
@@ -113,6 +136,7 @@ export default function Playlist(): JSX.Element | null {
 
             <button
               title="حذف"
+              aria-label={`حذف ترکیب ${mix.name}`}
               className={`font-medium w-1/5 duration-300 hover:opacity-85 h-full py-2 md:px-3 px-1 border border-foreground flex
         ${confirmIndex === index ? 'justify-between items-center' : 'items-center justify-center'} rounded-sm`}
               onClick={() => {

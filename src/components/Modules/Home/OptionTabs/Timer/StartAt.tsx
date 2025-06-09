@@ -20,19 +20,38 @@ export default function StartAt() {
   const [hour, setHour] = useState(0);
   const [min, setMin] = useState(0);
 
-  // چک می‌کنیم حداقل یک صدای فعال با ولوم > 0 هست
   const isValidSound = Object.entries(playing).some(([id]) => (volumes[+id] ?? 0) > 0);
 
-  // کنترل تغییر عددی ورودی‌ها با محدودیت روی عدد منفی
   const handleHourChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const val = Math.max(0, Number(e.target.value));
+    let val = Math.max(0, Number(e.target.value));
+    if (val > 23) val = 23;
     setHour(val);
   }, []);
 
   const handleMinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const val = Math.max(0, Number(e.target.value));
+    let val = Math.max(0, Number(e.target.value));
+    if (val > 59) val = 59;
     setMin(val);
   }, []);
+
+  const playSounds = useCallback(() => {
+    const saved = localStorage.getItem('activeSounds');
+    const savedVolumes = localStorage.getItem('soundVolumes');
+
+    if (saved) {
+      const ids: number[] = JSON.parse(saved);
+      const volumes: Record<number, number> = savedVolumes ? JSON.parse(savedVolumes) : {};
+
+      ids.forEach((id) => {
+        dispatch(playSound(id));
+        if (volumes[id] !== undefined) dispatch(setVolume({ id, volume: volumes[id] }));
+      });
+
+      toast({ description: 'پخش صداهای انتخاب‌شده آغاز شد.' });
+    } else {
+      toast({ description: 'هیچ صدایی انتخاب نشده است. لطفاً حداقل یک صدا را انتخاب کنید.' });
+    }
+  }, [dispatch]);
 
   const handleSave = useCallback(() => {
     if (hour === 0 && min === 0) {
@@ -54,7 +73,10 @@ export default function StartAt() {
   const handleCancel = useCallback(() => {
     setHour(0);
     setMin(0);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     dispatch(setStartAt(null));
     dispatch(resetHasStarted());
     toast({ description: 'تایمر لغو شد.' });
@@ -66,32 +88,11 @@ export default function StartAt() {
     const now = Date.now();
     const remaining = startAt.timestamp - now;
 
-    const playSounds = () => {
-      const saved = localStorage.getItem('activeSounds');
-      const savedVolumes = localStorage.getItem('soundVolumes');
-
-      if (saved) {
-        const ids: number[] = JSON.parse(saved);
-        const volumes: Record<number, number> = savedVolumes ? JSON.parse(savedVolumes) : {};
-
-        ids.forEach((id) => {
-          dispatch(playSound(id));
-          if (volumes[id] !== undefined) dispatch(setVolume({ id, volume: volumes[id] }));
-        });
-
-        toast({ description: 'پخش صداهای انتخاب‌شده آغاز شد.' });
-      } else {
-        toast({ description: 'هیچ صدایی انتخاب نشده است. لطفاً حداقل یک صدا را انتخاب کنید.' });
-      }
-    };
-
     if (remaining <= 0) {
       dispatch(setHasStarted());
       playSounds();
       return;
     }
-
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
       dispatch(setHasStarted());
@@ -99,18 +100,21 @@ export default function StartAt() {
     }, remaining);
 
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     };
-  }, [startAt, hasStarted, dispatch]);
+  }, [startAt, hasStarted, dispatch, playSounds]);
 
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">
       <div className="w-full xl:w-2/3 flex justify-around items-center">
-        <input type="number" id="hour" min={0} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
+        <input type="number" id="hour" min={0} max={23} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
         <label htmlFor="hour" className="md:text-lg font-medium">
           ساعت و
         </label>
-        <input type="number" id="min" min={0} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
+        <input type="number" id="min" min={0} max={59} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
         <label htmlFor="min" className="md:text-lg font-medium">
           دقیقه
         </label>

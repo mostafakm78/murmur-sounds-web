@@ -50,17 +50,28 @@ export default function ShareSounds(): JSX.Element | null {
     }
   };
 
+  // برای دسترسی امن به window.origin
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const fullShareLink = origin + shareLink;
+
   const handleSave = () => {
     const url = getShareURL();
-    if (!url) return;
-    const fullUrl = window.location.origin + url;
+    if (!url) {
+      alert('لینکی برای اشتراک‌گذاری وجود ندارد.');
+      return;
+    }
+    const fullUrl = origin + url;
     setShareLink(url);
-    navigator.clipboard.writeText(fullUrl);
-    setButtonText(true);
-    setTimeout(() => setButtonText(false), 5000);
+    navigator.clipboard
+      .writeText(fullUrl)
+      .then(() => {
+        setButtonText(true);
+        setTimeout(() => setButtonText(false), 5000);
+      })
+      .catch(() => {
+        alert('کپی لینک به کلیپ‌بورد انجام نشد.');
+      });
   };
-
-  const fullShareLink = window.location.origin + shareLink;
 
   return (
     <div className="lg:w-2/4 md:w-3/4 relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-4 h-[400px] flex-col justify-around items-center">
@@ -69,7 +80,7 @@ export default function ShareSounds(): JSX.Element | null {
       {/* لینک */}
       <div className="flex items-center justify-around w-full">
         <div className="w-full flex items-center justify-center min-h-10 bg-transparent border border-foreground rounded-sm px-2">
-          <p dir="ltr" className="font-medium underline underline-offset-2 text-sm break-words text-center">
+          <p dir="ltr" className="font-medium underline underline-offset-2 text-sm break-words text-center" aria-live="polite" aria-label="لینک اشتراک‌گذاری">
             {shareLink ? fullShareLink : 'لینک شما اینجا نمایش داده خواهد شد'}
           </p>
         </div>
@@ -81,24 +92,32 @@ export default function ShareSounds(): JSX.Element | null {
       <div className="w-full flex xl:flex-row flex-col gap-3 px-3 justify-around items-end">
         <div className="flex w-full items-center justify-around">
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-light">میکس را انتخاب کنید :</span>
+            <label className="text-sm font-light">
+              میکس را انتخاب کنید :
+            </label>
             <Select value={sel} onValueChange={setSel} dir="rtl">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="میکس" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="current">وضعیت فعلی</SelectItem>
-                {mixes.map((mix) => (
-                  <SelectItem key={mix.name} value={`mix-${mix.name}`}>
-                    {mix.name}
+                {mixes.length > 0 ? (
+                  mixes.map((mix) => (
+                    <SelectItem key={mix.name} value={`mix-${mix.name}`}>
+                      {mix.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="no-mix" disabled>
+                    میکس وجود ندارد
                   </SelectItem>
-                ))}
+                )}
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex items-center gap-2">
-            <Checkbox id="autoplay" checked={autoPlay} onCheckedChange={() => setAutoPlay(!autoPlay)} />
+            <Checkbox id="autoplay" checked={autoPlay} onCheckedChange={() => setAutoPlay(!autoPlay)} aria-label="پخش خودکار" />
             <label htmlFor="autoplay" className="font-medium text-sm">
               پخش خودکار
             </label>
@@ -108,6 +127,7 @@ export default function ShareSounds(): JSX.Element | null {
         <button
           onClick={handleSave}
           className="relative w-full xl:w-1/3 font-medium hover:opacity-85 duration-300 py-2 md:px-3 px-1 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
+          aria-label="کپی لینک ترکیب صدا به کلیپ‌بورد"
         >
           {buttonText ? 'کپی شد!' : 'کپی در حافظه'}
         </button>
@@ -118,13 +138,13 @@ export default function ShareSounds(): JSX.Element | null {
       {/* اشتراک‌گذاری */}
       <div className="flex items-center justify-between w-3/4">
         <h4 className="font-medium">اشتراک گذاری در :</h4>
-        <Link href="https://www.instagram.com/" target="_blank" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
+        <Link href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در اینستاگرام" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaInstagram />
         </Link>
-        <Link href={`https://t.me/share/url?url=${encodeURIComponent(fullShareLink)}`} target="_blank" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
+        <Link href={`https://t.me/share/url?url=${encodeURIComponent(fullShareLink)}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در تلگرام" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaTelegram />
         </Link>
-        <Link href={`https://wa.me/?text=${encodeURIComponent(fullShareLink)}`} target="_blank" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
+        <Link href={`https://wa.me/?text=${encodeURIComponent(fullShareLink)}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در واتساپ" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaWhatsapp />
         </Link>
       </div>

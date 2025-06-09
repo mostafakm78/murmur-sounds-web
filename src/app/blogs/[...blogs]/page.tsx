@@ -9,11 +9,12 @@ import Footer from '@/components/Shared/Footer';
 import Image from 'next/image';
 
 interface Props {
-  params: { blogs: string[] };
+  params: Promise<{ blogs: string[] }>;
 }
 
-export default function SingleBlogPost({ params }: Props) {
-  const slugPath = params.blogs.join('/'); // اگر روت catch-all هست
+export default async function SingleBlogPost({ params }: Props) {
+  const param = await params;
+  const slugPath = param.blogs.join('/'); // اگر روت catch-all هست
 
   const postsDirectory = path.join(process.cwd(), 'src', 'blogs-content');
   const fullPath = path.join(postsDirectory, `${slugPath}.md`);

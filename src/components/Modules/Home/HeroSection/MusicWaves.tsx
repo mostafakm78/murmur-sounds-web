@@ -2,10 +2,7 @@ import { JSX } from 'react';
 import { useFillColor } from '@/hooks/use-fill-color';
 
 const MusicWaves = (): JSX.Element => {
-  const fillColor = useFillColor({
-    light: '#AB46D2', // رنگ پر شدن در تم روشن
-    dark: '#F2F4F8', // رنگ پر شدن در تم تاریک
-  }); // دریافت رنگ پر شدن بر اساس تم فعلی
+  const fillColor = useFillColor({light: '#AB46D2',dark: '#F2F4F8',});
 
   return (
     // SVG با توضیحات دسترسی (aria-label) برای انیمیشن موج موسیقی

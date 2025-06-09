@@ -1,3 +1,5 @@
+'use client';
+
 import { SwitchMute } from './SwitchMute';
 import { DarkMode } from './DarkMode';
 import Link from 'next/link';

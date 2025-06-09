@@ -9,25 +9,32 @@ import StartAt from './StartAt';
 import EndAt from './EndAt';
 import { useFillColor } from '@/hooks/use-fill-color';
 
-// تعریف نوع تب‌ها
-type Tab = 'StartAt' | 'EndAt' | 'Fade';
+enum Tab {
+  StartAt = 'StartAt',
+  EndAt = 'EndAt',
+  Fade = 'Fade',
+}
 
-// لیست تب‌ها
-const tabs: Tab[] = ['StartAt', 'EndAt', 'Fade'];
+const tabs: Tab[] = [Tab.StartAt, Tab.EndAt, Tab.Fade];
+
+const tabLabels: Record<Tab, string> = {
+  [Tab.StartAt]: 'شروع در',
+  [Tab.EndAt]: 'پایان در',
+  [Tab.Fade]: 'حالت محو',
+};
 
 export default function Timers(): JSX.Element | null {
-  const [selectTab, setSelectTab] = useState<Tab>('StartAt'); // تب انتخاب‌شده
+  const [selectTab, setSelectTab] = useState<Tab>(Tab.StartAt);
   const fillColor = useFillColor({ light: '#6C63FF', dark: '#F2F4F8' });
   const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
 
-  // تابعی برای رندر محتوای تب‌ها
   const renderTabContent = (tab: Tab) => {
     switch (tab) {
-      case 'StartAt':
+      case Tab.StartAt:
         return <StartAt />;
-      case 'EndAt':
+      case Tab.EndAt:
         return <EndAt />;
-      case 'Fade':
+      case Tab.Fade:
         return <Fade />;
       default:
         return null;
@@ -36,26 +43,21 @@ export default function Timers(): JSX.Element | null {
 
   return (
     <div className="lg:w-2/4 md:w-3/4 relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-4 h-[400px] flex-col justify-around items-center">
-      {/* انیمیشن BorderBeam */}
       <BorderBeam size={200} colorFrom={fillColor} colorTo={fillColorTwo} />
 
-      {/* انتخاب تب (شروع - پایان - فید) */}
-      <div className="flex items-center justify-around w-full">
+      <div className="flex items-center justify-around w-full" role="tablist">
         {tabs.map((tab, index) => (
-          <Fragment key={index}>
-            <button onClick={() => setSelectTab(tab)} className={`font-medium ${selectTab === tab ? 'bg-black/10' : ''} hover:opacity-85 duration-300 rounded-sm py-3 px-4`}>
-              {tab === 'StartAt' ? 'شروع در' : tab === 'EndAt' ? 'پایان در' : 'حالت محو'}
+          <Fragment key={tab}>
+            <button role="tab" aria-selected={selectTab === tab} onClick={() => setSelectTab(tab)} className={`font-medium ${selectTab === tab ? 'bg-black/10' : ''} hover:opacity-85 duration-300 rounded-sm py-3 px-4`}>
+              {tabLabels[tab]}
             </button>
-            {/* Separator بین تب‌ها */}
             {index !== tabs.length - 1 && <Separator orientation="vertical" className="dark:bg-foreground/20" />}
           </Fragment>
         ))}
       </div>
 
-      {/* جداکننده اصلی بین انتخاب تب و محتوای آن */}
       <Separator className="my-4 dark:bg-foreground/20" />
 
-      {/* رندر محتوای تب انتخاب‌شده */}
       {renderTabContent(selectTab)}
     </div>
   );

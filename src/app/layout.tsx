@@ -9,7 +9,6 @@ import Pattern from '@/components/Shared/Pattern';
 import { ClientOnly } from '@/components/Shared/ClientOnly';
 import ProgressBar from '@/components/Shared/Progressbar';
 
-
 /**
  * اطلاعات متا برای موتورهای جستجو و اشتراک‌گذاری
  */

@@ -1,10 +1,6 @@
 import Link from 'next/link';
 import { JSX } from 'react';
-import { FaGithub, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
-import ScrollToTop from './ScrollToTop';
-
-// استایل‌های آیکون‌های شبکه‌های اجتماعی
-const iconLinkCss = 'hover:opacity-85 hover:duration-300 hover:scale-105';
+import FooterIconAnimation from '../animations/FooterIconsAnimaton';
 
 // استایل‌های لینک‌های مفید با افکت خط زیر
 const usefulLinks = 'font-medium hover:opacity-85 duration-300 relative after:absolute after:w-0 after:h-[1px] after:bottom-0 after:right-0 after:bg-foreground after:duration-300 hover:after:w-full';
@@ -40,22 +36,7 @@ export default function Footer(): JSX.Element {
           </div>
 
           {/* آیکون شبکه‌های اجتماعی */}
-          <div className="flex gap-4 text-3xl">
-            <Link href="https://t.me/Mostafakamari78" target="_blank" className={iconLinkCss}>
-              <FaTelegram />
-            </Link>
-            <Link href="https://wa.me/+989169799533" target="_blank" className={iconLinkCss}>
-              <FaWhatsapp />
-            </Link>
-            <Link href="https://linkedin.com/in/mostafakamari" target="_blank" className={iconLinkCss}>
-              <FaLinkedin />
-            </Link>
-            <Link href="https://github.com/mostafakm78" target="_blank" className={iconLinkCss}>
-              <FaGithub />
-            </Link>
-            {/* دکمه اسکرول به بالا */}
-            <ScrollToTop />
-          </div>
+          <FooterIconAnimation />
         </div>
 
         {/* کپی‌رایت و سازنده */}

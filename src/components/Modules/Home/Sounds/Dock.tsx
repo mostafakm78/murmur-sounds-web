@@ -17,7 +17,7 @@ export default function Dock() {
   const [resetMotion, setResetMotion] = useState<number>(0);
 
   // وضعیت پخش کلی صداها
-  const globalPalying = useSelector((state: RootState) => state.sound.globalPlaying);
+  const globalPlaying = useSelector((state: RootState) => state.sound.globalPlaying);
 
   // لیست صداهای در حال پخش
   const playing = useSelector((state: RootState) => state.sound.playing);
@@ -35,12 +35,12 @@ export default function Dock() {
       return;
     }
 
-    if (globalPalying) {
+    if (globalPlaying) {
       dispatch(setGlobalPause()); // توقف کلی
     } else {
       dispatch(setGlobalPlaying()); // پخش کلی
     }
-  }, [dispatch, globalPalying, isValidSound]);
+  }, [dispatch, globalPlaying, isValidSound]);
 
   const handleResetVolumes = useCallback(() => {
     Object.entries(playing).forEach(([id]) => {
@@ -48,6 +48,10 @@ export default function Dock() {
     });
 
     dispatch(setGlobalPause());
+
+    toast({
+      description: 'حجم همه صداها صفر شد',
+    });
 
     setResetMotion((prev) => prev + -360);
   }, [playing, dispatch]);
@@ -67,7 +71,7 @@ export default function Dock() {
 
           {/* دکمه پخش / توقف کلی */}
           <button onClick={handleTogglePlay} className="text-base">
-            {globalPalying ? <FaPause /> : <FaPlay />}
+            {globalPlaying ? <FaPause /> : <FaPlay />}
           </button>
 
           <motion.button onClick={handleResetVolumes} className="text-lg" animate={{ rotate: resetMotion }} transition={{ type: 'spring', stiffness: 150, damping: 10 }}>
