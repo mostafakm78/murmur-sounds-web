@@ -69,16 +69,7 @@ export default function Playlist(): JSX.Element | null {
   return (
     <div className="lg:w-2/4 md:w-3/4 h-[400px] relative overflow-hidden bg-background border border-double w-full flex border-background rounded-md md:p-10 p-6 flex-col justify-around items-center">
       {/* انیمیشن افکت نوری دور کامپوننت */}
-      <BorderBeam
-        size={200}
-        initialOffset={20}
-        className="dark:from-white dark:via-blue-500 dark:to-transparent from-black via-purple-700 to-transparent"
-        transition={{
-          type: 'tween',
-          duration: 0.5,
-          ease: 'easeInOut',
-        }}
-      />
+      <BorderBeam size={200} initialOffset={20} className="dark:from-white dark:via-blue-500 dark:to-transparent from-black via-purple-700 to-transparent" />
 
       {/* فرم ذخیره میکس جدید */}
       <div className="flex items-center justify-around w-full">

@@ -33,7 +33,7 @@ export default function HeroSection(): JSX.Element | null {
           rounded-sm
         "
       >
-        <Particles className="absolute inset-0 z-0" staticity={20} quantity={300} ease={30} color={fillColor2} refresh />
+        <Particles className="absolute inset-0 z-0" staticity={10} quantity={200} ease={150} color={fillColor2} refresh />
         {/* بخش متن و تیتر */}
         <div className="md:w-1/2 flex flex-col items-start justify-center">
           <BlurFade delay={0.35} inView>

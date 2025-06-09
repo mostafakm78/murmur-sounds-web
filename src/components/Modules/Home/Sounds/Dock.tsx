@@ -21,16 +21,18 @@ export default function Dock() {
 
   // لیست صداهای در حال پخش
   const playing = useSelector((state: RootState) => state.sound.playing);
+  const volumes = useSelector((state: RootState) => state.sound.volumes);
 
   // بررسی اینکه آیا هیچ صدایی در حال پخش نیست
-  const isPlayingEmpty = useMemo(() => Object.keys(playing).length === 0, [playing]);
+  const isValidSound = useMemo(() => Object.entries(playing).some(([id]) => volumes[+id] > 0), [playing, volumes]);
 
   // کنترل عملکرد دکمه پخش / توقف کلی
   const handleTogglePlay = useCallback(() => {
-    if (isPlayingEmpty) {
+    if (!isValidSound) {
       toast({
         description: 'لطفاً حداقل یک صدا را انتخاب کنید.',
       });
+      return;
     }
 
     if (globalPalying) {
@@ -38,7 +40,7 @@ export default function Dock() {
     } else {
       dispatch(setGlobalPlaying()); // پخش کلی
     }
-  }, [dispatch, globalPalying, isPlayingEmpty]);
+  }, [dispatch, globalPalying, isValidSound]);
 
   const handleResetVolumes = useCallback(() => {
     Object.entries(playing).forEach(([id]) => {
@@ -59,7 +61,7 @@ export default function Dock() {
 
           {/* دکمه حالت پخش تصادفی (نمایشی - هنوز عملکرد ندارد) */}
           <div className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
-            <span className='hidden md:inline'>حالت تصادفی</span>
+            <span className="hidden md:inline">حالت تصادفی</span>
             <FaShuffle className="h-5 w-5" />
           </div>
 

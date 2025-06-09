@@ -117,7 +117,7 @@ export default function EndAt() {
     const titleMin = min ? `${min} دقیقه` : '';
 
     toast({
-      description: `صداها در ${titleHour} ${titleMin} دقیقه دیگر متوقف خواهند شد.`,
+      description: `صداها در ${titleHour} ${titleMin} دیگر متوقف خواهند شد.`,
     });
   }, [hour, min, isValidSound, dispatch, PlayMusic]);
 
