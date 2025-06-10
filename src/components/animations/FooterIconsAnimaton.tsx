@@ -5,7 +5,7 @@ import { LazyMotion, domAnimation, m, Variants } from 'framer-motion';
 import ScrollToTop from '@/components/Shared/ScrollToTop';
 import Link from 'next/link';
 
-const iconLinkCss = 'hover:opacity-85 hover:duration-300 hover:scale-105 cursor-pointer';
+const iconLinkCss = 'cursor-pointer';
 
 // تعریف Variants برای انیمیشن آیکون‌ها
 const iconVariants: Variants = {
@@ -35,7 +35,7 @@ export default function FooterIconAnimation() {
     <LazyMotion features={domAnimation}>
       <m.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-4 text-3xl items-center">
         {icons.map(({ href, icon }, i) => (
-          <m.div key={href} custom={i} variants={iconVariants} className={iconLinkCss}>
+          <m.div key={href} custom={i} variants={iconVariants} whileHover={{ scale: 1.2, opacity: 0.85 }} whileFocus={{ scale: 1.2, opacity: 0.85 }} className={iconLinkCss}>
             <Link href={href} target="_blank" rel="noopener noreferrer">
               {icon}
             </Link>

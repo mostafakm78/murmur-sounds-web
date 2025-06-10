@@ -19,7 +19,7 @@ export default function GlobalPlay() {
   // کنترل پخش / توقف همه صداها
   const handleTogglePlay = useCallback(() => {
     if (!isValidSound) {
-      toast({ description: 'لطفاً حداقل یک صدا را انتخاب کنید.' });
+      toast({ description: 'لطفاً حداقل یک صدا را پخش کنید.' });
       return;
     }
 

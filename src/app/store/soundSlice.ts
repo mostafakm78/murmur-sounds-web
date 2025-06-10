@@ -190,11 +190,16 @@ const soundsSlice = createSlice({
       state.globalPlaying = isAnyPlaying;
       state.globalPause = !isAnyPlaying;
     },
+
+    resetSounds: (state) => {
+      state.playing = {};
+      state.volumes = {};
+    },
   },
 });
 
 // استخراج اکشن‌ها
-export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying, setGlobalStateByPlaying, setHasStarted, resetHasStarted, setFade } = soundsSlice.actions;
+export const { setPlaying, setVolume, setGlobalMuted, setGlobalVolume, setDockVisible, setStartAt, setEndAt, clearTimers, setGlobalPause, setGlobalPlaying, setGlobalStateByPlaying, setHasStarted, resetHasStarted, setFade, resetSounds } = soundsSlice.actions;
 
 // اکشن‌های کمکی برای استفاده راحت در کامپوننت‌ها
 export const playSound = (id: number) => setPlaying({ id, playing: true });

@@ -92,9 +92,7 @@ export default function ShareSounds(): JSX.Element | null {
       <div className="w-full flex xl:flex-row flex-col gap-3 px-3 justify-around items-end">
         <div className="flex w-full items-center justify-around">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-light">
-              میکس را انتخاب کنید :
-            </label>
+            <label className="text-sm font-light">میکس را انتخاب کنید :</label>
             <Select value={sel} onValueChange={setSel} dir="rtl">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="میکس" />
@@ -138,13 +136,19 @@ export default function ShareSounds(): JSX.Element | null {
       {/* اشتراک‌گذاری */}
       <div className="flex items-center justify-between w-3/4">
         <h4 className="font-medium">اشتراک گذاری در :</h4>
+
+        {/* اینستاگرام */}
         <Link href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در اینستاگرام" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaInstagram />
         </Link>
-        <Link href={`https://t.me/share/url?url=${encodeURIComponent(fullShareLink)}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در تلگرام" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
+
+        {/* تلگرام */}
+        <Link href={`https://t.me/share/url${fullShareLink ? `?url=${encodeURIComponent(fullShareLink)}` : ''}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در تلگرام" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaTelegram />
         </Link>
-        <Link href={`https://wa.me/?text=${encodeURIComponent(fullShareLink)}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در واتساپ" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
+
+        {/* واتساپ */}
+        <Link href={`https://wa.me/${fullShareLink ? `?text=${encodeURIComponent(fullShareLink)}` : ''}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در واتساپ" className="md:text-5xl text-4xl cursor-pointer hover:scale-105 duration-300">
           <FaWhatsapp />
         </Link>
       </div>

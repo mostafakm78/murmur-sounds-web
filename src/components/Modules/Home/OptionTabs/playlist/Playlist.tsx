@@ -10,6 +10,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { JSX, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { defaultMixes } from '@/lib/defaultMixes';
+import { soundsData } from '@/lib/Sounds';
 
 export default function Playlist(): JSX.Element | null {
   const dispatch = useDispatch();
@@ -81,6 +82,20 @@ export default function Playlist(): JSX.Element | null {
     });
 
     toast({ description: `میکس «${mix.name}» در حال پخش است.` });
+  };
+
+  const handleRandom = () => {
+    const RANDOM_SOUND_COUNT = Math.floor(Math.random() * 5) + 1;
+    const shuffled = [...soundsData].sort(() => Math.random() - 0.5);
+    const randomSounds = shuffled.slice(0, RANDOM_SOUND_COUNT);
+    const randomVolumes = Math.floor(Math.random() * (80 - 30 + 1)) + 30;
+
+    randomSounds.forEach((sound) => {
+      dispatch(playSound(sound.id));
+      dispatch(setVolume({ id: sound.id, volume: randomVolumes }));
+    });
+
+    toast({ description: 'پخش صداهای تصادفی آغاز شد.' });
   };
 
   return (
@@ -174,7 +189,9 @@ export default function Playlist(): JSX.Element | null {
 
       {/* دکمه ترکیب تصادفی (فعلاً بدون عملکرد) */}
       <div className="flex items-center justify-center w-3/4">
-        <button className="dark:bg-emerald-700 dark:text-foreground bg-emerald-500 text-background md:py-2 py-1 px-4 rounded-sm cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">ترکیب تصادفی</button>
+        <button onClick={handleRandom} className="dark:bg-emerald-700 dark:text-foreground bg-emerald-500 text-background md:py-2 py-1 px-4 rounded-sm cursor-pointer hover:opacity-85 duration-300 focus:opacity-85 font-medium">
+          ترکیب تصادفی
+        </button>
       </div>
     </div>
   );

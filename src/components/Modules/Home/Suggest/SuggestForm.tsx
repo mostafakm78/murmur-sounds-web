@@ -1,5 +1,6 @@
 'use client';
 
+import { BiLoaderCircle } from 'react-icons/bi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -17,6 +18,9 @@ const FormSchema = z.object({
   voice: z.string().min(2, {
     message: 'درخواست شما باید حداقل 2 کارکتر باشد.',
   }),
+  email: z.string().email({
+    message: 'لطفاً یک ایمیل معتبر وارد کنید.',
+  }),
 });
 
 export function SuggestForm() {
@@ -26,20 +30,30 @@ export function SuggestForm() {
     defaultValues: {
       username: '',
       voice: '',
+      email: '',
     },
   });
 
+  const {
+    formState: { isSubmitting },
+  } = form;
+
   // تابعی که هنگام ارسال فرم اجرا می‌شود
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // نمایش پیام موفقیت با داده‌های ارسال شده (برای تست)
-    toast({
-      title: 'مقادیر ارسال شده:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const res = await fetch('/api/suggestions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     });
+
+    if (res.ok) {
+      toast({ description: '✅درخواست شما با موفقیت ارسال شد.' });
+      form.reset();
+    } else {
+      toast({ description: '❌خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.', variant: 'destructive' });
+    }
   }
 
   return (
@@ -78,8 +92,34 @@ export function SuggestForm() {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-bold">ایمیل</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="ایمیل خودت رو بنویس" {...field} />
+              </FormControl>
+              {/* نمایش پیام خطا */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* دکمه ارسال فرم */}
-        <Button type="submit">ارسال</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin mr-2">
+                <BiLoaderCircle />
+              </span>
+              در حال ارسال...
+            </>
+          ) : (
+            'ارسال'
+          )}
+        </Button>
       </form>
     </Form>
   );

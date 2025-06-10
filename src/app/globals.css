@@ -68,7 +68,7 @@
 
     --accent-foreground: 220.9 39.3% 11%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 71.5% 44.8%;
 
     --destructive-foreground: 210 20% 98%;
 
@@ -119,7 +119,7 @@
 
     --accent-foreground: 210 20% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 71.5% 44.8%;
 
     --destructive-foreground: 210 20% 98%;
 
@@ -262,16 +262,16 @@
     }
   }
   @keyframes meteor {
-  0% {
-    transform: rotate(var(--angle)) translateX(0);
-    opacity: 1;
+    0% {
+      transform: rotate(var(--angle)) translateX(0);
+      opacity: 1;
     }
-  70% {
-    opacity: 1;
+    70% {
+      opacity: 1;
     }
-  100% {
-    transform: rotate(var(--angle)) translateX(-500px);
-    opacity: 0;
+    100% {
+      transform: rotate(var(--angle)) translateX(-500px);
+      opacity: 0;
     }
   }
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { BiLoaderCircle } from 'react-icons/bi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,6 +9,7 @@ import { toast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 // تعریف شمای اعتبارسنجی فرم با Zod
 const FormSchema = z.object({
@@ -37,15 +39,26 @@ export function ContactForm() {
     },
   });
 
-  // تابع ارسال فرم که پس از تایید اعتبار اجرا می‌شود
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // اینجا می‌توانید داده‌ها را به سرور ارسال کنید یا پردازش لازم را انجام دهید
-    console.log(data);
+  const {
+    formState: { isSubmitting },
+  } = form;
 
-    // نمایش پیام موفقیت پس از ارسال فرم
-    toast({
-      description: 'درخواست شما ارسال شد ✅',
+  // تابع ارسال فرم که پس از تایید اعتبار اجرا می‌شود
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const res = await fetch('/api/contact-us', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     });
+
+    if (res.ok) {
+      toast({ description: '✅درخواست شما با موفقیت ارسال شد.' });
+      form.reset();
+    } else {
+      toast({ description: '❌خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.', variant: 'destructive' });
+    }
   }
 
   return (
@@ -60,7 +73,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel className="font-bold">نام و نام خانوادگی</FormLabel>
               <FormControl>
-                <Input placeholder="نام خودت را کامل وارد کن" {...field} />
+                <Input type="text" placeholder="نام خودت را کامل وارد کن" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,7 +88,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel className="font-bold">ایمیل</FormLabel>
               <FormControl>
-                <Input placeholder="ایمیل خودت رو بنویس" {...field} />
+                <Input type="email" placeholder="ایمیل خودت رو بنویس" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +103,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel className="font-bold">موضوع</FormLabel>
               <FormControl>
-                <Input placeholder="موضوع مورد نظر خودت رو بنویس" {...field} />
+                <Input type="text" placeholder="موضوع مورد نظر خودت رو بنویس" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +118,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel className="font-bold">توضیحات</FormLabel>
               <FormControl>
-                <Input placeholder="توضیحات مورد نظر خودت رو بنویس" {...field} />
+                <Textarea placeholder="توضیحات مورد نظر خودت رو بنویس" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,7 +126,18 @@ export function ContactForm() {
         />
 
         {/* دکمه ارسال فرم */}
-        <Button type="submit">ارسال</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin mr-2">
+                <BiLoaderCircle />
+              </span>
+              در حال ارسال...
+            </>
+          ) : (
+            'ارسال'
+          )}
+        </Button>
       </form>
     </Form>
   );
