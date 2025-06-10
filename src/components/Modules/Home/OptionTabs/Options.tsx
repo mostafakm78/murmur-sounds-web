@@ -86,7 +86,7 @@ export default function Options(): JSX.Element {
 
   return (
     <section className="mx-auto container">
-      <div className="mt-16 p-6 gap-10 flex flex-col items-center px-10 relative">
+      <div className="mt-16 p-6 gap-10 flex flex-col items-center md:px-10 relative">
         <div className="md:w-1/2 w-full flex items-center justify-around" role="tablist">
           {tabs.map((tab) => {
             const isTimer = tab === Tab.Timer;

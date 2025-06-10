@@ -13,7 +13,7 @@ interface BlogCardProps {
 
 export default function BlogCard({ title = '', excerpt = '', slug = '', image = '', loading = false }: BlogCardProps) {
   return (
-    <div className="relative overflow-hidden dark:bg-background md:w-[500px] md:h-[500px] w-[420px] h-[500px] bg-background p-6 md:gap-2 gap-6 flex flex-col items-center justify-between rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="relative overflow-hidden dark:bg-background md:w-[500px] md:h-[500px] w-[350px] h-[500px] bg-background md:p-6 p-4 md:gap-2 gap-6 flex flex-col items-center justify-between rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
       <BorderBeam size={200} initialOffset={20} className="dark:from-white dark:via-blue-500 dark:to-transparent from-black via-purple-700 to-transparent" />
 
       {loading ? (
@@ -25,7 +25,7 @@ export default function BlogCard({ title = '', excerpt = '', slug = '', image = 
         </>
       ) : (
         <>
-          <h2 className="text-xl font-bold mb-2 px-6 line-clamp-1">{title}</h2>
+          <h2 className="md:text-xl text-base font-bold mb-2 px-6 line-clamp-1">{title}</h2>
           <p className="text-base text-center px-8 font-medium dark:text-foreground/80 text-foreground/80 line-clamp-2">{excerpt}</p>
           <Image className="ring-1 ring-foreground dark:ring-foreground rounded-md" width={350} height={300} src={image} alt={title} />
           <Link

@@ -5,6 +5,7 @@ import { DarkMode } from './DarkMode';
 import Link from 'next/link';
 import { JSX } from 'react';
 import { SliderHeader } from './SliderHeader';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
 
 // کلاس استایل برای لینک‌های سربرگ با افکت خط بالا
 const linkClassName = "relative text-foreground after:content-[''] after:w-0 after:absolute after:h-1 after:bg-foreground after:-top-[18px] after:right-0 after:duration-300 md:hover:after:w-full duration-300 hover:opacity-80 focus:opacity-80 cursor-pointer";
@@ -25,7 +26,7 @@ export default function Header(): JSX.Element {
         </div>
 
         {/* سمت راست هدر: لینک‌های مسیر */}
-        <div className="flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">
+        <div className="hidden lg:flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">
           <Link href="/contact-us" className={linkClassName}>
             تماس با ما
           </Link>
@@ -38,6 +39,38 @@ export default function Header(): JSX.Element {
           <Link href="/" className={linkClassName}>
             خانه
           </Link>
+        </div>
+        {/* منوی ناوبری */}
+        <div className="lg:hidden block">
+          <NavigationMenu dir="rtl">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>منو</NavigationMenuTrigger>
+                <NavigationMenuContent className="flex flex-col-reverse justify-center items-center md:w-[200px] w-[150px] space-y-2 space-y-reverse p-2">
+                  <NavigationMenuList className="">
+                    <Link href="/contact-us" className={linkClassName}>
+                      تماس با ما
+                    </Link>
+                  </NavigationMenuList>
+                  <NavigationMenuList>
+                    <Link href="/about-us" className={linkClassName}>
+                      درباره ما
+                    </Link>
+                  </NavigationMenuList>
+                  <NavigationMenuList>
+                    <Link href="/blogs" className={linkClassName}>
+                      بلاگ
+                    </Link>
+                  </NavigationMenuList>
+                  <NavigationMenuList>
+                    <Link href="/" className={linkClassName}>
+                      خانه
+                    </Link>
+                  </NavigationMenuList>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </div>
     </header>

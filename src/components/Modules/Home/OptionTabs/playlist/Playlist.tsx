@@ -129,11 +129,10 @@ export default function Playlist(): JSX.Element | null {
               title="اجرا"
               aria-label="اجرای ترکیب"
               onClick={() => playMix(mix)}
-              className="relative w-3/4 font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
+              className="relative w-full font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
             >
               {mix.name}
             </button>
-            {/* دکمه حذف برای میکس‌های پیش‌فرض نمایش داده نمی‌شود */}
           </div>
         ))}
 
@@ -152,8 +151,8 @@ export default function Playlist(): JSX.Element | null {
             <button
               title="حذف"
               aria-label={`حذف ترکیب ${mix.name}`}
-              className={`font-medium w-1/5 duration-300 hover:opacity-85 h-full py-2 md:px-3 px-1 border border-foreground flex
-        ${confirmIndex === index ? 'justify-between items-center' : 'items-center justify-center'} rounded-sm`}
+              className={`font-medium w-1/5 duration-300 hover:opacity-85 h-full py-2 md:px-3 px-2 border border-foreground flex
+        ${confirmIndex === index ? 'justify-between items-center w-2/5' : 'items-center justify-center'} rounded-sm`}
               onClick={() => {
                 if (confirmIndex === index) return; // اگر تایید فعال است، کلیک روی همین دکمه کاری نکند (برای جلوگیری از رفتار ناخواسته)
                 setConfirmIndex(index);
@@ -162,7 +161,7 @@ export default function Playlist(): JSX.Element | null {
               {confirmIndex === index ? (
                 <>
                   <FaCheck
-                    className="hover:text-green-500 w-6 h-6 cursor-pointer"
+                    className="hover:text-green-500 focus:text-green-500 text-green-700 w-6 h-6 cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteMix(index);
@@ -170,7 +169,7 @@ export default function Playlist(): JSX.Element | null {
                     }}
                   />
                   <IoCloseSharp
-                    className="hover:text-red-500 w-6 h-6 cursor-pointer"
+                    className="hover:text-red-500 focus:text-red-500 text-red-700 w-6 h-6 cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       setConfirmIndex(null);

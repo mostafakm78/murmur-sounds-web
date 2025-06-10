@@ -161,7 +161,7 @@ export default function FadeTimer() {
           </Select>
         </div>
 
-        <span className="text-sm font-medium">← فید →</span>
+        <span className="text-sm hidden md:block font-medium">← فید →</span>
 
         <div>
           <span className="text-sm font-light block mb-1">نقطه پایان:</span>

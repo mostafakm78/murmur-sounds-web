@@ -66,7 +66,7 @@ export default function Sounds(): JSX.Element {
     <main className="mx-auto container">
       <GlobalPlayAnimation />
       <LazyMotion features={domAnimation}>
-        <div ref={dockRef} className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-8 mt-16 px-10">
+        <div ref={dockRef} className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 mt-16 lg:px-10 px-4">
           {soundsData.map(({ id, name, icon: Icon }, i) => {
             const isPlaying = playing[id];
 
@@ -79,7 +79,7 @@ export default function Sounds(): JSX.Element {
                   ${isPlaying ? 'scale-105 outline-4 outline outline-foreground/50' : ''}
                   duration-500`}
                 >
-                  <div className="flex flex-col items-center p-6 shadow-foreground/30 justify-center">
+                  <div className="flex flex-col items-center lg:p-6 p-4  shadow-foreground/30 justify-center">
                     <div
                       className={`flex flex-col items-center mb-8 md:text-2xl text-xl justify-center gap-1
                     ${isPlaying ? 'scale-110' : ''}

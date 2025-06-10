@@ -75,7 +75,7 @@ export default function Dock() {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.4, ease: 'easeInOut' }} className="fixed lg:bottom-8 bottom-10 left-0 w-full z-[78] pointer-events-none">
       <div className="flex justify-center w-full pointer-events-none">
-        <div className="pointer-events-auto lg:w-2/3 w-[90%] outline outline-2 outline-offset-1 shadow-xl flex px-5 gap-5 items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
+        <div className="pointer-events-auto lg:w-2/3 w-[90%] outline outline-2 outline-offset-1 shadow-xl flex lg:px-5 px-2 lg:gap-5 gap-2 items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
           {/* دکمه Mute کلی */}
           <SwitchMute />
 
@@ -95,7 +95,7 @@ export default function Dock() {
           </motion.button>
 
           {/* کنترل ولوم کلی با اسلایدر */}
-          <span className="font-medium text-sm flex gap-2 items-center">
+          <span className="font-medium text-sm flex flex-col md:flex-row gap-2 items-center">
             صدای کل
             <SliderHeader className="md:w-44 w-24 ml-3" />
           </span>
