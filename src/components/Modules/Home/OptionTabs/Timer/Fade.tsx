@@ -32,6 +32,10 @@ export default function FadeTimer() {
 
   const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const isValidSound = useMemo(() => {
+    return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
+  }, [volumes]);
+
   // اجرای فید ولوم‌ها به صورت تدریجی با قابلیت لغو
   const fadeVolumesOverTime = useCallback(
     (startVolumes: MixVolumes, endVolumes: MixVolumes, durationMs: number) => {
@@ -61,6 +65,8 @@ export default function FadeTimer() {
           clearInterval(fadeTimerRef.current!);
           fadeTimerRef.current = null;
           dispatch(setHasStarted());
+          setHour(0);
+          setMin(0);
           toast({
             description: 'زمان پایان رسیده است. پخش صداها متوقف شد.',
           });
@@ -83,6 +89,14 @@ export default function FadeTimer() {
 
     let startVolumes: MixVolumes = {};
     let endVolumes: MixVolumes = {};
+
+    if (endSel === 'current' && !isValidSound) {
+      toast({ description: 'لطفاً حداقل یک حجم صدا را برای حالت فعلی انتخاب کنید.' });
+      return;
+    } else if (startSel === 'current' && !isValidSound) {
+      toast({ description: 'لطفاً حداقل یک حجم صدا را برای حالت فعلی انتخاب کنید.' });
+      return;
+    }
 
     if (startSel === 'current') {
       const saved = localStorage.getItem('soundVolumes');
@@ -123,7 +137,7 @@ export default function FadeTimer() {
     toast({
       description: `فید صدا از "${startSel}" به "${endSel}" در ${hour ? `${hour} ساعت` : ''} ${min ? `${min} دقیقه` : ''} آغاز شد.`,
     });
-  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime]);
+  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime, isValidSound]);
 
   const onCancel = useCallback(() => {
     setHour(0);

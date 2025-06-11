@@ -12,7 +12,7 @@ export default function EndAt() {
 
   const endTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { endAt, hasStarted, playing, volumes } = useSelector(
+  const { endAt, hasStarted, volumes } = useSelector(
     (state: RootState) => ({
       endAt: state.sound.endAt,
       hasStarted: state.sound.hasStarted,
@@ -26,8 +26,8 @@ export default function EndAt() {
   const [min, setMin] = useState<number>(0);
 
   const isValidSound = useMemo(() => {
-    return Object.entries(playing).some(([id]) => (volumes[+id] ?? 0) > 0);
-  }, [playing, volumes]);
+    return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
+  }, [volumes]);
 
   const PlayMusic = useCallback(() => {
     const saved = localStorage.getItem('activeSounds');
@@ -69,7 +69,11 @@ export default function EndAt() {
       return;
     }
 
-    if (endTimeoutRef.current) clearTimeout(endTimeoutRef.current);
+    if (endTimeoutRef.current) {
+      clearTimeout(endTimeoutRef.current);
+      setHour(0);
+      setMin(0);
+    }
 
     endTimeoutRef.current = setTimeout(() => {
       dispatch(setGlobalPause());
@@ -79,7 +83,9 @@ export default function EndAt() {
     }, remaining);
 
     return () => {
-      if (endTimeoutRef.current) clearTimeout(endTimeoutRef.current);
+      if (endTimeoutRef.current) {
+        clearTimeout(endTimeoutRef.current);
+      }
     };
   }, [endAt, dispatch, hasStarted]);
 

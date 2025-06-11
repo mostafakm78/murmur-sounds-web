@@ -14,7 +14,8 @@ import ProgressBar from '@/components/Shared/Progressbar';
  */
 export const metadata: Metadata = {
   title: 'صدای آرام',
-  description: 'پخش صداهای آرامش بخش از طبیعت و زندگی روزانه برای ایجاد آرامش و کاهش استرس',
+  description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد آرامش و کاهش استرس.',
+  keywords: ['صدای آرام', 'صداهای طبیعت', 'ریلکسیشن', 'آرامش', 'مدیتیشن', 'موزیک آرامش‌بخش'],
   icons: {
     icon: '/images/Logo.png',
     apple: '/images/Logo.png',
@@ -22,17 +23,25 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'صدای آرام',
-    description: 'پخش صداهای آرامش بخش از طبیعت و زندگی روزانه برای ایجاد آرامش و کاهش استرس',
-    url: 'https://sedaayaram.com',
+    description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد آرامش و کاهش استرس.',
+    url: 'https://sedaayaram.ir',
     siteName: 'صدای آرام',
+    locale: 'fa_IR',
+    type: 'website',
     images: [
       {
-        url: '/images/Logo.png',
-        width: 800,
+        url: 'https://sedaayaram.ir/images/Logo.png',
+        width: 600,
         height: 600,
         alt: 'صدای آرام',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'صدای آرام',
+    description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای کاهش استرس.',
+    images: ['https://sedaayaram.ir/images/Logo.png'],
   },
 };
 

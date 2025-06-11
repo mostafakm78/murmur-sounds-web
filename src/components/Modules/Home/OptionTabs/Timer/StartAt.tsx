@@ -12,7 +12,6 @@ export default function StartAt() {
 
   const startAt = useSelector((state: RootState) => state.sound.startAt);
   const hasStarted = useSelector((state: RootState) => state.sound.hasStarted);
-  const playing = useSelector((state: RootState) => state.sound.playing);
   const volumes = useSelector((state: RootState) => state.sound.volumes);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -20,7 +19,7 @@ export default function StartAt() {
   const [hour, setHour] = useState(0);
   const [min, setMin] = useState(0);
 
-  const isValidSound = Object.entries(playing).some(([id]) => (volumes[+id] ?? 0) > 0);
+  const isValidSound = Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
 
   const handleHourChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let val = Math.max(0, Number(e.target.value));
@@ -96,6 +95,8 @@ export default function StartAt() {
 
     timeoutRef.current = setTimeout(() => {
       dispatch(setHasStarted());
+      setHour(0);
+      setMin(0);
       playSounds();
     }, remaining);
 
