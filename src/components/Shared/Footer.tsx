@@ -9,7 +9,7 @@ export default function Footer(): JSX.Element {
   return (
     <>
       <footer
-        className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56
+        className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative lg:h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56
         after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')]
         after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full"
       >

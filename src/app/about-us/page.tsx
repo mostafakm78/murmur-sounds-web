@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'درباره ما - صدای آرام',
     description: 'صفحه درباره ما صدای آرام. در این صفحه می‌توانید با تیم ما آشنا شوید و اطلاعات بیشتری درباره اهداف و فعالیت‌های ما کسب کنید.',
-    url: 'https://softsound.ir/contact-us',
+    url: 'https://softsound.vercel.app/contact-us',
     siteName: 'صدای آرام',
     images: [
       {
-        url: 'https://softsound.ir/images/Logo.png',
+        url: 'https://softsound.vercel.app/images/Logo.png',
         width: 600,
         height: 600,
         alt: 'صدای آرام',

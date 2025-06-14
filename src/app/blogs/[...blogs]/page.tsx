@@ -38,12 +38,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: data.title,
       description: data.excerpt,
-      url: `https://softsound.ir/blogs/${slugPath}`,
+      url: `https://softsound.vercel.app/blogs/${slugPath}`,
       type: 'article',
       images: data.image
         ? [
             {
-              url: `https://softsound.ir${data.image}`,
+              url: `https://softsound.vercel.app${data.image}`,
               width: 800,
               height: 600,
               alt: data.title,
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: data.title,
       description: data.excerpt,
-      images: data.image ? [`https://softsound.ir${data.image}`] : [],
+      images: data.image ? [`https://softsound.vercel.app${data.image}`] : [],
       creator: data.author || '@softsound',
     },
     authors: data.author ? [{ name: data.author }] : undefined,

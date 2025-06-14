@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'صدای آرام',
     description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد آرامش ذهن و کاهش استرس.',
-    url: 'https://softsound.ir',
+    url: 'https://softsound.vercel.app',
     siteName: 'صدای آرام',
     locale: 'fa_IR',
     type: 'website',
     images: [
       {
-        url: 'https://softsound.ir/images/Logo.png',
+        url: 'https://softsound.vercel.app/images/Logo.png',
         width: 600,
         height: 600,
         alt: 'صدای آرام',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'صدای آرام',
     description: 'صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد حس آرامش و کاهش استرس.',
-    images: ['https://softsound.ir/images/Logo.png'],
+    images: ['https://softsound.vercel.app/images/Logo.png'],
     creator: '@yourTwitterHandle',
   },
 };
