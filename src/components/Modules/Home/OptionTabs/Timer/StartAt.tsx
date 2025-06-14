@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, ChangeEvent } from 'react';
+import { useEffect, useRef, useState, useCallback, ChangeEvent, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { playSound, resetHasStarted, setHasStarted, setStartAt, setVolume } from '@/app/store/soundSlice';
@@ -19,7 +19,11 @@ export default function StartAt() {
   const [hour, setHour] = useState(0);
   const [min, setMin] = useState(0);
 
-  const isValidSound = Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
+  const isMobile = window.innerWidth < 768;
+
+  const isValidSound = useMemo(() => {
+    return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
+  }, [volumes]);
 
   const handleHourChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let val = Math.max(0, Number(e.target.value));
@@ -57,7 +61,7 @@ export default function StartAt() {
       toast({ description: 'لطفاً ساعت یا دقیقه را وارد کنید.' });
       return;
     }
-    if (!isValidSound) {
+    if (!isValidSound && !isMobile) {
       toast({ description: 'لطفاً حداقل یک حجم صدا را انتخاب کنید.' });
       return;
     }
@@ -67,7 +71,7 @@ export default function StartAt() {
     toast({
       description: `صداها در ${hour ? `${hour} ساعت و ` : ''}${min ? `${min} دقیقه` : ''} دیگر پخش خواهند شد.`,
     });
-  }, [hour, min, dispatch, isValidSound]);
+  }, [hour, min, dispatch, isValidSound, isMobile]);
 
   const handleCancel = useCallback(() => {
     setHour(0);

@@ -32,6 +32,8 @@ export default function FadeTimer() {
 
   const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const isMobile = window.innerWidth < 768;
+
   const isValidSound = useMemo(() => {
     return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
   }, [volumes]);
@@ -90,10 +92,10 @@ export default function FadeTimer() {
     let startVolumes: MixVolumes = {};
     let endVolumes: MixVolumes = {};
 
-    if (endSel === 'current' && !isValidSound) {
+    if (endSel === 'current' && !isValidSound && !isMobile) {
       toast({ description: 'لطفاً حداقل یک حجم صدا را برای حالت فعلی انتخاب کنید.' });
       return;
-    } else if (startSel === 'current' && !isValidSound) {
+    } else if (startSel === 'current' && !isValidSound && !isMobile) {
       toast({ description: 'لطفاً حداقل یک حجم صدا را برای حالت فعلی انتخاب کنید.' });
       return;
     }
@@ -137,7 +139,7 @@ export default function FadeTimer() {
     toast({
       description: `فید صدا از "${startSel}" به "${endSel}" در ${hour ? `${hour} ساعت` : ''} ${min ? `${min} دقیقه` : ''} آغاز شد.`,
     });
-  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime, isValidSound]);
+  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime, isValidSound , isMobile]);
 
   const onCancel = useCallback(() => {
     setHour(0);

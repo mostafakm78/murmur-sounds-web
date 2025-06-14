@@ -25,6 +25,8 @@ export default function EndAt() {
   const [hour, setHour] = useState<number>(0);
   const [min, setMin] = useState<number>(0);
 
+  const isMobile = window.innerWidth < 768;
+
   const isValidSound = useMemo(() => {
     return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
   }, [volumes]);
@@ -104,7 +106,7 @@ export default function EndAt() {
       return;
     }
 
-    if (!isValidSound) {
+    if (!isValidSound && !isMobile) {
       toast({
         description: 'لطفاً حداقل یک حجم صدا را انتخاب کنید.',
       });
@@ -121,7 +123,7 @@ export default function EndAt() {
     toast({
       description: `صداها در ${titleHour}${titleMin} دیگر متوقف خواهند شد.`,
     });
-  }, [hour, min, isValidSound, dispatch, PlayMusic]);
+  }, [hour, min, isValidSound, dispatch, PlayMusic, isMobile]);
 
   const handleCancel = useCallback(() => {
     setHour(0);
