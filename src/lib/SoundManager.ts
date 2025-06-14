@@ -131,6 +131,13 @@ export default function SoundsManager() {
       }
     });
 
+    // اضافه: آپدیت حجم همه howl ها بر اساس globalVolume و volumes
+    Object.entries(howlRefs.current).forEach(([idStr, howl]) => {
+      const id = Number(idStr);
+      const volume = ((volumes[id] ?? 30) / 100) * (globalVolume / 100);
+      howl.volume(volume);
+    });
+
     prevPlaying.current = { ...playing };
 
     dispatch(setGlobalStateByPlaying());
@@ -139,16 +146,13 @@ export default function SoundsManager() {
   useEffect(() => {
     Object.entries(howlRefs.current).forEach(([idStr, howl]) => {
       const id = Number(idStr);
-      const currentVolume = (volumes[id] ?? 30) / 100;
-
-      if (!globalMuted) {
-        originalVolumesRef.current[id] = currentVolume;
-      }
+      const currentVolume = ((volumes[id] ?? 30) / 100) * (globalVolume / 100);
 
       if (globalMuted) {
         howl.mute(true);
       } else {
         howl.mute(false);
+        howl.volume(currentVolume);
 
         if (playing[id] && !howl.playing()) {
           tryPlay(howl);
