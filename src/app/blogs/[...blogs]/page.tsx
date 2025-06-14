@@ -85,7 +85,7 @@ export default async function SingleBlogPost({ params }: Props) {
       <Header />
       <div className="container mx-auto">
         <div className="dark:bg-black/20 my-16 bg-white/20 backdrop-blur-md p-6 flex flex-col items-center px-10 rounded-sm relative">
-          <Link href="/blogs" className="absolute lg:text-4xl lg:left-[15%] lg:top-[5%] text-2xl left-[15%] top-[2%]">
+          <Link href="/blogs" className="absolute lg:text-4xl lg:left-[15%] lg:top-[5%] text-2xl left-[15%] top-[1%]">
             <TbArrowBackUp />
           </Link>
           <article className="prose dark:prose-invert lg:text-base font-medium text-sm leading-6 text-justify lg:w-3/4 space-y-10 mx-auto py-10 lg:p-10">

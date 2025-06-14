@@ -27,6 +27,7 @@
     "dayjs": "^1.11.13",
     "framer-motion": "^12.13.0",
     "gray-matter": "^4.0.3",
+    "howler": "^2.2.4",
     "jalaliday": "^2.3.0",
     "lucide-react": "^0.511.0",
     "motion": "^12.16.0",

@@ -4,30 +4,46 @@ import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
 import { soundsData } from '@/lib/Sounds';
-import { setPlaying, setGlobalStateByPlaying, setVolume } from '@/app/store/soundSlice';
+import { setPlaying, setGlobalStateByPlaying, setVolume, setGlobalMuted } from '@/app/store/soundSlice';
+import { Howl } from 'howler';
 
-// کامپوننت مدیریت صداها (ایجاد، پخش، قطع، تنظیم حجم)
 export default function SoundsManager() {
   const dispatch = useDispatch();
 
-  // گرفتن وضعیت‌ها از Redux
   const playing = useSelector((state: RootState) => state.sound.playing);
   const volumes = useSelector((state: RootState) => state.sound.volumes);
   const globalVolume = useSelector((state: RootState) => state.sound.globalVolume);
-  const globalPlaying = useSelector((state: RootState) => state.sound.globalPlaying);
-  const globalPause = useSelector((state: RootState) => state.sound.globalPause);
+  const globalMuted = useSelector((state: RootState) => state.sound.globalMuted);
 
-  // Ref برای نگهداری المان‌های صوتی (Audio instances)
-  const audioRefs = useRef<{ [id: number]: HTMLAudioElement }>({});
-  // Ref برای ذخیره وضعیت پخش قبلی (مقایسه تغییرات)
+  const howlRefs = useRef<{ [id: number]: Howl }>({});
   const prevPlaying = useRef<{ [id: number]: boolean }>({});
+  const originalVolumesRef = useRef<{ [id: number]: number }>({});
 
-  // بارگذاری داده‌های ذخیره شده (پخش و حجم) از localStorage هنگام mount
+  function tryPlay(howl: Howl) {
+    if (!howl.playing()) {
+      const playId = howl.play();
+
+      howl.once('play', () => {
+        // صدا پلی شد
+      });
+
+      howl.once('playerror', () => {
+        setTimeout(() => {
+          howl.play();
+        }, 1000);
+      });
+
+      howl.once('loaderror', () => {
+        console.error('Load error on sound:', howl);
+      });
+    }
+  }
+
   useEffect(() => {
     const saved = localStorage.getItem('activeSounds');
     const volumesSaved = localStorage.getItem('soundVolumes');
+    const mutedSaved = localStorage.getItem('globalMuted');
 
-    // بارگذاری حجم صداها از localStorage
     if (volumesSaved) {
       try {
         const parsedVolumes = JSON.parse(volumesSaved);
@@ -39,7 +55,6 @@ export default function SoundsManager() {
       }
     }
 
-    // بارگذاری وضعیت پخش صداها از localStorage
     if (saved) {
       try {
         const ids = JSON.parse(saved);
@@ -50,109 +65,108 @@ export default function SoundsManager() {
         console.error('Invalid JSON in activeSounds', err);
       }
     }
+
+    if (mutedSaved) {
+      try {
+        const muted = JSON.parse(mutedSaved);
+        dispatch(setGlobalMuted(muted));
+      } catch {
+        dispatch(setGlobalMuted(false));
+      }
+    }
   }, [dispatch]);
 
-  // مدیریت ایجاد، پخش، توقف و حذف المان‌های صوتی بر اساس تغییرات playing
   useEffect(() => {
     Object.entries(playing).forEach(([idStr, isPlaying]) => {
       const id = Number(idStr);
       const wasPlaying = prevPlaying.current[id];
 
-      // اگر وضعیت تغییر نکرده، کاری انجام نده
       if (wasPlaying === isPlaying) return;
 
       if (isPlaying) {
-        // اگر المان صوتی وجود ندارد، ایجاد کن
-        if (!audioRefs.current[id]) {
-          const audioSrc = soundsData.find((s) => s.id === id)?.audio[0];
-          if (audioSrc) {
-            const audio = new Audio(audioSrc);
-            audio.preload = 'none';
-            audio.loop = true;
-            audio.volume = ((volumes[id] ?? 0) / 100) * (globalVolume / 100);
-            audio.play().catch(() => {
-              // اگر پخش موفق نبود، وضعیت را به false برگردان
-              dispatch(setPlaying({ id, playing: false }));
-            });
-            audioRefs.current[id] = audio;
-          }
-        } else if (audioRefs.current[id].paused) {
-          // اگر المان وجود دارد اما متوقف است، پخش کن
-          audioRefs.current[id].play().catch(() => {
-            dispatch(setPlaying({ id, playing: false }));
+        if (!howlRefs.current[id]) {
+          const sound = soundsData.find((s) => s.id === id);
+          if (!sound) return;
+
+          const validFormats = ['.ogg', '.mp3', '.wav'];
+          const filteredSrc = sound.audio.filter((src) => validFormats.some((ext) => src.toLowerCase().endsWith(ext)));
+          if (filteredSrc.length === 0) return;
+
+          const howl = new Howl({
+            src: filteredSrc,
+            loop: true,
+            preload: true,
+            volume: ((volumes[id] ?? 30) / 100) * (globalVolume / 100),
+            html5: true,
+            mute: globalMuted,
           });
+
+          tryPlay(howl);
+
+          howlRefs.current[id] = howl;
+        } else {
+          const howl = howlRefs.current[id];
+          howl.mute(globalMuted);
+          howl.volume(((volumes[id] ?? 30) / 100) * (globalVolume / 100));
+          if (!howl.playing()) {
+            tryPlay(howl);
+          }
         }
       } else {
-        // اگر باید قطع شود، المان صوتی را متوقف و حذف کن
-        if (audioRefs.current[id]) {
-          audioRefs.current[id].pause();
-          audioRefs.current[id].currentTime = 0;
-          delete audioRefs.current[id];
+        if (howlRefs.current[id]) {
+          howlRefs.current[id].stop();
+          howlRefs.current[id].unload();
+          delete howlRefs.current[id];
         }
       }
     });
 
-    // پاکسازی المان‌های صوتی که دیگر در playing نیستند
-    Object.keys(audioRefs.current).forEach((idStr) => {
+    Object.keys(howlRefs.current).forEach((idStr) => {
       const id = Number(idStr);
       if (!(id in playing)) {
-        audioRefs.current[id].pause();
-        delete audioRefs.current[id];
+        howlRefs.current[id].stop();
+        howlRefs.current[id].unload();
+        delete howlRefs.current[id];
       }
     });
 
-    // ذخیره وضعیت فعلی برای مقایسه در دفعات بعدی
     prevPlaying.current = { ...playing };
 
-    // به‌روزرسانی وضعیت کلی در Redux بر اساس playing
     dispatch(setGlobalStateByPlaying());
-  }, [playing, volumes, globalVolume, dispatch]);
+  }, [playing, volumes, globalVolume, globalMuted, dispatch]);
 
-  // به‌روزرسانی حجم هر صدای در حال پخش با تغییر حجم‌های فردی یا کلی
   useEffect(() => {
-    Object.entries(audioRefs.current).forEach(([idStr, audio]) => {
+    Object.entries(howlRefs.current).forEach(([idStr, howl]) => {
       const id = Number(idStr);
-      const volume = volumes[id] ?? 30;
-      audio.volume = (volume / 100) * (globalVolume / 100);
+      const currentVolume = (volumes[id] ?? 30) / 100;
+
+      if (!globalMuted) {
+        originalVolumesRef.current[id] = currentVolume;
+      }
+
+      if (globalMuted) {
+        howl.mute(true);
+      } else {
+        howl.mute(false);
+
+        if (playing[id] && !howl.playing()) {
+          tryPlay(howl);
+        }
+      }
     });
-  }, [volumes, globalVolume]);
+  }, [volumes, globalVolume, globalMuted, playing]);
 
-  // اگر globalPlaying فعال است، پخش همه صداهای فعال را تضمین کن
-  useEffect(() => {
-    if (globalPlaying) {
-      Object.entries(audioRefs.current).forEach(([idStr, audio]) => {
-        const id = Number(idStr);
-        if (playing[id] && audio.paused) {
-          audio.play().catch(() => {
-            dispatch(setPlaying({ id, playing: false }));
-          });
-        }
-      });
-    }
-  }, [globalPlaying, dispatch, playing]);
-
-  // اگر globalPause فعال است، همه صداها را متوقف کن
-  useEffect(() => {
-    if (globalPause) {
-      Object.values(audioRefs.current).forEach((audio) => {
-        if (!audio.paused) {
-          audio.pause();
-        }
-      });
-    }
-  }, [globalPause]);
-
-  // پاکسازی کامل هنگام unmount کامپوننت
   useEffect(() => {
     return () => {
-      Object.values(audioRefs.current).forEach((audio) => {
-        audio.pause();
+      Object.values(howlRefs.current).forEach((howl) => {
+        howl.stop();
+        howl.unload();
       });
-      audioRefs.current = {};
+      howlRefs.current = {};
       prevPlaying.current = {};
+      originalVolumesRef.current = {};
     };
   }, []);
 
-  // این کامپوننت چیزی رندر نمی‌کند، فقط مدیریت کننده صدا است
   return null;
 }
