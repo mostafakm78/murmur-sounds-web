@@ -21,6 +21,7 @@ export default function SoundsManager() {
 
   function tryPlay(howl: Howl) {
     if (!howl.playing()) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const playId = howl.play();
 
       howl.once('play', () => {

@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/howler": "^2.2.12",
     "@types/node": "^20",
     "@types/nprogress": "^0.2.3",
     "@types/react": "^19",
