@@ -97,7 +97,7 @@ export default function SoundsManager() {
             src: filteredSrc,
             loop: true,
             preload: true,
-            volume: ((volumes[id] ?? 30) / 100) * (globalVolume / 100),
+            volume: ((volumes[id] ?? 0) / 100) * (globalVolume / 100),
             html5: true,
             mute: globalMuted,
           });
@@ -108,7 +108,7 @@ export default function SoundsManager() {
         } else {
           const howl = howlRefs.current[id];
           howl.mute(globalMuted);
-          howl.volume(((volumes[id] ?? 30) / 100) * (globalVolume / 100));
+          howl.volume(((volumes[id] ?? 0) / 100) * (globalVolume / 100));
           if (!howl.playing()) {
             tryPlay(howl);
           }
@@ -134,7 +134,7 @@ export default function SoundsManager() {
     // اضافه: آپدیت حجم همه howl ها بر اساس globalVolume و volumes
     Object.entries(howlRefs.current).forEach(([idStr, howl]) => {
       const id = Number(idStr);
-      const volume = ((volumes[id] ?? 30) / 100) * (globalVolume / 100);
+      const volume = ((volumes[id] ?? 0) / 100) * (globalVolume / 100);
       howl.volume(volume);
     });
 
@@ -146,7 +146,7 @@ export default function SoundsManager() {
   useEffect(() => {
     Object.entries(howlRefs.current).forEach(([idStr, howl]) => {
       const id = Number(idStr);
-      const currentVolume = ((volumes[id] ?? 30) / 100) * (globalVolume / 100);
+      const currentVolume = ((volumes[id] ?? 0) / 100) * (globalVolume / 100);
 
       if (globalMuted) {
         howl.mute(true);
