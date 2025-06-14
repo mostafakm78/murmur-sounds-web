@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   try {
     const data = await resend.emails.send({
-      from: 'no-reply@yourdomain.com',
+      from: 'no-reply@mostafamf555.ir',
       replyTo: email,
       to: 'mostafamf555@gmail.com',
       subject: `درخواست صدای جدید از ${username}`,

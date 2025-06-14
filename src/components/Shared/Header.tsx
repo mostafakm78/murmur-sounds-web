@@ -19,11 +19,14 @@ export default function Header(): JSX.Element {
         <div className="flex items-center">
           {/* قطع/وصل کردن همه صداها */}
           <SwitchMute />
+
           {/* اسلایدر کنترل حجم صدای کلی */}
-          <SliderHeader className="md:w-32 w-20 ml-3" />
+          <SliderHeader className="md:w-32 w-20 ml-3 hidden md:flex" />
           {/* تغییر تم روشن/تاریک */}
           <DarkMode />
         </div>
+
+        <h2 className="text-foreground block md:hidden font-sans font-bold dark:text-foreground text-2xl">SoftSound</h2>
 
         {/* سمت راست هدر: لینک‌های مسیر */}
         <div className="hidden lg:flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">

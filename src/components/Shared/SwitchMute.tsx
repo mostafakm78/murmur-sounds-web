@@ -17,7 +17,7 @@ export function SwitchMute() {
   };
 
   return (
-    <div className="flex items-center ml-3 space-x-2 space-x-reverse">
+    <div className="md:flex hidden items-center ml-3 space-x-2 space-x-reverse">
       {/* لیبل سوییچ */}
       <Label htmlFor="mute" className="text-foreground hover:cursor-pointer">
         بی‌صدا

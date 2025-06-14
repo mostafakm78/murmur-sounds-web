@@ -81,7 +81,7 @@ export default function Dock() {
 
           {/* دکمه حالت پخش تصادفی (نمایشی - هنوز عملکرد ندارد) */}
           <button onClick={handleRandom} className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
-            <span className="hidden md:inline">حالت تصادفی</span>
+            <span>حالت تصادفی</span>
             <FaShuffle className="h-5 w-5" />
           </button>
 
@@ -90,12 +90,15 @@ export default function Dock() {
             {globalPlaying ? <FaPause /> : <FaPlay />}
           </button>
 
-          <motion.button onClick={handleResetVolumes} className="text-lg" animate={{ rotate: resetMotion }} transition={{ type: 'spring', stiffness: 150, damping: 10 }}>
-            <RiResetLeftFill />
-          </motion.button>
+          <div onClick={handleResetVolumes} className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
+            <span>بازنشانی</span>
+            <motion.button className="text-lg" animate={{ rotate: resetMotion }} transition={{ type: 'spring', stiffness: 150, damping: 10 }}>
+              <RiResetLeftFill />
+            </motion.button>
+          </div>
 
           {/* کنترل ولوم کلی با اسلایدر */}
-          <span className="font-medium text-sm flex flex-col md:flex-row gap-2 items-center">
+          <span className="font-medium hidden text-sm md:flex flex-col md:flex-row gap-2 items-center">
             صدای کل
             <SliderHeader className="md:w-44 w-24 ml-3" />
           </span>
