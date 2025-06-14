@@ -197,10 +197,10 @@ export default function FadeTimer() {
       </div>
 
       <div className="flex items-center justify-around w-full">
-        <input type="number" value={hour} min={0} max={23} onChange={(e) => setHour(Math.min(23, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
+        <input type="number" value={hour} min={0} max={23} onChange={(e) => setHour(Math.min(23, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
         <label className="mx-1">ساعت</label>
 
-        <input type="number" value={min} min={0} max={59} onChange={(e) => setMin(Math.min(59, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
+        <input type="number" value={min} min={0} max={59} onChange={(e) => setMin(Math.min(59, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
         <label className="mx-1">دقیقه</label>
       </div>
 

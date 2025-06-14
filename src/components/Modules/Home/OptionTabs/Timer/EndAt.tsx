@@ -140,11 +140,11 @@ export default function EndAt() {
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">
       <div className="w-full xl:w-2/3 flex justify-around items-center">
-        <input type="number" min={0} value={hour} onChange={(e) => setHour(Math.max(0, Number(e.target.value)))} id="hour" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
+        <input type="number" min={0} value={hour} onChange={(e) => setHour(Math.max(0, Number(e.target.value)))} id="hour" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" />
         <label htmlFor="hour" className="md:text-lg font-medium">
           ساعت و
         </label>
-        <input type="number" min={0} value={min} onChange={(e) => setMin(Math.max(0, Number(e.target.value)))} id="min" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" />
+        <input type="number" min={0} value={min} onChange={(e) => setMin(Math.max(0, Number(e.target.value)))} id="min" className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" />
         <label htmlFor="min" className="md:text-lg font-medium">
           دقیقه
         </label>

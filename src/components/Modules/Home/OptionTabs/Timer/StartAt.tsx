@@ -111,11 +111,11 @@ export default function StartAt() {
   return (
     <div className="w-full gap-4 flex h-full flex-col justify-center items-center">
       <div className="w-full xl:w-2/3 flex justify-around items-center">
-        <input type="number" id="hour" min={0} max={23} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="ساعت" />
+        <input type="number" id="hour" min={0} max={23} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
         <label htmlFor="hour" className="md:text-lg font-medium">
           ساعت و
         </label>
-        <input type="number" id="min" min={0} max={59} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg no-spinner" aria-label="دقیقه" />
+        <input type="number" id="min" min={0} max={59} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
         <label htmlFor="min" className="md:text-lg font-medium">
           دقیقه
         </label>
