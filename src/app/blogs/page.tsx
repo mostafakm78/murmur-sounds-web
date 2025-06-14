@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'بلاگ صدای آرام',
     description: 'در بلاگ صدای آرام، مقالاتی درباره آرامش ذهن، صداهای طبیعی، تکنیک‌های مدیتیشن، و کاهش استرس مطالعه کنید.',
-    url: 'https://sedaayaram.ir/blogs',
+    url: 'https://softsound.ir/blogs',
     siteName: 'صدای آرام',
     images: [
       {
-        url: 'https://sedaayaram.ir/images/Logo.png',
+        url: 'https://softsound.ir/images/Logo.png',
         width: 600,
         height: 600,
         alt: 'صدای آرام',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'بلاگ صدای آرام',
     description: 'مطالبی درباره آرامش ذهن، صداهای طبیعی و مدیتیشن برای کمک به کاهش استرس و زندگی آرام‌تر.',
-    images: ['https://sedaayaram.ir/images/Logo.png'],
+    images: ['https://softsound.ir/images/Logo.png'],
   },
 };
 

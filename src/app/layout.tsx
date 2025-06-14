@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'صدای آرام',
     description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد آرامش و کاهش استرس.',
-    url: 'https://sedaayaram.ir',
+    url: 'https://softsound.ir',
     siteName: 'صدای آرام',
     locale: 'fa_IR',
     type: 'website',
     images: [
       {
-        url: 'https://sedaayaram.ir/images/Logo.png',
+        url: 'https://softsound.ir/images/Logo.png',
         width: 600,
         height: 600,
         alt: 'صدای آرام',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'صدای آرام',
     description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای کاهش استرس.',
-    images: ['https://sedaayaram.ir/images/Logo.png'],
+    images: ['https://softsound.ir/images/Logo.png'],
   },
 };
 

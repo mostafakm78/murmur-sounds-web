@@ -33,17 +33,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: data.title || 'مطلب وبلاگ',
-    description: data.description || '',
-    keywords: data.keywords || data.title?.split(' ') || [],
+    description: data.excerpt || '',
+    keywords: ['بلاگ آرامش', 'صداهای طبیعی', 'مدیتیشن', 'کاهش استرس', 'ریلکسیشن', 'آرامش ذهن'],
     openGraph: {
       title: data.title,
-      description: data.description,
-      url: `https://yourdomain.com/blogs/${slugPath}`,
+      description: data.excerpt,
+      url: `https://softsound.ir/blogs/${slugPath}`,
       type: 'article',
       images: data.image
         ? [
             {
-              url: `https://yourdomain.com${data.image}`, // اگر مسیر نسبی هست
+              url: `https://softsound.ir${data.image}`,
               width: 800,
               height: 600,
               alt: data.title,
@@ -54,9 +54,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: data.title,
-      description: data.description,
-      images: data.image ? [`https://yourdomain.ir${data.image}`] : [],
-      creator: data.author,
+      description: data.excerpt,
+      images: data.image ? [`https://softsound.ir${data.image}`] : [],
+      creator: data.author || '@softsound',
     },
     authors: data.author ? [{ name: data.author }] : undefined,
     category: data.category || 'وبلاگ',

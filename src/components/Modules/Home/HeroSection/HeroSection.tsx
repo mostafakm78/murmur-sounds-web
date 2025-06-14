@@ -39,9 +39,10 @@ export default function HeroSection(): JSX.Element | null {
         >
           <Particles className="absolute inset-0 z-0" staticity={10} quantity={200} ease={150} color={fillColor2} refresh />
           {/* بخش متن و تیتر */}
-          <div className="md:w-1/2 flex flex-col items-start justify-center">
+          <div className="md:w-1/2 flex flex-col lg:items-start lg:text-right text-center items-center justify-center">
             <BlurFade delay={0.35} inView>
-              <h1 className="text-foreground dark:text-foreground md:text-7xl text-4xl mb-16">صدای آرام</h1>
+              <h1 className="text-foreground font-bold dark:text-foreground md:text-5xl lg:text-7xl text-4xl mb-6 md:mb-4 lg:mb-12">صدای آرام</h1>
+              <h2 className="text-foreground font-sans font-bold dark:text-foreground md:text-5xl lg:text-7xl text-4xl mb-6 md:mb-4 lg:mb-12">SoftSound</h2>
             </BlurFade>
 
             {/* انیمیشن باکس برای متن */}

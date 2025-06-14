@@ -15,7 +15,8 @@ export default function Footer(): JSX.Element {
       >
         {/* عنوان و توضیح کوتاه درباره سایت */}
         <div className="flex flex-col gap-3 px-10 text-center">
-          <h3 className="text-2xl">صدای آرام</h3>
+          <h3 className="text-2xl text-foreground dark:text-background">صدای آرام</h3>
+          <h3 className="text-2xl font-sans font-bold text-foreground dark:text-background">SoftSound</h3>
           <p className="font-medium">تجربه گوش دادن به صدای لذت‌بخش طبق سلیقه شخصی و ایجاد لحظات آرامش‌بخش برای استراحت در طی مشغله‌های روزانه.</p>
         </div>
 

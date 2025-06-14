@@ -17,13 +17,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'تماس با ما - صدای آرام',
     description: 'برای ارتباط با تیم صدای آرام و ارسال نظرات یا پیشنهادات خود، از این صفحه استفاده کنید. ما همیشه آماده شنیدن نظرات شما هستیم.',
-    url: 'https://sedaayaram.ir/contact-us',
+    url: 'https://softsound.ir/contact-us',
     siteName: 'صدای آرام',
     locale: 'fa_IR',
     type: 'website',
     images: [
       {
-        url: 'https://sedaayaram.ir/images/Logo.png',
+        url: 'https://softsound.ir/images/Logo.png',
         width: 600,
         height: 600,
         alt: 'صدای آرام',
