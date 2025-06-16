@@ -10,10 +10,10 @@ export async function POST(req: Request) {
   const { username, title, email, description } = body;
 
   try {
-    const data = await resend.emails.send({
-      from: 'no-reply@mostafamf555.ir',
+    const { data, error } = await resend.emails.send({
+      from: 'SoftSound <onboarding@resend.dev>',
       replyTo: email,
-      to: 'mostafamf555@gmail.com',
+      to: ['mostafamf555@gmail.com'],
       subject: `درخواست صدای جدید از ${username}`,
       html: `
           <h1>عنوان : ${title}</h1>
@@ -22,6 +22,10 @@ export async function POST(req: Request) {
           <p>ایمیل: ${email}</p>
         `,
     });
+
+    if (error) {
+      return NextResponse.json({ success: false, data: error }, { status: 400 });
+    }
 
     return NextResponse.json({ success: true, data: data }, { status: 200 });
   } catch (error) {

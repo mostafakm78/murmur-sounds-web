@@ -53,8 +53,6 @@ export function ContactForm() {
       body: JSON.stringify(data),
     });
 
-    console.log('Form data:', res);
-
     if (res.ok) {
       toast({ description: '✅درخواست شما با موفقیت ارسال شد.' });
       form.reset();
