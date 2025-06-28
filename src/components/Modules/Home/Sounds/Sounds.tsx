@@ -91,7 +91,7 @@ export default function Sounds(): JSX.Element {
 
                     <div className="flex w-full px-2 md:gap-6 justify-center md:justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
                       {isPlaying ? <FaPause onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Pause" /> : <FaPlay onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Play" />}
-                      <SliderSounds className='hidden md:flex' soundId={id} />
+                      <SliderSounds className="hidden md:flex" soundId={id} />
                     </div>
                   </div>
                 </MagicCard>
