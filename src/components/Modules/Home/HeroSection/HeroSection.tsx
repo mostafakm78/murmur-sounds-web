@@ -8,6 +8,11 @@ import { useFillColor } from '@/hooks/use-fill-color';
 import { JSX } from 'react';
 import { LazyMotion, domAnimation, m } from 'framer-motion'; // <-- تغییر
 import dynamic from 'next/dynamic';
+import { Edu_AU_VIC_WA_NT_Hand } from 'next/font/google';
+
+const hand = Edu_AU_VIC_WA_NT_Hand({
+  subsets: ['latin'],
+});
 
 export default function HeroSection(): JSX.Element | null {
   const fillColor = useFillColor({ light: '#F2F4F8', dark: '#AB46D2' });
@@ -42,7 +47,7 @@ export default function HeroSection(): JSX.Element | null {
           <div className="md:w-1/2 flex flex-col lg:items-start lg:text-right text-center items-center justify-center">
             <BlurFade delay={0.35} inView>
               <h1 className="text-foreground font-bold dark:text-foreground md:text-5xl lg:text-7xl text-4xl mb-6 md:mb-4 lg:mb-12">صدای آرام</h1>
-              <h2 className="text-foreground hidden md:block font-sans font-bold dark:text-foreground md:text-5xl lg:text-7xl text-4xl mb-6 md:mb-4 lg:mb-12">SoftSound</h2>
+              <h2 className={`text-foreground hidden md:block font-bold dark:text-foreground md:text-5xl lg:text-7xl text-4xl mb-6 md:mb-4 lg:mb-12 ${hand.className}`}>SoftSound</h2>
             </BlurFade>
 
             {/* انیمیشن باکس برای متن */}

@@ -2,6 +2,11 @@ import Link from 'next/link';
 import { JSX } from 'react';
 import FooterIconAnimation from '../animations/FooterIconsAnimaton';
 import { DrawerWarning } from './DrawerWarning';
+import { Edu_AU_VIC_WA_NT_Hand } from 'next/font/google';
+
+const hand = Edu_AU_VIC_WA_NT_Hand({
+  subsets: ['latin'],
+});
 
 // استایل‌های لینک‌های مفید با افکت خط زیر
 const usefulLinks = 'font-medium hover:opacity-85 duration-300 relative after:absolute after:w-0 after:h-[1px] after:bottom-0 after:right-0 after:bg-foreground after:duration-300 hover:after:w-full';
@@ -18,7 +23,7 @@ export default function Footer(): JSX.Element {
         <div className="flex flex-col gap-3 px-10 text-center">
           <div className="flex gap-4 justify-center">
             <h3 className="text-2xl text-foreground dark:text-background">صدای آرام</h3>
-            <h3 className="text-2xl font-sans font-bold text-foreground dark:text-background">SoftSound</h3>
+            <h3 className={`text-2xl font-sans font-bold text-foreground dark:text-background ${hand.className}`}>SoftSound</h3>
             <DrawerWarning />
           </div>
           <p className="font-medium">تجربه گوش دادن به صدای لذت‌بخش طبق سلیقه شخصی و ایجاد لحظات آرامش‌بخش برای استراحت در طی مشغله‌های روزانه.</p>
