@@ -13,8 +13,19 @@ import ProgressBar from '@/components/Shared/Progressbar';
  * اطلاعات متا برای موتورهای جستجو و اشتراک‌گذاری
  */
 export const metadata: Metadata = {
+  metadataBase: new URL('https://softsound.vercel.app'),
+
   title: 'صدای آرام',
   description: 'پخش صداهای آرامش‌بخش از طبیعت و زندگی روزمره برای ایجاد آرامش و کاهش استرس.',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true, // اجازه ایندکس شدن
+    follow: true, // اجازه دنبال کردن لینک‌ها
+    nocache: false, // اجازه کش شدن
+    noarchive: false, // گوگل نسخه‌ی کش‌شده نگه دارد
+  },
   keywords: ['صدای آرام', 'صداهای طبیعت', 'ریلکسیشن', 'آرامش', 'مدیتیشن', 'موزیک آرامش‌بخش'],
   icons: {
     icon: '/images/Logo.png',

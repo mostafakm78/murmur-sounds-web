@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState, useRef } from 'react';
+import { useCallback, useMemo, useState, useRef, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
@@ -32,7 +32,7 @@ export default function FadeTimer() {
 
   const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const isMobile = window.innerWidth < 768;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const isValidSound = useMemo(() => {
     return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
@@ -139,7 +139,7 @@ export default function FadeTimer() {
     toast({
       description: `فید صدا از "${startSel}" به "${endSel}" در ${hour ? `${hour} ساعت` : ''} ${min ? `${min} دقیقه` : ''} آغاز شد.`,
     });
-  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime, isValidSound , isMobile]);
+  }, [dispatch, hour, min, startSel, endSel, allMixes, volumes, fadeVolumesOverTime, isValidSound, isMobile]);
 
   const onCancel = useCallback(() => {
     setHour(0);
@@ -157,10 +157,14 @@ export default function FadeTimer() {
   }, [dispatch]);
 
   return (
-    <div className="w-full flex flex-col gap-4 items-center">
+    <section aria-labelledby="fade-timer-heading" className="w-full flex flex-col gap-4 items-center">
+      <h2 id="fade-timer-heading" className="sr-only">
+        تنظیم زمان‌بندی فید صداها
+      </h2>
+
       <div className="flex items-center justify-around w-full">
-        <div>
-          <span className="text-sm font-light block mb-1">نقطه شروع:</span>
+        <fieldset>
+          <legend className="text-sm font-light mb-1">نقطه شروع:</legend>
           <Select value={startSel} onValueChange={setStartSel}>
             <SelectTrigger className="lg:w-44 w-28">
               <SelectValue placeholder="شروع" />
@@ -175,12 +179,14 @@ export default function FadeTimer() {
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </fieldset>
 
-        <span className="text-sm hidden md:block font-medium">← فید →</span>
+        <span className="text-sm hidden md:block font-medium" aria-hidden="true">
+          ← فید →
+        </span>
 
-        <div>
-          <span className="text-sm font-light block mb-1">نقطه پایان:</span>
+        <fieldset>
+          <legend className="text-sm font-light mb-1">نقطه پایان:</legend>
           <Select value={endSel} onValueChange={setEndSel}>
             <SelectTrigger className="lg:w-44 w-28">
               <SelectValue placeholder="پایان" />
@@ -195,15 +201,21 @@ export default function FadeTimer() {
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </fieldset>
       </div>
 
       <div className="flex items-center justify-around w-full">
-        <input type="number" value={hour} min={0} max={23} onChange={(e) => setHour(Math.min(23, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
-        <label className="mx-1">ساعت</label>
+        <label htmlFor="fade-hour" className="sr-only">
+          ساعت
+        </label>
+        <input id="fade-hour" type="number" value={hour} min={0} max={23} onChange={(e: ChangeEvent<HTMLInputElement>) => setHour(Math.min(23, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
+        <span className="mx-1">ساعت</span>
 
-        <input type="number" value={min} min={0} max={59} onChange={(e) => setMin(Math.min(59, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
-        <label className="mx-1">دقیقه</label>
+        <label htmlFor="fade-min" className="sr-only">
+          دقیقه
+        </label>
+        <input id="fade-min" type="number" value={min} min={0} max={59} onChange={(e: ChangeEvent<HTMLInputElement>) => setMin(Math.min(59, Math.max(0, +e.target.value)))} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
+        <span className="mx-1">دقیقه</span>
       </div>
 
       <Separator className="my-4" />
@@ -216,6 +228,6 @@ export default function FadeTimer() {
           شروع
         </button>
       </div>
-    </div>
+    </section>
   );
 }

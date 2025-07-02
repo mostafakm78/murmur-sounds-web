@@ -50,9 +50,9 @@ export default function ShareSounds(): JSX.Element | null {
     }
   };
 
-  // برای دسترسی امن به window.origin
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const fullShareLink = origin + shareLink;
+
+  const fullShareLink = shareLink ? origin + shareLink : '';
 
   const handleSave = () => {
     const url = getShareURL();
@@ -79,9 +79,9 @@ export default function ShareSounds(): JSX.Element | null {
 
       {/* لینک */}
       <div className="flex items-center justify-around w-full">
-        <div className="w-full flex items-center justify-center min-h-10 bg-transparent border border-foreground rounded-sm px-2">
-          <p dir="ltr" className="font-medium underline underline-offset-2 text-sm break-words text-center" aria-live="polite" aria-label="لینک اشتراک‌گذاری">
-            {shareLink ? fullShareLink : 'لینک شما اینجا نمایش داده خواهد شد'}
+        <div className="w-full flex items-center justify-center min-h-10 bg-transparent border border-foreground rounded-sm px-2" role="region" aria-live="polite" aria-label="لینک اشتراک‌گذاری">
+          <p dir="ltr" className="font-medium underline underline-offset-2 text-sm break-words text-center">
+            {fullShareLink || 'لینک شما اینجا نمایش داده خواهد شد'}
           </p>
         </div>
       </div>
@@ -126,6 +126,7 @@ export default function ShareSounds(): JSX.Element | null {
           onClick={handleSave}
           className="relative w-full xl:w-1/3 font-medium hover:opacity-85 duration-300 py-2 md:px-3 px-1 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
           aria-label="کپی لینک ترکیب صدا به کلیپ‌بورد"
+          type="button"
         >
           {buttonText ? 'کپی شد!' : 'کپی در حافظه'}
         </button>
@@ -148,7 +149,7 @@ export default function ShareSounds(): JSX.Element | null {
         </Link>
 
         {/* واتساپ */}
-        <Link href={`https://wa.me/${fullShareLink ? `?text=${encodeURIComponent(fullShareLink)}` : ''}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در واتساپ" className="md:text-5xl text-3xl cursor-pointer hover:scale-105 duration-300">
+        <Link href={`https://api.whatsapp.com/send${fullShareLink ? `?text=${encodeURIComponent(fullShareLink)}` : ''}`} target="_blank" rel="noopener noreferrer" aria-label="اشتراک‌گذاری در واتساپ" className="md:text-5xl text-3xl cursor-pointer hover:scale-105 duration-300">
           <FaWhatsapp />
         </Link>
       </div>

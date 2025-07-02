@@ -36,7 +36,7 @@ export default function GlobalPlay() {
   return (
     <div className="flex flex-col justify-center items-center my-16 gap-8">
       <h2 className="text-4xl text-foreground dark:text-foreground">صداهای در دسترس</h2>
-      <button onClick={handleTogglePlay} className="text-7xl text-foreground dark:text-foreground">
+      <button aria-label={globalPlaying ? 'توقف همه صداها' : 'پخش همه صداها'} onClick={handleTogglePlay} className="text-7xl text-foreground dark:text-foreground">
         {globalPlaying ? <FaPause /> : <FaPlay />}
       </button>
     </div>

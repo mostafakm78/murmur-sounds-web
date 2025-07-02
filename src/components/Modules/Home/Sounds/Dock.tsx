@@ -73,34 +73,35 @@ export default function Dock() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.4, ease: 'easeInOut' }} className="fixed lg:bottom-8 bottom-10 left-0 w-full z-[78] pointer-events-none">
+    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.4, ease: 'easeInOut' }} role="region" className="fixed lg:bottom-8 bottom-10 left-0 w-full z-[78] pointer-events-none">
       <div className="flex justify-center w-full pointer-events-none">
-        <div className="pointer-events-auto lg:w-2/3 w-[90%] outline outline-2 outline-offset-1 shadow-xl flex lg:px-5 px-2 lg:gap-5 gap-2 items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
+        <div role="toolbar" className="pointer-events-auto lg:w-2/3 w-[90%] outline outline-2 outline-offset-1 shadow-xl flex lg:px-5 px-2 lg:gap-5 gap-2 items-center justify-around rounded-sm bg-[#F2F4F8] dark:bg-[#AB46D2] py-4">
           {/* دکمه Mute کلی */}
-          <SwitchMute />
+          <SwitchMute aria-label="قطع/وصل صدای کلی" />
 
           {/* دکمه حالت پخش تصادفی (نمایشی - هنوز عملکرد ندارد) */}
-          <button onClick={handleRandom} className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
+          <button type="button" onClick={handleRandom} aria-label="پخش صداهای تصادفی" className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
             <span>حالت تصادفی</span>
-            <FaShuffle className="h-5 w-5" />
+            <FaShuffle className="h-5 w-5" aria-hidden="true" />
           </button>
 
           {/* دکمه پخش / توقف کلی */}
-          <button onClick={handleTogglePlay} className="text-base">
+          <button onClick={handleTogglePlay} aria-label={globalPlaying ? 'توقف همه صداها' : 'پخش همه صداها'} type="button" className="text-base">
             {globalPlaying ? <FaPause /> : <FaPlay />}
           </button>
 
-          <div onClick={handleResetVolumes} className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85">
+          {/* دکمه بازنشانی */}
+          <button onClick={handleResetVolumes} className="font-medium text-sm flex gap-2 items-center cursor-pointer hover:opacity-85 duration-300 focus:opacity-85" aria-label="بازنشانی حجم همه صداها" type="button">
             <span>بازنشانی</span>
-            <motion.button className="text-lg" animate={{ rotate: resetMotion }} transition={{ type: 'spring', stiffness: 150, damping: 10 }}>
+            <motion.span className="text-lg" animate={{ rotate: resetMotion }} transition={{ type: 'spring', stiffness: 150, damping: 10 }} aria-hidden="true">
               <RiResetLeftFill />
-            </motion.button>
-          </div>
+            </motion.span>
+          </button>
 
           {/* کنترل ولوم کلی با اسلایدر */}
           <span className="font-medium hidden text-sm md:flex flex-col md:flex-row gap-2 items-center">
             صدای کل
-            <SliderHeader className="md:w-44 w-24 ml-3" />
+            <SliderHeader className="md:w-44 w-24 ml-3" aria-label="کنترل حجم صدای کلی" />
           </span>
         </div>
       </div>

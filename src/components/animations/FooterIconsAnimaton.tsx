@@ -25,18 +25,18 @@ const iconVariants: Variants = {
 
 export default function FooterIconAnimation() {
   const icons = [
-    { href: 'https://t.me/Mostafakamari78', icon: <FaTelegram /> },
-    { href: 'https://wa.me/+989169799533', icon: <FaWhatsapp /> },
-    { href: 'https://linkedin.com/in/mostafakamari', icon: <FaLinkedin /> },
-    { href: 'https://github.com/mostafakm78', icon: <FaGithub /> },
+    { href: 'https://t.me/Mostafakamari78', icon: <FaTelegram />, label: 'تلگرام' },
+    { href: 'https://wa.me/+989169799533', icon: <FaWhatsapp />, label: 'واتس‌اپ' },
+    { href: 'https://linkedin.com/in/mostafakamari', icon: <FaLinkedin />, label: 'لینکدین' },
+    { href: 'https://github.com/mostafakm78', icon: <FaGithub />, label: 'گیت‌هاب' },
   ];
 
   return (
     <LazyMotion features={domAnimation}>
       <m.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-4 text-3xl items-center">
-        {icons.map(({ href, icon }, i) => (
+        {icons.map(({ href, icon, label }, i) => (
           <m.div key={href} custom={i} variants={iconVariants} whileHover={{ scale: 1.2, opacity: 0.85 }} whileFocus={{ scale: 1.2, opacity: 0.85 }} className={iconLinkCss}>
-            <Link href={href} target="_blank" rel="noopener noreferrer">
+            <Link href={href} target="_blank" rel="noopener noreferrer" aria-label={`لینک به ${label}`}>
               {icon}
             </Link>
           </m.div>

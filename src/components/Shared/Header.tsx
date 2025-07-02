@@ -29,7 +29,7 @@ export default function Header(): JSX.Element {
         <h2 className="text-foreground block md:hidden font-sans font-bold dark:text-foreground text-2xl">SoftSound</h2>
 
         {/* سمت راست هدر: لینک‌های مسیر */}
-        <div className="hidden lg:flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">
+        <nav aria-label="ناوبری اصلی" className="hidden lg:flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">
           <Link href="/contact-us" className={linkClassName}>
             تماس با ما
           </Link>
@@ -42,7 +42,7 @@ export default function Header(): JSX.Element {
           <Link href="/" className={linkClassName}>
             خانه
           </Link>
-        </div>
+        </nav>
         {/* منوی ناوبری */}
         <div className="lg:hidden block">
           <NavigationMenu dir="rtl">

@@ -24,6 +24,8 @@ export default function HeroSection(): JSX.Element | null {
       {/* اضافه شد */}
       <div className="mx-auto container">
         <section
+          aria-label="معرفی صدای آرام"
+          role="region"
           className="
             relative
             overflow-hidden
@@ -52,9 +54,9 @@ export default function HeroSection(): JSX.Element | null {
 
             {/* انیمیشن باکس برای متن */}
             <BoxReveal duration={1} boxColor="#ffffff40">
-              <div className="font-medium text-foreground/95 dark:text-foreground/80 lg:text-lg md:text-base text-justify leading-6 text-sm">
+              <p className="font-medium text-foreground/95 dark:text-foreground/80 lg:text-lg md:text-base text-justify leading-6 text-sm">
                 صدای آرام یک پلتفرم آنلاین است که به شما این امکان را می‌دهد، به راحتی و با کیفیت بالا، صداهای آرامش‌بخش را بشنوید و تجربه‌ای منحصر به فرد از آرامش را داشته باشید.
-              </div>
+              </p>
             </BoxReveal>
           </div>
 
@@ -84,6 +86,7 @@ export default function HeroSection(): JSX.Element | null {
           >
             {/* SVG شکل پس‌زمینه متحرک */}
             <svg
+              aria-hidden="true"
               className="
                 absolute
                 lg:w-full lg:h-full

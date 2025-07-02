@@ -15,6 +15,7 @@ export default function Footer(): JSX.Element {
   return (
     <>
       <footer
+        aria-label="پاورقی سایت صدای آرام"
         className="bg-[#F2F4F8] dark:bg-[#AB46D2] relative lg:h-[300px] flex flex-col gap-8 items-center justify-center py-10 w-full mt-56
         after:content-[''] after:absolute dark:after:bg-[url('/assets/footer-wave-dark.svg')] after:bg-[url('/assets/footer-wave-light.svg')]
         after:w-full after:bg-no-repeat after:bg-cover after:h-[250px] after:bottom-full"
@@ -53,7 +54,7 @@ export default function Footer(): JSX.Element {
         <div dir="ltr" className="flex items-center lg:mb-2 mb-6 flex-col justify-center text-center">
           <p className="text-sm">
             © {new Date().getFullYear()}{' '}
-            <Link href="https://portfolio-immostafakamari.vercel.app" target="_blank" className={usefulLinks}>
+            <Link href="https://portfolio-immostafakamari.vercel.app" target="_blank" rel="noopener noreferrer" className={usefulLinks}>
               Mostafa Kamari
             </Link>
             . All rights reserved.

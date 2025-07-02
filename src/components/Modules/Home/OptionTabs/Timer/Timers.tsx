@@ -2,7 +2,7 @@
 
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { Separator } from '@/components/ui/separator';
-import { Fragment, JSX, useState } from 'react';
+import { Fragment, JSX, useState, useEffect, useRef } from 'react';
 
 import Fade from './Fade';
 import StartAt from './StartAt';
@@ -28,6 +28,14 @@ export default function Timers(): JSX.Element | null {
   const fillColor = useFillColor({ light: '#6C63FF', dark: '#F2F4F8' });
   const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
 
+  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    // فوکوس روی تب انتخاب شده
+    const index = tabs.indexOf(selectTab);
+    buttonsRef.current[index]?.focus();
+  }, [selectTab]);
+
   const renderTabContent = (tab: Tab) => {
     switch (tab) {
       case Tab.StartAt:
@@ -48,7 +56,16 @@ export default function Timers(): JSX.Element | null {
       <div className="flex items-center justify-around w-full" role="tablist">
         {tabs.map((tab, index) => (
           <Fragment key={tab}>
-            <button role="tab" aria-selected={selectTab === tab} onClick={() => setSelectTab(tab)} className={`font-medium ${selectTab === tab ? 'bg-black/10' : ''} hover:opacity-85 duration-300 rounded-sm py-3 px-4`}>
+            <button
+              role="tab"
+              id={`tab-${tab}`}
+              aria-selected={selectTab === tab}
+              aria-controls={`panel-${tab}`}
+              tabIndex={selectTab === tab ? 0 : -1}
+              onClick={() => setSelectTab(tab)}
+              className={`font-medium ${selectTab === tab ? 'bg-black/10' : ''} hover:opacity-85 duration-300 rounded-sm py-3 px-4`}
+              ref={(el) => { buttonsRef.current[index] = el; }}
+            >
               {tabLabels[tab]}
             </button>
             {index !== tabs.length - 1 && <Separator orientation="vertical" className="dark:bg-foreground/20" />}
@@ -58,7 +75,9 @@ export default function Timers(): JSX.Element | null {
 
       <Separator className="my-4 dark:bg-foreground/20" />
 
-      {renderTabContent(selectTab)}
+      <div role="tabpanel" id={`panel-${selectTab}`} aria-labelledby={`tab-${selectTab}`} className="w-full">
+        {renderTabContent(selectTab)}
+      </div>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { ScrollProgress } from '@/components/magicui/scroll-progress';
 import InitFromURL from '@/lib/InitFromURL';
 import HeaderAnimation from '@/components/animations/HeaderAnimation';
 import { Metadata } from 'next';
+import SoundsStructuredData from '@/components/SEO/PlaylistStructuredData';
 
 export const metadata: Metadata = {
   title: 'صدای آرام',
@@ -46,6 +47,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <SoundsStructuredData />
       <ScrollProgress className="h-[1.5px] bg-foreground" />
       <SoundsManager />
       <InitFromURL />

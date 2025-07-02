@@ -19,7 +19,7 @@ export default function StartAt() {
   const [hour, setHour] = useState(0);
   const [min, setMin] = useState(0);
 
-  const isMobile = window.innerWidth < 768;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const isValidSound = useMemo(() => {
     return Object.entries(volumes).some(([id]) => (volumes[+id] ?? 0) > 0);
@@ -113,16 +113,20 @@ export default function StartAt() {
   }, [startAt, hasStarted, dispatch, playSounds]);
 
   return (
-    <div className="w-full gap-4 flex h-full flex-col justify-center items-center">
+    <section aria-labelledby="start-at-heading" className="w-full gap-4 flex h-full flex-col justify-center items-center">
+      <h2 id="start-at-heading" className="sr-only">
+        تنظیم زمان شروع پخش صداها
+      </h2>
+
       <div className="w-full xl:w-2/3 flex justify-around items-center">
-        <input type="number" id="hour" min={0} max={23} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
         <label htmlFor="hour" className="md:text-lg font-medium">
           ساعت و
         </label>
-        <input type="number" id="min" min={0} max={59} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
+        <input type="number" id="hour" min={0} max={23} value={hour} onChange={handleHourChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="ساعت" />
         <label htmlFor="min" className="md:text-lg font-medium">
           دقیقه
         </label>
+        <input type="number" id="min" min={0} max={59} value={min} onChange={handleMinChange} className="md:p-2 p-1 w-16 rounded bg-black/10 outline-none focus:outline-none text-foreground text-lg" aria-label="دقیقه" />
       </div>
 
       <Separator className="my-4 dark:bg-foreground/20" />
@@ -135,6 +139,6 @@ export default function StartAt() {
           شروع
         </button>
       </div>
-    </div>
+    </section>
   );
 }

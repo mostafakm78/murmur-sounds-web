@@ -63,7 +63,7 @@ export default function Sounds(): JSX.Element {
   );
 
   return (
-    <main className="mx-auto container">
+    <main className="mx-auto container" role="main">
       <GlobalPlayAnimation />
       <LazyMotion features={domAnimation}>
         <div ref={dockRef} className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-6 mt-16 lg:px-10 px-4">
@@ -79,21 +79,23 @@ export default function Sounds(): JSX.Element {
                   ${isPlaying ? 'scale-105 outline-4 outline outline-foreground/50' : ''}
                   duration-500`}
                 >
-                  <div className="flex flex-col items-center lg:p-6 p-4  shadow-foreground/30 justify-center">
+                  <section aria-label={`صدای ${name}`} className="flex flex-col items-center lg:p-6 p-4  shadow-foreground/30 justify-center">
                     <div
                       className={`flex flex-col items-center mb-8 md:text-2xl text-xl justify-center gap-1
                     ${isPlaying ? 'scale-110' : ''}
                     font-medium duration-500 text-background/90 dark:text-foreground/90`}
                     >
                       <Icon className="w-20 h-20 md:w-[100px] sm:h-[100px]" />
-                      {name}
+                      <h3>{name}</h3>
                     </div>
 
                     <div className="flex w-full px-2 md:gap-6 justify-center md:justify-between py-1 bg-white/20 dark:bg-black/10 rounded-md items-center">
-                      {isPlaying ? <FaPause onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Pause" /> : <FaPlay onClick={() => togglePlay(id)} className="w-4 h-4 lg:w-5 lg:h-5 cursor-pointer" color="#F2F4F8" title="Play" />}
-                      <SliderSounds className="hidden md:flex" soundId={id} />
+                      <button onClick={() => togglePlay(id)} aria-label={isPlaying ? `توقف صدای ${name}` : `پخش صدای ${name}`} className="cursor-pointer">
+                        {isPlaying ? <FaPause className="w-4 h-4 lg:w-5 lg:h-5" color="#F2F4F8" /> : <FaPlay className="w-4 h-4 lg:w-5 lg:h-5" color="#F2F4F8" />}
+                      </button>
+                      <SliderSounds aria-label={`کنترل حجم صدای ${name}`} className="hidden md:flex" soundId={id} />
                     </div>
-                  </div>
+                  </section>
                 </MagicCard>
               </m.div>
             );

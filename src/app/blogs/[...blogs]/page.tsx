@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data } = matter(fileContents); // frontmatter شامل title، description، image و ...
+  const { data } = matter(fileContents);
 
   return {
     title: data.title || 'مطلب وبلاگ',
@@ -65,13 +65,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SingleBlogPost({ params }: Props) {
   const param = await params;
-  const slugPath = param.blogs.join('/'); // اگر روت catch-all هست
+  const slugPath = param.blogs.join('/');
 
   const postsDirectory = path.join(process.cwd(), 'src', 'blogs-content');
   const fullPath = path.join(postsDirectory, `${slugPath}.md`);
 
   if (!fs.existsSync(fullPath)) {
-    // اگر فایل وجود نداشت صفحه 404
     notFound();
   }
 
@@ -83,19 +82,22 @@ export default async function SingleBlogPost({ params }: Props) {
   return (
     <>
       <Header />
-      <div className="container mx-auto">
+      <main className="container mx-auto">
         <div className="dark:bg-black/20 my-16 bg-white/20 backdrop-blur-md p-6 flex flex-col items-center px-10 rounded-sm relative">
-          <Link href="/blogs" className="absolute lg:text-4xl lg:left-[15%] lg:top-[5%] text-2xl left-[15%] top-[1%]">
+          <Link href="/blogs" aria-label="بازگشت به صفحه بلاگ‌ها" className="absolute lg:text-4xl lg:left-[15%] lg:top-[5%] text-2xl left-[15%] top-[1%]">
             <TbArrowBackUp />
           </Link>
+
           <article className="prose dark:prose-invert lg:text-base font-medium text-sm leading-6 text-justify lg:w-3/4 space-y-10 mx-auto py-10 lg:p-10">
             <h1 className="lg:text-3xl font-bold text-2xl text-center">{data.title}</h1>
-            <p className="text-background/60 dark:text-foreground/60 text-center">{formattedDate}</p>
+            <time dateTime={dayjs(data.date).format('YYYY-MM-DD')} className="text-background/60 dark:text-foreground/60 text-center block">
+              {formattedDate}
+            </time>
             <ReactMarkdown>{content}</ReactMarkdown>
-            <Image className="ring-1 ring-foreground dark:ring-foreground rounded-md mx-auto" src={data.image} alt={data.title} width={500} height={500} />
+            {data.image && <Image className="ring-1 ring-foreground dark:ring-foreground rounded-md mx-auto" src={data.image} alt={data.title} width={500} height={500} priority />}
           </article>
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );

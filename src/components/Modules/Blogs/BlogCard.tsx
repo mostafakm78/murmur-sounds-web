@@ -13,7 +13,11 @@ interface BlogCardProps {
 
 export default function BlogCard({ title = '', excerpt = '', slug = '', image = '', loading = false }: BlogCardProps) {
   return (
-    <div className="relative overflow-hidden dark:bg-background md:w-[500px] md:h-[500px] w-[350px] h-[500px] bg-background md:p-6 p-4 md:gap-2 gap-6 flex flex-col items-center justify-between rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+    <article
+      className="relative overflow-hidden dark:bg-background md:w-[500px] md:h-[500px] w-[350px] h-[500px] bg-background md:p-6 p-4 md:gap-2 gap-6 flex flex-col items-center justify-between rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+      aria-busy={loading}
+      aria-label={loading ? 'در حال بارگذاری کارت بلاگ' : `پست بلاگ: ${title}`}
+    >
       <BorderBeam size={200} initialOffset={20} className="dark:from-white dark:via-blue-500 dark:to-transparent from-black via-purple-700 to-transparent" />
 
       {loading ? (
@@ -27,15 +31,23 @@ export default function BlogCard({ title = '', excerpt = '', slug = '', image = 
         <>
           <h2 className="md:text-xl text-base font-bold mb-2 px-6 line-clamp-1">{title}</h2>
           <p className="text-base text-center px-8 font-medium dark:text-foreground/80 text-foreground/80 line-clamp-2">{excerpt}</p>
-          <Image className="ring-1 ring-foreground dark:ring-foreground rounded-md" width={350} height={300} src={image} alt={title} />
+          <Image
+            className="ring-1 ring-foreground dark:ring-foreground rounded-md"
+            width={350}
+            height={300}
+            src={image}
+            alt={title || 'تصویر بلاگ'}
+            priority={false}
+          />
           <Link
             className="relative w-full text-center font-medium hover:opacity-85 duration-300 py-2 border border-foreground rounded-sm after:absolute after:content-[''] after:w-0 after:h-full after:bg-foreground/10 after:top-0 after:right-0 after:duration-300 hover:after:w-full focus:after:w-full"
             href={`/blogs/${slug}`}
+            aria-label={`ادامه مطلب ${title}`}
           >
             ادامه مطلب
           </Link>
         </>
       )}
-    </div>
+    </article>
   );
 }

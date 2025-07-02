@@ -14,21 +14,20 @@ import { Textarea } from '@/components/ui/textarea';
 // تعریف شمای اعتبارسنجی فرم با Zod
 const FormSchema = z.object({
   username: z.string().min(5, {
-    message: 'نام شما باید حداقل 5 کارکتر باشد.',
+    message: 'نام شما باید حداقل ۵ کاراکتر باشد.',
   }),
   email: z.string().email({
-    message: 'لطفا یک ایمیل معتبر وارد کنید.',
+    message: 'لطفاً یک ایمیل معتبر وارد کنید.',
   }),
   title: z.string().min(5, {
-    message: 'درخواست شما باید حداقل 5 کارکتر باشد.',
+    message: 'موضوع باید حداقل ۵ کاراکتر باشد.',
   }),
   description: z.string().min(10, {
-    message: 'توضیحات شما باید حداقل 10 کارکتر باشد.',
+    message: 'توضیحات باید حداقل ۱۰ کاراکتر باشد.',
   }),
 });
 
 export function ContactForm() {
-  // مقداردهی اولیه فرم و اتصال به شمای اعتبارسنجی
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -43,8 +42,7 @@ export function ContactForm() {
     formState: { isSubmitting },
   } = form;
 
-  // تابع ارسال فرم که پس از تایید اعتبار اجرا می‌شود
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const res = await fetch('/api/contact-us', {
       method: 'POST',
       headers: {
@@ -54,26 +52,30 @@ export function ContactForm() {
     });
 
     if (res.ok) {
-      toast({ description: '✅درخواست شما با موفقیت ارسال شد.' });
+      toast({ description: '✅ درخواست شما با موفقیت ارسال شد.' });
       form.reset();
     } else {
-      toast({ description: '❌خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.', variant: 'destructive' });
+      toast({
+        description: '❌ خطا در ارسال درخواست. لطفاً دوباره تلاش کنید.',
+        variant: 'destructive',
+      });
     }
-  }
+  };
 
   return (
-    // فرم اصلی با کنترل فرم توسط React Hook Form
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="xl:w-1/3 lg:w-2/4 md:w-2/3 w-full space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full md:w-3/4 lg:w-2/4 xl:w-1/3 space-y-6" aria-label="فرم تماس با ما">
         {/* فیلد نام و نام خانوادگی */}
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">نام و نام خانوادگی</FormLabel>
+              <FormLabel htmlFor="username" className="font-bold">
+                نام و نام خانوادگی
+              </FormLabel>
               <FormControl>
-                <Input type="text" placeholder="نام خودت را کامل وارد کن" {...field} />
+                <Input id="username" type="text" placeholder="نام خود را کامل وارد کنید" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -86,9 +88,11 @@ export function ContactForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">ایمیل</FormLabel>
+              <FormLabel htmlFor="email" className="font-bold">
+                ایمیل
+              </FormLabel>
               <FormControl>
-                <Input type="email" placeholder="ایمیل خودت رو بنویس" {...field} />
+                <Input id="email" type="email" placeholder="ایمیل خود را وارد کنید" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,9 +105,11 @@ export function ContactForm() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">موضوع</FormLabel>
+              <FormLabel htmlFor="title" className="font-bold">
+                موضوع
+              </FormLabel>
               <FormControl>
-                <Input type="text" placeholder="موضوع مورد نظر خودت رو بنویس" {...field} />
+                <Input id="title" type="text" placeholder="موضوع درخواست را بنویسید" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,22 +122,22 @@ export function ContactForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">توضیحات</FormLabel>
+              <FormLabel htmlFor="description" className="font-bold">
+                توضیحات
+              </FormLabel>
               <FormControl>
-                <Textarea placeholder="توضیحات مورد نظر خودت رو بنویس" {...field} />
+                <Textarea id="description" placeholder="توضیحات خود را وارد کنید" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* دکمه ارسال فرم */}
-        <Button type="submit" disabled={isSubmitting}>
+        {/* دکمه ارسال */}
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           {isSubmitting ? (
             <>
-              <span className="animate-spin mr-2">
-                <BiLoaderCircle />
-              </span>
+              <BiLoaderCircle className="animate-spin ml-2 text-lg" />
               در حال ارسال...
             </>
           ) : (
