@@ -6,6 +6,11 @@ import Link from 'next/link';
 import { JSX } from 'react';
 import { SliderHeader } from './SliderHeader';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
+import { Edu_AU_VIC_WA_NT_Hand } from 'next/font/google';
+
+const hand = Edu_AU_VIC_WA_NT_Hand({
+  subsets: ['latin'],
+});
 
 // کلاس استایل برای لینک‌های سربرگ با افکت خط بالا
 const linkClassName = "relative text-foreground after:content-[''] after:w-0 after:absolute after:h-1 after:bg-foreground after:-top-[18px] after:right-0 after:duration-300 md:hover:after:w-full duration-300 hover:opacity-80 focus:opacity-80 cursor-pointer";
@@ -26,7 +31,7 @@ export default function Header(): JSX.Element {
           <DarkMode />
         </div>
 
-        <h2 className="text-foreground block md:hidden font-sans font-bold dark:text-foreground text-2xl">SoftSound</h2>
+        <h2 className={`text-foreground block md:hidden font-sans font-bold dark:text-foreground text-2xl ${hand.className}`}>SoftSound</h2>
 
         {/* سمت راست هدر: لینک‌های مسیر */}
         <nav aria-label="ناوبری اصلی" className="hidden lg:flex flex-row-reverse md:space-x-4 space-x-2 md:text-lg text-sm">
