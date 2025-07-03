@@ -2,7 +2,7 @@
 
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { Separator } from '@/components/ui/separator';
-import { Fragment, JSX, useState, useEffect, useRef } from 'react';
+import { Fragment, JSX, useState, useRef } from 'react';
 
 import Fade from './Fade';
 import StartAt from './StartAt';
@@ -29,12 +29,6 @@ export default function Timers(): JSX.Element | null {
   const fillColorTwo = useFillColor({ light: '#F2F4F8', dark: '#6C63FF' });
 
   const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
-
-  useEffect(() => {
-    // فوکوس روی تب انتخاب شده
-    const index = tabs.indexOf(selectTab);
-    buttonsRef.current[index]?.focus();
-  }, [selectTab]);
 
   const renderTabContent = (tab: Tab) => {
     switch (tab) {

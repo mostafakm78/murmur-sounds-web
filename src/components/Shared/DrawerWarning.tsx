@@ -4,11 +4,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 
-function isMobileOrTablet() {
-  if (typeof window === 'undefined') return false;
-  return /Mobi|Android|iPhone|iPad|iPod|Tablet/i.test(window.navigator.userAgent);
-}
-
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 7 روز به میلی‌ثانیه
 
 export function DrawerWarning() {
@@ -16,9 +11,6 @@ export function DrawerWarning() {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    const isMobile = isMobileOrTablet();
-    if (!isMobile) return; // اگه دسکتاپ بود اصلاً چیزی رندر نکن
-
     const lastSeenTimestamp = Number(localStorage.getItem('softsound-warning-time') || '0');
     const now = Date.now();
 
@@ -27,7 +19,7 @@ export function DrawerWarning() {
       localStorage.setItem('softsound-warning-time', now.toString());
     }
 
-    setShouldRender(true); // فقط موبایل رندر شه
+    setShouldRender(true); // روی همه دستگاه‌ها رندر شود
   }, []);
 
   if (!shouldRender) return null;
