@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧑‍💻 SoftSound
 
-## Getting Started
+** SoftSound ** is an online platform that allows you to easily listen to high-quality, relaxing sounds and enjoy a unique experience of tranquility.
 
-First, run the development server:
+> ✅ Live Site: [softsound.vercel.app](https://softsound.vercel.app)
+
+---
+
+## 🚀 Tech Stack
+
+- [Next.js](https://nextjs.org)
+- [React](https://reactjs.org)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com)
+- [SdadCn](https://ui.shadcn.com/)
+
+---
+
+## 📦 Getting Started
+
+To run the project locally:
 
 ```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open your browser and go to: http://localhost:3000
+Start editing the main page at src/app/page.tsx.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+.
 
-## Learn More
+├── src/app/ # Next.js app directory
+│ └── page.tsx # Main homepage
+├── components/ # Reusable components
+├── public/ # Static files (images, etc.)
+├── data/ # Data json file
+├── tailwind.config.ts # Tailwind configuration
+├── tsconfig.json # TypeScript configuration
 
-To learn more about Next.js, take a look at the following resources:
+## 🧠 Features
+⚡ Fast, responsive, and mobile-friendly UI
+🧩 Built with reusable components
+🛠️ Type-safe codebase with TypeScript
+🌐 Deployed on Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Deployment
+This project is deployed on Vercel.
+To deploy your own version:
+Push your project to GitHub
+Connect your repo to Vercel
+Choose the root directory and deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🙋‍♂️ About Me
+I’m a passionate front-end developer interested in building clean, user-friendly, and high-performance web applications.
+📫 Reach me at: LinkedIn (if available)
+📁 Portfolio: portfolio-immostafakamari.vercel.app
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you like this project, feel free to star the repository and share it with others!
