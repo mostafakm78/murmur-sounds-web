@@ -4,6 +4,8 @@
 
 > ✅ Live Site: [softsound.vercel.app](https://softsound.vercel.app)
 
+[فارسی](./README.fa.md)
+
 ---
 
 ## 🚀 Tech Stack
@@ -13,8 +15,24 @@
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com)
 - [SdadCn](https://ui.shadcn.com/)
+- [Redux](https://redux.js.org/)
 
 ---
+
+## 📁 Website Screenshots
+
+| 🏠 Home Page | 🧭 Home Page |
+|--------------|--------------|
+| ![Home Page](./Site-Screen-Shots/Home-Page.png) | ![Home Page](./Site-Screen-Shots/Home-Page-2.png) |
+
+| 🔑 Home Page | 🌐 Blog Page |
+|---------------|--------------------|
+| ![Login Page](./Site-Screen-Shots/Home-Page-3.png) | ![Public Capsules](./Site-Screen-Shots/Blog.png) |
+
+| 🛎️ 📱 Mobile View 2 | 📱 Mobile View 1 |
+|-------------------------|------------------|
+| ![Admin Notifications](./Site-Screen-Shots/Mob_1.png) | ![Mobile View 1](./Site-Screen-Shots/Mob_2.png) |
+
 
 ## 📦 Getting Started
 
