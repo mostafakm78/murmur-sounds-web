@@ -1,81 +1,119 @@
-# 🧑‍💻 SoftSound
+# 🔊 SoftSound — Ambient Sound Experience
 
-** SoftSound ** is an online platform that allows you to easily listen to high-quality, relaxing sounds and enjoy a unique experience of tranquility.
+> Layer relaxing sounds, build your personal mix, and find your focus.
 
-> ✅ Live Site: [softsound.vercel.app](https://softsound.vercel.app)
+SoftSound is an interactive ambient audio platform built for focus, sleep, and relaxation — with layered playback, volume and fade controls, and a personal mix builder.
 
-[فارسی](./README.fa.md)
-
----
-
-## 🚀 Tech Stack
-
-- [Next.js](https://nextjs.org)
-- [React](https://reactjs.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com)
-- [SdadCn](https://ui.shadcn.com/)
-- [Redux](https://redux.js.org/)
+🔗 [Visit Site](https://softsound.vercel.app) · [فارسی](./README.fa.md)
 
 ---
 
-## 📁 Website Screenshots
+## 📁 Screenshots
 
-| 🏠 Home Page | 🧭 Home Page |
-|--------------|--------------|
-| ![Home Page](./Site-Screen-Shots/Home-Page.png) | ![Home Page](./Site-Screen-Shots/Home-Page-2.png) |
+| 🏠 Home Page | 🏠 Sound Player |
+|---|---|
+| ![Home Page](./Site-Screen-Shots/Home-Page.png) | ![Sound Player](./Site-Screen-Shots/Home-Page-2.png) |
 
-| 🔑 Home Page | 🌐 Blog Page |
-|---------------|--------------------|
-| ![Login Page](./Site-Screen-Shots/Home-Page-3.png) | ![Public Capsules](./Site-Screen-Shots/Blog.png) |
+| 🎵 Mix Builder | 📝 Blog |
+|---|---|
+| ![Mix Builder](./Site-Screen-Shots/Home-Page-3.png) | ![Blog](./Site-Screen-Shots/Blog.png) |
 
-| 🛎️ 📱 Mobile View 2 | 📱 Mobile View 1 |
-|-------------------------|------------------|
-| ![Admin Notifications](./Site-Screen-Shots/Mob_1.png) | ![Mobile View 1](./Site-Screen-Shots/Mob_2.png) |
+| 📱 Mobile View 1 | 📱 Mobile View 2 |
+|---|---|
+| ![Mobile View 1](./Site-Screen-Shots/Mob_1.png) | ![Mobile View 2](./Site-Screen-Shots/Mob_2.png) |
 
+---
 
-## 📦 Getting Started
+## 🧠 Tech Stack
 
-To run the project locally:
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| State | Redux Toolkit |
+| Styling | Tailwind CSS + shadcn/ui |
+| Animations | Framer Motion |
+| SEO | next-sitemap |
+| Deployment | Vercel |
 
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-npm install
-npm run dev
-```
+---
 
-Then open your browser and go to: http://localhost:3000
-Start editing the main page at src/app/page.tsx.
+## ⚡ Technical Highlights
+
+- **Audio architecture**: Layered sound engine supporting simultaneous multi-track playback with independent volume and fade controls per channel
+- **State management**: Redux Toolkit for global mix state — tracks, volumes, and playback sync across components
+- **Animations**: Framer Motion for smooth transitions, sound card interactions, and ambient visual feedback
+- **Accessibility**: WCAG-compliant UI — keyboard navigable, screen-reader friendly, reduced-motion respected
+- **SEO**: next-sitemap integration with structured metadata for full crawlability
+- **Performance**: Lighthouse 90+ via lazy-loaded audio assets, code splitting, and optimized bundle size
+- **Responsive**: Mobile-first layout, fully functional across all screen sizes
+
+---
 
 ## 📁 Project Structure
 
-.
+```
+src/
+├── app/                 # Next.js App Router routes
+│   ├── page.tsx         # Main player / home
+│   └── blog/            # Blog section
+├── components/          # Reusable UI components
+│   ├── player/          # Audio player components
+│   └── ui/              # shadcn/ui base components
+├── store/               # Redux Toolkit slices (mix, playback)
+├── data/                # Sound track definitions (JSON)
+└── public/              # Static audio and image assets
+```
 
-├── src/app/ # Next.js app directory
-│ └── page.tsx # Main homepage
-├── components/ # Reusable components
-├── public/ # Static files (images, etc.)
-├── data/ # Data json file
-├── tailwind.config.ts # Tailwind configuration
-├── tsconfig.json # TypeScript configuration
+---
 
-## 🧠 Features
-⚡ Fast, responsive, and mobile-friendly UI
-🧩 Built with reusable components
-🛠️ Type-safe codebase with TypeScript
-🌐 Deployed on Vercel
+## ⚙️ Setup & Run Locally
 
-## 🛠️ Deployment
-This project is deployed on Vercel.
-To deploy your own version:
-Push your project to GitHub
-Connect your repo to Vercel
-Choose the root directory and deploy
+```bash
+# Clone the repository
+git clone https://github.com/mostafakm78/murmur-sounds-web.git
 
-## 🙋‍♂️ About Me
-I’m a passionate front-end developer interested in building clean, user-friendly, and high-performance web applications.
-📫 Reach me at: LinkedIn (if available)
-📁 Portfolio: portfolio-immostafakamari.vercel.app
+# Navigate to project directory
+cd murmur-sounds-web
 
-If you like this project, feel free to star the repository and share it with others!
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 🚀 Roadmap
+
+### ✅ Shipped
+- [x] Layered multi-track ambient playback
+- [x] Per-channel volume and fade controls
+- [x] Personal mix builder
+- [x] Blog section
+- [x] WCAG-compliant accessible UI
+- [x] Mobile-first responsive design
+- [x] Lighthouse 90+ performance
+
+### 🔜 Upcoming
+- [ ] Save and share custom mixes via link
+- [ ] User accounts with saved mix history
+- [ ] Timer — auto-stop after X minutes
+- [ ] More sound categories (nature, city, white noise)
+
+---
+
+## 📜 License
+
+This project is open-source under the [MIT License](LICENSE).
+
+---
+
+## 🧑‍💻 Author
+
+**Mostafa Kamari** — Frontend Developer · React & Next.js
+
+[GitHub](https://github.com/mostafakm78) · [LinkedIn](https://linkedin.com/in/mostafa-kamari) · [Portfolio](https://portfolio-immostafakamari.vercel.app)
